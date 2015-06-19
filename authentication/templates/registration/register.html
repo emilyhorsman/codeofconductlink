@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<form action="" method="POST" class="pure-form pure-form-stacked">
+    {% csrf_token %}
+
+    <legend>Register</legend>
+
+    <p>Registering allows you to contribute to tracking projects.</p>
+    <p>Your login username is private and can only be seen by moderators. Only your public name will be displayed. If let blank, you will be shown as Anonymous.</p>
+
+    {{ profile_form.as_p }}
+    {{ user_form.as_p }}
+
+    <div class="pure-controls">
+        <input type="submit" class="pure-button pure-button-primary" value="Register" />
+    </div>
+</form>
+{% endblock %}

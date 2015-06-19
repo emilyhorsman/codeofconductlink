@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils import timezone
 
@@ -11,10 +13,21 @@ class SubmissionProfile(models.Model):
             return self.public_name
         return "Anonymous"
 
+class Report(models.Model):
+    content_type   = models.ForeignKey(ContentType)
+    object_id      = models.PositiveIntegerField()
+    content_object = GenericForeignKey()
+
+    user           = models.ForeignKey(User, blank=True, null=True, related_name='reports')
+    message        = models.TextField(blank=True, null=True)
+    created_date   = models.DateTimeField(default=timezone.now)
+    resolved       = models.BooleanField(default=False)
+
 class Project(models.Model):
     # A project should be created with an initial ProjectSubmission.
     user         = models.ForeignKey(User)
     created_date = models.DateTimeField(default=timezone.now)
+    reports      = GenericRelation(Report)
 
     @property
     def verified_submissions(self):
@@ -47,6 +60,7 @@ class ProjectSubmission(models.Model):
     name          = models.CharField(max_length=256, null=True, blank=True)
     homepage      = models.CharField(max_length=256, null=True, blank=True)
     tags          = models.CharField(max_length=256, null=True, blank=True)
+    reports       = GenericRelation(Report)
 
     def verify(self, verifying_user):
         self.verified_date = timezone.now()
@@ -72,6 +86,7 @@ class LinkSubmission(models.Model):
     # A LinkSubmission could be made with no URL and project_has_tag set to
     # False. e.g. Project does not have a Code of Conduct, verified on...by...
     project_has_tag = models.BooleanField(default=False)
+    reports         = GenericRelation(Report)
 
 class RepresentationSubmission(models.Model):
     # The purpose of this field is to describe contributors on the project. For
@@ -93,3 +108,4 @@ class RepresentationSubmission(models.Model):
     created_date    = models.DateTimeField(default=timezone.now)
     verified_date   = models.DateTimeField(blank=True, null=True)
     verified_by     = models.ForeignKey(User, blank=True, null=True, related_name='representation_verifications')
+    reports         = GenericRelation(Report)

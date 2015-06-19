@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from .models import SubmissionProfile, Project, ProjectSubmission, LinkSubmission, RepresentationSubmission
+from .models import SubmissionProfile, Report, Project, ProjectSubmission, LinkSubmission, RepresentationSubmission
 
 admin.site.unregister(User)
 
@@ -34,3 +34,5 @@ class LinkSubmissionAdmin(admin.ModelAdmin):
 @admin.register(RepresentationSubmission)
 class RepresentationSubmission(admin.ModelAdmin):
     list_display = ('id', 'user', 'project', 'tag', 'verified_date', 'created_date')
+
+admin.site.register(Report)

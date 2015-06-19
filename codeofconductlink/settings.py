@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import dj_database_url
+
+dev_env_path = os.path.join(os.path.dirname(__file__), '..', '.env.dev')
+if os.path.isfile(dev_env_path):
+    from dotenv import load_dotenv
+    load_dotenv(dev_env_path)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,10 +26,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'rp01y@p143qd5cq2uq(&%wst2y_5#ej46dzk!!zzv2^t-$cwxd'
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', ''))
 
 ALLOWED_HOSTS = []
 
@@ -74,12 +80,9 @@ WSGI_APPLICATION = 'codeofconductlink.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+DATABASES = { 'default': dj_database_url.config() }
+if bool(os.environ.get('DJANGO_POSTGRES_POOL')):
+    default['ENGINE'] = 'django_postgrespool'
 
 
 # Internationalization
@@ -87,7 +90,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Toronto'
 
 USE_I18N = True
 

@@ -2,7 +2,7 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-        <a href="{% url "authentication:logout" %}?next=/">Logout</a>
+        <a href="{% url "logout" %}?next=/" title="Logout">Logout</a>
     {% else %}
         {% include "registration/login_snippet.html" %}
     {% endif %}

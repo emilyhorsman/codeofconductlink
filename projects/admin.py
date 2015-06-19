@@ -13,8 +13,14 @@ class SubmissionProfileInline(admin.StackedInline):
 class CustomUserAdmin(UserAdmin):
     inlines = (SubmissionProfileInline,)
 
+class ProjectSubmissionInline(admin.TabularInline):
+    model = ProjectSubmission
+    fields = ('user', 'name', 'homepage', 'tags')
+    extra = 1
+
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
+    inlines = (ProjectSubmissionInline,)
     list_display = ('id', 'user', 'created_date', '__str__')
 
 @admin.register(ProjectSubmission)

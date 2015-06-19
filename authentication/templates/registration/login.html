@@ -1,27 +1,9 @@
 {% extends "layout.html" %}
 
 {% block content %}
-{% if user.is_authenticated %}
-<a href="{% url "authentication:logout" %}">Logout</a>
-{% else %}
-<form method="POST" action="{% url "authentication:login" %}" class="pure-form">
-    {% csrf_token %}
-    <fieldset>
-        <legend>Login</legend>
-
-        {% if form.errors %}
-        <p>Please try again.</p>
-        {% endif %}
-
-        {{ form.username.labael_tag }}
-        {{ form.username }}
-
-        {{ form.password.label_tag }}
-        {{ form.password }}
-
-        <input type="submit" value="login" />
-        <input type="hidden" name="next" value="{{ next }}" />
-    </fieldset>
-</form>
-{% endif %}
+    {% if user.is_authenticated %}
+        <a href="{% url "authentication:logout" %}?next=/">Logout</a>
+    {% else %}
+        {% include "registration/login_snippet.html" %}
+    {% endif %}
 {% endblock %}

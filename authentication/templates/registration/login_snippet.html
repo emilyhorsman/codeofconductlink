@@ -1,0 +1,13 @@
+<form method="POST" action="{% url "authentication:login" %}" class="pure-form pure-form-stacked">
+    {% csrf_token %}
+    <fieldset>
+        <legend>Login</legend>
+
+        {{ form.as_p }}
+
+        <div class="pure-controls">
+            <input type="submit" class="pure-button pure-button-primary" value="Login" />
+        </div>
+        <input type="hidden" name="next" value="{{ next }}" />
+    </fieldset>
+</form>

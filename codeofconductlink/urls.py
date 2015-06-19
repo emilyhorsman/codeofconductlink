@@ -18,6 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^authentication/', include('authentication.urls', namespace='authentication')),
+    url(r'^authentication/', include('django.contrib.auth.urls', namespace='authentication')),
     url(r'^$', include('projects.urls', namespace='projects')),
 ]

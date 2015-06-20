@@ -4,7 +4,7 @@
             <h2><a href="/" title="a software community tracker">a software community tracker</a></h2>
             {% if user.is_authenticated %}
             <a href="{% url "profiles:index" %}" title="Profile" class="pure-button">Profile</a>&nbsp;
-            <a href="{% url "logout" %}" title="Logout" class="pure-button">Logout</a>
+            <a href="{% url "logout" %}?next=/" title="Logout" class="pure-button">Logout</a>
             {% else %}
             <a href="{% url "profiles:register" %}" title="Register" class="pure-button">Register</a>&nbsp;
             <a href="{% url "login" %}?next={% url "profiles:index" %}" title="Login" class="pure-button">Login</a>

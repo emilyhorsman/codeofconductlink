@@ -1,8 +1,6 @@
 {% extends "layout.html" %}
 
-{% block head %}
-<script src='https://www.google.com/recaptcha/api.js'></script>
-{% endblock %}
+{% block head %}{% include "recaptcha/js.html" %}{% endblock %}
 
 {% block content %}
 <form action="" method="POST" class="pure-form pure-form-stacked">
@@ -16,7 +14,7 @@
     {{ form.as_p }}
 
     <div class="pure-controls">
-        <div class="g-recaptcha" data-sitekey="{{ recaptcha }}"></div>
+        {% include "recaptcha/widget.html" with recaptcha=recaptcha %}
         <input type="submit" class="pure-button pure-button-primary" value="Register" />
     </div>
 </form>

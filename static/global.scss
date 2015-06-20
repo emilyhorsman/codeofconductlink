@@ -20,7 +20,7 @@ $silver: #bdc3c7;
 $concrete: #95a5a6;
 $asbestos: #7f8c8d;
 
-$header-bg: $midnight-blue;
+$bg: $midnight-blue;
 $accent: $concrete;
 
 $font-stack: 'Open Sans', sans-serif;
@@ -30,7 +30,7 @@ $font-stack: 'Open Sans', sans-serif;
 }
 
 .backed {
-    background: $header-bg;
+    background: $bg;
     color: #fff;
     font-weight: 300;
     padding: 0.05em 0.4em;
@@ -60,7 +60,7 @@ p {
             text-decoration: none;
         }
         font-size: 1.3em;
-        background: $header-bg;
+        background: $bg;
         border-bottom: 0.2em solid $accent;
         font-weight: 300;
         margin: 0 0 0.5em 0;
@@ -73,8 +73,11 @@ p {
         padding: 1em;
 
         form {
-            input[type="text"], input[type="email"] {
+            input[type="text"], input[type="email"], input[type="password"] {
                 width: 80%;
+            }
+
+            input[type="submit"] {
             }
         }
     }

@@ -1,7 +1,7 @@
 from django import forms
-from .models import ProjectSubmission
+from .models import Project
 
 class NewProjectForm(forms.ModelForm):
     class Meta:
-        model  = ProjectSubmission
+        model  = Project
         fields = ('name', 'homepage', 'tags')

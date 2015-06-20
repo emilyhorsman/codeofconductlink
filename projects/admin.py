@@ -2,21 +2,11 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from .models import Report, Project, ProjectSubmission, LinkSubmission, RepresentationSubmission
-
-class ProjectSubmissionInline(admin.TabularInline):
-    model = ProjectSubmission
-    fields = ('user', 'name', 'homepage', 'tags')
-    extra = 1
+from .models import Report, Project, LinkSubmission, RepresentationSubmission
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    inlines = (ProjectSubmissionInline,)
-    list_display = ('id', 'user', 'created_date', '__str__')
-
-@admin.register(ProjectSubmission)
-class ProjectSubmissionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'project', 'name', 'homepage', 'tags', 'verified_date', 'created_date')
+    list_display = ('id', 'user', 'name', 'homepage', 'tags', 'created_date', '__str__')
 
 @admin.register(LinkSubmission)
 class LinkSubmissionAdmin(admin.ModelAdmin):

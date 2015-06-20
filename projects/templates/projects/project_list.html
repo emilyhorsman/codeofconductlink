@@ -11,9 +11,24 @@
 
 <div class="pure-g">
     <div class="pure-u-1">
-        {% for project in projects %}
-        <a href="{{ project.get_absolute_url }}" title="{{ project }}">{{ project }}</a><br />
-        {% endfor %}
+        <table class="pure-table pure-table-horizontal pure-table-striped">
+            <thead>
+                <tr>
+                    <th>Project</th>
+                    <th>Homepage</th>
+                    <th>Tags</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for project in projects %}
+                <tr>
+                    <td><a href="{{ project.get_absolute_url }}" title="{{ project }}">{{ project }}</a></td>
+                    <td><a href="{{ project.homepage }}" title="{{ project }} homepage" target="_blank">Homepage</a></td>
+                    <td>{{ project.tags }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 {% endblock %}

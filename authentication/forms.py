@@ -12,5 +12,5 @@ class ProfileCreationForm(UserCreationForm):
         pass
 
 class ProfileChangeForm(forms.ModelForm):
-    class Meta(ProfileMeta:
+    class Meta(ProfileMeta):
         pass

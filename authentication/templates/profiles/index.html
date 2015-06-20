@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block content %}
+Hi {{ user }}! Your public name is {{ user.submissionprofile }}.
+
+<form method="POST" action="" class="pure-form">
+    {% csrf_token %}
+    <fieldset>
+        <legend>Update profile</legend>
+
+    </fieldset>
+</form>
+{% endblock %}

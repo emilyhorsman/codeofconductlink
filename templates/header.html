@@ -1,5 +1,10 @@
 <div class="pure-g">
     <div class="pure-u-1">
         <h3>a software community tracker</h3>
+        {% if user.is_authenticated %}
+        <a href="{% url "authentication:index" %}">Profile</a>&nbsp;<a href="{% url "logout" %}" title="Logout">Logout</a>
+        {% else %}
+        <a href="{% url "authentication:register" %}" title="Register">Register</a>&nbsp;<a href="{% url "login" %}?next={% url "authentication:index" %}" title="Login">Login</a>
+        {% endif %}
     </div>
 </div>

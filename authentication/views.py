@@ -1,6 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 from projects.forms import ProfileRegistrationForm
+
+@login_required
+def index(request):
+    return render(request, 'authentication/index.html')
 
 def register(request):
     if request.method == 'POST':

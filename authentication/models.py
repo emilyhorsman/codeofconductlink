@@ -37,7 +37,7 @@ class Profile(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     def get_public_name(self):
-        if self.profile_name:
+        if bool(self.profile_name):
             return self.profile_name
         return 'Anonymous'
 

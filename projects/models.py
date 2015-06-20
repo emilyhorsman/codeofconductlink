@@ -1,8 +1,10 @@
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.utils.text import slugify
 
 class Report(models.Model):
     content_type   = models.ForeignKey(ContentType)
@@ -14,22 +16,20 @@ class Report(models.Model):
     created_date   = models.DateTimeField(default=timezone.now)
     resolved       = models.BooleanField(default=False)
 
-def VerifiedModel(name):
-    class M(models.Model):
-        verified_date = models.DateTimeField(blank=True, null=True)
-        verified_by   = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='{}_verifications'.format(name))
+class VerifiedModel(models.Model):
+    class Meta:
+        abstract = True
 
-        def verify(self, verifying_user):
-            verified_date = timezone.now()
-            verified_by   = verifying_user
-            self.save()
+    verified_date = models.DateTimeField(blank=True, null=True)
+    verified_by   = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True,
+                                      related_name='%(class)s_verifications'.replace('submission_', '_'))
 
-        class Meta:
-            abstract = True
+    def verify(self, verifying_user):
+        verified_date = timezone.now()
+        verified_by   = verifying_user
+        self.save()
 
-    return M
-
-class Project(VerifiedModel('project')):
+class Project(VerifiedModel):
     # A project should be created with an initial ProjectSubmission.
     user          = models.ForeignKey(settings.AUTH_USER_MODEL)
     created_date  = models.DateTimeField(default=timezone.now)
@@ -38,10 +38,13 @@ class Project(VerifiedModel('project')):
     tags          = models.CharField(max_length=256, null=True, blank=True)
     reports       = GenericRelation(Report)
 
-    def __str__(self):
-        return name
+    def get_absolute_url(self):
+        return reverse('projects:detail', args=(self.pk, slugify(self.name),))
 
-class LinkSubmission(VerifiedModel('link')):
+    def __str__(self):
+        return self.name
+
+class LinkSubmission(VerifiedModel):
     TAGS = (
         ('COC', 'Code of Conduct'),
         ('DIV', 'Diversity Statement'),
@@ -57,7 +60,7 @@ class LinkSubmission(VerifiedModel('link')):
     project_has_tag = models.BooleanField(default=False)
     reports         = GenericRelation(Report)
 
-class RepresentationSubmission(VerifiedModel('representation')):
+class RepresentationSubmission(VerifiedModel):
     # The purpose of this field is to describe contributors on the project. For
     # instance, if a project has openly queer contributors it could be tagged
     # queer. We can have icons for particular tags such as queer, trans, woman,

@@ -1,33 +1,33 @@
 from django.conf import settings
 from django.shortcuts import render, redirect
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from .forms import ProfileCreationForm, ProfileChangeForm
-from .recaptcha import check_recaptcha
+from django.views.generic.edit import UpdateView, CreateView
+from django.contrib.auth.forms import UserCreationForm
+from django.utils.decorators import method_decorator
+from .recaptcha import ReCAPTCHAField
+from .models import Profile
 
-@login_required
-def index(request):
-    if request.method == 'POST':
-        form = ProfileChangeForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-    else:
-        form = ProfileChangeForm(instance=request.user)
+class ProfileDetail(UpdateView):
+    model  = Profile
+    fields = ('email', 'profile_name',)
+    template_name = 'profiles/index.html'
 
-    return render(request, 'profiles/index.html', { 'form': form })
+    def get_object(self):
+        return self.request.user
 
-def register(request):
-    if request.user.is_authenticated():
-        return redirect(reverse('profiles:index'))
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(ProfileDetail, self).dispatch(*args, **kwargs)
 
-    if request.method == 'POST':
-        form = ProfileCreationForm(request.POST)
-        if form.is_valid():
-            if check_recaptcha(request):
-                form.save()
-                return redirect(reverse('login'))
-            else:
-                form.add_error(None, 'You did not pass the reCAPTCHA.')
-    else:
-        form = ProfileCreationForm()
-    return render(request, 'registration/register.html', { 'form': form, 'recaptcha': settings.RECAPTCHA_SITE_KEY })
+class CreateProfileForm(UserCreationForm):
+    class Meta:
+        model = Profile
+        fields = ('email', 'profile_name',)
+
+    recaptcha = ReCAPTCHAField(settings.RECAPTCHA_SECRET_KEY, settings.RECAPTCHA_SITE_KEY)
+
+class CreateProfile(CreateView):
+    form_class = CreateProfileForm
+    template_name = 'registration/register.html'
+    success_url = reverse_lazy('profiles:detail')

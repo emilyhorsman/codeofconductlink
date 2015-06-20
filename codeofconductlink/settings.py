@@ -118,3 +118,6 @@ EMAIL_PORT          = os.environ.get('EMAIL_PORT')
 DEFAULT_FROM_EMAIL  = os.environ.get('DEFAULT_FROM_EMAIL')
 
 AUTH_USER_MODEL='authentication.Profile'
+
+RECAPTCHA_SITE_KEY = os.environ.get('RECAPTCHA_SITE_KEY')
+RECAPTCHA_SECRET_KEY = os.environ.get('RECAPTCHA_SECRET_KEY')

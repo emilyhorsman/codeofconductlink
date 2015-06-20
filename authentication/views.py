@@ -1,7 +1,9 @@
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileCreationForm, ProfileChangeForm
+from .recaptcha import check_recaptcha
 
 @login_required
 def index(request):
@@ -21,8 +23,11 @@ def register(request):
     if request.method == 'POST':
         form = ProfileCreationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect(reverse('login'))
+            if check_recaptcha(request):
+                form.save()
+                return redirect(reverse('login'))
+            else:
+                form.add_error(None, 'You did not pass the reCAPTCHA.')
     else:
         form = ProfileCreationForm()
-    return render(request, 'registration/register.html', { 'form': form })
+    return render(request, 'registration/register.html', { 'form': form, 'recaptcha': settings.RECAPTCHA_SITE_KEY })

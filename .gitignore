@@ -1,2 +1,4 @@
 .env.dev
 *.sqlite3
+*.css
+*.css.map

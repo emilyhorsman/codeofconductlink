@@ -7,10 +7,9 @@
     <legend>Register</legend>
 
     <p>Registering allows you to contribute to tracking projects.</p>
-    <p>Your login username is private and can only be seen by moderators. Only your public name will be displayed. If let blank, you will be shown as Anonymous.</p>
+    <p>Your email address will never be shown to the public. Only your profile name will be displayed. If left blank, you will be displayed as Anonymous.</p>
 
-    {{ profile_form.as_p }}
-    {{ user_form.as_p }}
+    {{ form.as_p }}
 
     <div class="pure-controls">
         <input type="submit" class="pure-button pure-button-primary" value="Register" />

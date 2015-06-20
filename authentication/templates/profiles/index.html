@@ -1,13 +1,17 @@
 {% extends "layout.html" %}
 
 {% block content %}
-Hi {{ user }}! Your public name is {{ user.submissionprofile }}.
+Hi {{ user }}! Your publicly displayed name is {{ user.profile_name }}.
 
-<form method="POST" action="" class="pure-form">
+<form method="POST" action="" class="pure-form pure-form-stacked">
     {% csrf_token %}
     <fieldset>
         <legend>Update profile</legend>
 
+        {{ form.as_p }}
+
+        <input type="submit" class="pure-button pure-button-primary" value="Update Profile" />
+        <a href="{% url "password_change" %}" class="pure-button" title="I want to change my password">Change Password Instead</a>
     </fieldset>
 </form>
 {% endblock %}

@@ -1,9 +1,15 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from projects.forms import ProfileForm
-from .forms import UserForm
 
+@login_required
+def index(request):
+    return redirect('/')
+
+def register(request):
+    return redirect('/')
+
+"""
 @login_required
 def index(request):
     if request.method == 'POST':
@@ -36,3 +42,4 @@ def register(request):
         user_form    = UserCreationForm()
         profile_form = ProfileForm()
     return render(request, 'registration/register.html', { 'user_form': user_form, 'profile_form': profile_form })
+"""

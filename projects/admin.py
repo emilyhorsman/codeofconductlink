@@ -2,16 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from .models import SubmissionProfile, Report, Project, ProjectSubmission, LinkSubmission, RepresentationSubmission
-
-admin.site.unregister(User)
-
-class SubmissionProfileInline(admin.StackedInline):
-    model = SubmissionProfile
-
-@admin.register(User)
-class CustomUserAdmin(UserAdmin):
-    inlines = (SubmissionProfileInline,)
+from .models import Report, Project, ProjectSubmission, LinkSubmission, RepresentationSubmission
 
 class ProjectSubmissionInline(admin.TabularInline):
     model = ProjectSubmission

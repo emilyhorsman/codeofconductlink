@@ -1,31 +1,22 @@
-from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.conf import settings
 from django.utils import timezone
-
-class SubmissionProfile(models.Model):
-    public_name = models.CharField(max_length=256, unique=True, blank=True, null=True)
-    user        = models.OneToOneField(User)
-
-    def __str__(self):
-        if self.public_name:
-            return self.public_name
-        return "Anonymous"
 
 class Report(models.Model):
     content_type   = models.ForeignKey(ContentType)
     object_id      = models.PositiveIntegerField()
     content_object = GenericForeignKey()
 
-    user           = models.ForeignKey(User, blank=True, null=True, related_name='reports')
+    user           = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='reports')
     message        = models.TextField(blank=True, null=True)
     created_date   = models.DateTimeField(default=timezone.now)
     resolved       = models.BooleanField(default=False)
 
 class Project(models.Model):
     # A project should be created with an initial ProjectSubmission.
-    user         = models.ForeignKey(User)
+    user         = models.ForeignKey(settings.AUTH_USER_MODEL)
     created_date = models.DateTimeField(default=timezone.now)
     reports      = GenericRelation(Report)
 
@@ -52,11 +43,11 @@ class Project(models.Model):
         return 'No name given.'
 
 class ProjectSubmission(models.Model):
-    user          = models.ForeignKey(User, related_name='project_submissions')
+    user          = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='project_submissions')
     project       = models.ForeignKey(Project, related_name='submissions')
     created_date  = models.DateTimeField(default=timezone.now)
     verified_date = models.DateTimeField(blank=True, null=True)
-    verified_by   = models.ForeignKey(User, blank=True, null=True, related_name='project_verifications')
+    verified_by   = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='project_verifications')
     name          = models.CharField(max_length=256, null=True, blank=True)
     homepage      = models.CharField(max_length=256, null=True, blank=True)
     tags          = models.CharField(max_length=256, null=True, blank=True)
@@ -76,12 +67,12 @@ class LinkSubmission(models.Model):
         ('DIV', 'Diversity Statement'),
         ('PRC', 'Problematic Conduct'),
     )
-    user            = models.ForeignKey(User, related_name='link_submissions')
+    user            = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='link_submissions')
     project         = models.ForeignKey(Project, related_name='link_submissions')
     tag             = models.CharField(max_length=3, choices=TAGS)
     created_date    = models.DateTimeField(default=timezone.now)
     verified_date   = models.DateTimeField(blank=True, null=True)
-    verified_by     = models.ForeignKey(User, blank=True, null=True, related_name='link_verifications')
+    verified_by     = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='link_verifications')
     url             = models.CharField(max_length=256, blank=True, null=True)
     # A LinkSubmission could be made with no URL and project_has_tag set to
     # False. e.g. Project does not have a Code of Conduct, verified on...by...
@@ -104,8 +95,8 @@ class RepresentationSubmission(models.Model):
     # contacted.
     private_message = models.TextField(blank=True, null=True)
     project         = models.ForeignKey(Project, related_name='representation_submissions')
-    user            = models.ForeignKey(User, related_name='representation_submissions')
+    user            = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='representation_submissions')
     created_date    = models.DateTimeField(default=timezone.now)
     verified_date   = models.DateTimeField(blank=True, null=True)
-    verified_by     = models.ForeignKey(User, blank=True, null=True, related_name='representation_verifications')
+    verified_by     = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='representation_verifications')
     reports         = GenericRelation(Report)

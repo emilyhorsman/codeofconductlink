@@ -1,12 +1,11 @@
 from django.conf import settings
-from django.shortcuts import render, redirect
-from django.core.urlresolvers import reverse_lazy
+from django.shortcuts import redirect
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import UpdateView, CreateView
-from django.contrib.auth.forms import UserCreationForm
 from django.utils.decorators import method_decorator
-from .recaptcha import ReCAPTCHAField
 from .models import Profile
+from .forms import CreateProfileForm
 
 class ProfileDetail(UpdateView):
     model  = Profile
@@ -20,14 +19,13 @@ class ProfileDetail(UpdateView):
     def dispatch(self, *args, **kwargs):
         return super(ProfileDetail, self).dispatch(*args, **kwargs)
 
-class CreateProfileForm(UserCreationForm):
-    class Meta:
-        model = Profile
-        fields = ('email', 'profile_name',)
-
-    recaptcha = ReCAPTCHAField(settings.RECAPTCHA_SECRET_KEY, settings.RECAPTCHA_SITE_KEY)
-
 class CreateProfile(CreateView):
     form_class = CreateProfileForm
     template_name = 'registration/register.html'
     success_url = reverse_lazy('profiles:detail')
+
+    def dispatch(self, *args, **kwargs):
+        if self.request.user.is_authenticated():
+            return redirect(reverse('index'))
+
+        return super(CreateProfile, self).dispatch(*args, **kwargs)

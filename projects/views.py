@@ -5,11 +5,14 @@ from .models import Project
 from .forms import CreateProjectForm
 
 class ProjectList(ListView):
-    model = Project
     context_object_name = 'projects'
 
     def get_queryset(self):
         return Project.objects.exclude(verified_date__isnull=True)
+
+class ProjectListByTag(ProjectList):
+    def get_queryset(self):
+        return Project.objects.filter(tags__slug=self.kwargs['tag'])
 
 class ProjectDetail(DetailView):
     model = Project

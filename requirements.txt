@@ -1,8 +1,15 @@
+ansicolors==1.0.2
 click==4.0
+configparser==3.5.0b2
 dj-database-url==0.3.0
 Django==1.8.2
 django-extensions==1.5.5
+django-taggit==0.14.0
+env-tools==2.0.0
+futures==2.2.0
 MarkupSafe==0.23
+psutil==2.2.1
 python-dotenv==0.1.2
 requests==2.7.0
 six==1.9.0
+tini==3.0.1

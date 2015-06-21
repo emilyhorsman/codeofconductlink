@@ -50,6 +50,8 @@ INSTALLED_APPS = (
     'allauth.socialaccount',
     'allauth.socialaccount.providers.twitter',
     'django_extensions',
+    'taggit',
+    'projects',
 )
 
 MIDDLEWARE_CLASSES = (

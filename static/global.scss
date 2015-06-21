@@ -31,6 +31,7 @@ $font-stack: 'Open Sans', sans-serif;
 
 .message {
     padding: 0.5em;
+    background: #333;
     &.success {
         background: $emerald;
     }

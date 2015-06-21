@@ -37,7 +37,7 @@ class Project(VerifiedModel):
     created_date  = models.DateTimeField(default=timezone.now)
     name          = models.CharField(max_length=256, unique=True)
     homepage      = models.CharField(max_length=256, null=True, blank=True)
-    tags          = TaggableManager()
+    tags          = TaggableManager(blank=True)
     reports       = GenericRelation(Report)
 
     def get_absolute_url(self):
@@ -67,7 +67,7 @@ class RepresentationSubmission(VerifiedModel):
     # instance, if a project has openly queer contributors it could be tagged
     # queer. We can have icons for particular tags such as queer, trans, woman,
     # fem, PoC, etc
-    tags            = TaggableManager()
+    tags            = TaggableManager(blank=True)
     # A public message will be displayed on the project page history. It can
     # display a link to the team member's work, etc.
     public_message  = models.TextField(blank=True, null=True)

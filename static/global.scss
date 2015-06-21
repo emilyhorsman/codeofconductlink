@@ -29,6 +29,13 @@ $font-stack: 'Open Sans', sans-serif;
     font-family: $font-stack;
 }
 
+.message {
+    padding: 0.5em;
+    &.success {
+        background: $emerald;
+    }
+}
+
 .center {
     margin: 0 auto;
 }
@@ -92,7 +99,7 @@ p {
         background: $bg;
         border-bottom: 0.2em solid $accent;
         font-weight: 300;
-        margin: 0 0 0.5em 0;
+        margin: 0;
         padding: 0.5em 0;
     }
 }

@@ -36,6 +36,10 @@ class Profile(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD  = 'email'
     REQUIRED_FIELDS = []
 
+    @property
+    def can_verify(self):
+        return self.is_staff
+
     def get_public_name(self):
         if bool(self.profile_name):
             return self.profile_name

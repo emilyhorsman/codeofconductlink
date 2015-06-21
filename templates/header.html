@@ -2,6 +2,12 @@
     <div class="pure-u-1">
         <header>
             <h2><a href="/" title="a software community tracker">a software community tracker</a></h2>
+            {% if messages %}
+            {% for message in messages %}
+            <div class="message {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            <br />
             {% if user.is_authenticated %}
                 {% if user.is_staff %}
                 <a href="{% url "admin:index" %}" title="Admin" class="pure-button">Django Admin</a>&nbsp;

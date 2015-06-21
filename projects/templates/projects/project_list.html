@@ -9,7 +9,6 @@
         {% endif %}
     </div>
 </div>
-
 <div class="pure-g">
     <div class="pure-u-1">
         <table id="projects" class="center pure-table pure-table-horizontal">
@@ -33,7 +32,11 @@
                     </td>
                     <td>
                         {% if not project.verified_date %}
-                        Awaiting verification&hellip;
+                            {% if user.can_verify %}
+                            <a class="pure-button pure-button-primary" href="{% url "projects:verify" project.pk %}" title="Verify">Verify</a>
+                            {% else %}
+                            Awaiting verification&hellip;
+                            {% endif %}
                         {% endif %}
                     </td>
                 </tr>

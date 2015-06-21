@@ -37,16 +37,21 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    'taggit',
     'authentication',
-    'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'django_extensions',
+    'taggit',
     'projects',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.twitter',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -73,6 +78,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.request',
+                'allauth.account.context_processors.account',
+                'allauth.socialaccount.context_processors.socialaccount',
             ],
         },
     },
@@ -120,6 +128,10 @@ EMAIL_PORT          = os.environ.get('EMAIL_PORT')
 DEFAULT_FROM_EMAIL  = os.environ.get('DEFAULT_FROM_EMAIL')
 
 AUTH_USER_MODEL='authentication.Profile'
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 USE_RECAPTCHA = bool(os.environ.get('USE_RECAPTCHA'))
 RECAPTCHA_SITE_KEY = os.environ.get('RECAPTCHA_SITE_KEY')

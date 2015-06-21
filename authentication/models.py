@@ -26,6 +26,7 @@ class Profile(AbstractBaseUser, PermissionsMixin):
             ),
         ],
         error_messages={ 'unique': 'Sorry, that profile name is already taken!' },)
+    username    = models.CharField(max_length=80, unique=True, default=None, blank=True, null=True)
     email       = models.EmailField(unique=True)
     is_staff    = models.BooleanField(default=False)
     is_active   = models.BooleanField(default=True)

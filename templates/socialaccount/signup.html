@@ -4,19 +4,22 @@
 
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
+{% block rowwrapper %}pure-u-1 pure-u-md-1-2{% endblock %}
 {% block content %}
-    <h1>{% trans "Sign Up" %}</h1>
 
-<p>{% blocktrans with provider_name=account.get_provider.name site_name=site.name %}You are about to use your {{provider_name}} account to login to
-{{site_name}}. As a final step, please complete the following form:{% endblocktrans %}</p>
+<form class="signup pure-form pure-form-stacked" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}">
+    <fieldset>
+        <legend>Register</legend>
 
-<form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button type="submit">{% trans "Sign Up" %} &raquo;</button>
+        <p>{% blocktrans with provider_name=account.get_provider.name site_name=site.name %}You are about to use your {{provider_name}} account to login to {{site_name}}. As a final step, please complete the following form:{% endblocktrans %}</p>
+
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <input type="submit" value="Register" class="pure-button pure-button-primary" />
+    </fieldset>
 </form>
 
 {% endblock %}

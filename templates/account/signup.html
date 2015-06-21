@@ -20,6 +20,9 @@
         </form>
     </div></div>
     <div class="pure-u-1 pure-u-md-1-2"><div class="box">
+        {% if socialaccount.providers %}
+        {% include "socialaccount/snippets/provider_list.html" with process="register" %}
+        {% endif %}
         <p>Your <b>email address will never be shown to the public</b>.</p>
         <p>
         Registering allows you to:

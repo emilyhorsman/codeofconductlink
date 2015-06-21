@@ -6,6 +6,8 @@ import requests
 
 class ReCAPTCHAWidget(Widget):
     def render(self, name, value, attrs=None):
+        if not settings.USE_RECAPTCHA:
+            return 'reCAPTCHA is currently disabled.'
         return """<script src="https://www.google.com/recaptcha/api.js" async defer></script><div class="g-recaptcha" data-sitekey="{}"></div>""".format(settings.RECAPTCHA_SITE_KEY)
 
     def value_from_datadict(self, data, files, name):
@@ -18,17 +20,15 @@ class ReCAPTCHAField(Field):
 
     widget = ReCAPTCHAWidget
 
-    def __init__(self, secret_key, sitekey, *args, **kwargs):
-        super(ReCAPTCHAField, self).__init__(*args, **kwargs)
-        self.secret_key = secret_key
-        self.sitekey = sitekey
-
     def to_python(self, value):
         return value
 
     def validate(self, value):
+        if not settings.USE_RECAPTCHA:
+            return True
+
         payload = {
-            'secret': self.secret_key,
+            'secret': settings.RECAPTCHA_SECRET_KEY,
             'response': value
         }
         res = requests.post("https://www.google.com/recaptcha/api/siteverify", data=payload)

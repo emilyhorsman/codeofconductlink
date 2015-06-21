@@ -15,7 +15,7 @@
             <thead>
                 <tr>
                     <th>Project</th>
-                    <th>Homepage</th>
+                    <th></th>
                     <th>Tags</th>
                 </tr>
             </thead>
@@ -23,7 +23,7 @@
             {% for project in projects %}
                 <tr>
                     <td><a href="{{ project.get_absolute_url }}" title="{{ project }}">{{ project }}</a></td>
-                    <td><a href="{{ project.homepage }}" title="{{ project }} homepage" target="_blank">Homepage</a></td>
+                    <td>{% if project.homepage %}<a href="{{ project.homepage }}" title="{{ project }} homepage" target="_blank">Homepage</a>{% endif %}</td>
                     <td>{{ project.tags }}</td>
                 </tr>
             {% endfor %}

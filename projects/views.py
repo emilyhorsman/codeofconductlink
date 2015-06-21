@@ -21,6 +21,8 @@ class CreateProject(CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        if form.instance.user.is_staff:
+            form.instance.verify(form.instance.user, False)
         return super(CreateProject, self).form_valid(form)
 
     @method_decorator(login_required)

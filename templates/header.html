@@ -3,6 +3,9 @@
         <header>
             <h2><a href="/" title="a software community tracker">a software community tracker</a></h2>
             {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                <a href="{% url "admin:index" %}" title="Admin" class="pure-button">Django Admin</a>&nbsp;
+                {% endif %}
             <a href="{% url "profiles:detail" %}" title="Profile" class="pure-button">Profile</a>&nbsp;
             <a href="{% url "logout" %}?next=/" title="Logout" class="pure-button">Logout</a>
             {% else %}

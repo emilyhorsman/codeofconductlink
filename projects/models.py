@@ -24,10 +24,11 @@ class VerifiedModel(models.Model):
     verified_by   = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True,
                                       related_name='%(class)s_verifications'.replace('submission_', '_'))
 
-    def verify(self, verifying_user):
-        verified_date = timezone.now()
-        verified_by   = verifying_user
-        self.save()
+    def verify(self, verifying_user, save=True):
+        self.verified_date = timezone.now()
+        self.verified_by   = verifying_user
+        if save:
+            self.save()
 
 class Project(VerifiedModel):
     # A project should be created with an initial ProjectSubmission.

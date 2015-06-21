@@ -8,4 +8,4 @@ class CreateProjectForm(models.ModelForm):
         model = Project
         fields = ('name', 'homepage', 'tags',)
 
-    recaptcha = ReCAPTCHAField(settings.RECAPTCHA_SECRET_KEY, settings.RECAPTCHA_SITE_KEY)
+    recaptcha = ReCAPTCHAField()

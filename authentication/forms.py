@@ -8,4 +8,4 @@ class CreateProfileForm(UserCreationForm):
         model = Profile
         fields = ('email', 'profile_name',)
 
-    recaptcha = ReCAPTCHAField(settings.RECAPTCHA_SECRET_KEY, settings.RECAPTCHA_SITE_KEY)
+    recaptcha = ReCAPTCHAField()

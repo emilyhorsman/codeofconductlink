@@ -15,13 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from projects.views import ProjectList
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    #url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^profiles/', include('authentication.urls', namespace='profiles')),
-    url(r'^projects/', include('projects.urls', namespace='projects')),
-    url(r'^$', ProjectList.as_view(), name='index'),
 ]

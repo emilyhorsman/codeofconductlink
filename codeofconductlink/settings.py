@@ -37,21 +37,18 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    'authentication',
-    'django.contrib.auth',
     'django.contrib.admin',
+    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'django_extensions',
-    'taggit',
-    'projects',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.twitter',
+    'django_extensions',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -88,14 +85,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'codeofconductlink.wsgi.application'
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_LOGOUT_ON_GET = True
+
+SITE_ID = 1
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
 DATABASES = { 'default': dj_database_url.config() }
 if bool(os.environ.get('DJANGO_POSTGRES_POOL')):
     default['ENGINE'] = 'django_postgrespool'
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -115,24 +123,25 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATICFILES_DIRS = (os.environ.get('STATICFILES_DIR'),)
-STATIC_URL = '/static/' # https://foo.org/static/
+STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/'
 
-EMAIL_BACKEND       = os.environ.get('EMAIL_BACKEND')
-EMAIL_USE_TLS       = bool(os.environ.get('EMAIL_USE_TLS'))
-EMAIL_HOST          = os.environ.get('EMAIL_HOST')
-EMAIL_HOST_USER     = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-EMAIL_PORT          = os.environ.get('EMAIL_PORT')
-DEFAULT_FROM_EMAIL  = os.environ.get('DEFAULT_FROM_EMAIL')
+env_settings = [
+    'EMAIL_BACKEND',
+    'EMAIL_HOST',
+    'EMAIL_HOST_USER',
+    'EMAIL_HOST_PASSWORD',
+    'EMAIL_PORT',
+    'DEFAULT_FROM_EMAIL',
+]
 
-AUTH_USER_MODEL='authentication.Profile'
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
+env_bool_settings = [
+    'EMAIL_USE_TLS',
+    'USE_RECAPTCHA',
+    'RECAPTCHA_SITE_KEY',
+    'RECAPTCHA_SECRET_KEY',
+]
 
-USE_RECAPTCHA = bool(os.environ.get('USE_RECAPTCHA'))
-RECAPTCHA_SITE_KEY = os.environ.get('RECAPTCHA_SITE_KEY')
-RECAPTCHA_SECRET_KEY = os.environ.get('RECAPTCHA_SECRET_KEY')
+for key in env_settings: globals()[key] = os.environ.get(key)
+for key in env_bool_settings: globals()[key] = bool(os.environ.get(key))

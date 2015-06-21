@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.db import models
 from .managers import ProfileManager
@@ -23,7 +24,7 @@ class Profile(AbstractBaseUser, PermissionsMixin):
     @property
     def name(self):
         if bool(self.public_name):
-            return self.profile_name
+            return self.public_name
         return 'Anonymous'
 
     def get_full_name(self):
@@ -31,6 +32,9 @@ class Profile(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.email
+
+    def get_absolute_url(self):
+        return reverse('profiles:detail')
 
     def email_user(self, subject, message, from_email=None):
         send_mail(subject, message, from_email, [self.email])

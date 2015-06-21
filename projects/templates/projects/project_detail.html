@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block outsidewrapper %}
+{% if not project.verified_date %}
+<div class="project-verification">
+<p><b>This project is awaiting verification.</b> A member of our staff has not yet approved this project for public listing. The information on this page may be wrong.</p>
+{% include "reports/_report_form.html" with form=report_form %}
+</div>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<h3 class="project-name"><a href="{{ project.get_absolute_url }}" title="{{ project.name }}">{{ project.name }}</a></h3>
+{% endblock %}

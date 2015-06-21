@@ -37,6 +37,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'profiles',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,7 +45,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'profiles',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -139,13 +139,13 @@ env_settings = [
     'EMAIL_HOST_PASSWORD',
     'EMAIL_PORT',
     'DEFAULT_FROM_EMAIL',
+    'RECAPTCHA_SITE_KEY',
+    'RECAPTCHA_SECRET_KEY',
 ]
 
 env_bool_settings = [
     'EMAIL_USE_TLS',
     'USE_RECAPTCHA',
-    'RECAPTCHA_SITE_KEY',
-    'RECAPTCHA_SECRET_KEY',
 ]
 
 for key in env_settings: globals()[key] = os.environ.get(key)

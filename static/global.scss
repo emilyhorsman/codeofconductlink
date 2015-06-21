@@ -111,7 +111,7 @@ p {
         padding: 1em;
 
         form {
-            input[type="text"], input[type="email"], input[type="password"] {
+            input[type="text"], input[type="email"], input[type="password"], input[type="url"] {
                 width: 80%;
             }
 
@@ -123,4 +123,17 @@ p {
             margin: 0 1em;
         }
     }
+}
+
+.project-verification {
+    margin: 1em;
+    max-width: 30em;
+    background-color: $bg;
+    color: #eee;
+    padding: 0.5em 1em;
+}
+
+h3.project-name a {
+    text-decoration: none;
+    color: #000;
 }

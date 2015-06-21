@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Project, Submission, Report, Vouch
 
-# Register your models here.
+admin.site.register(Project)
+admin.site.register(Submission)
+admin.site.register(Report)
+admin.site.register(Vouch)

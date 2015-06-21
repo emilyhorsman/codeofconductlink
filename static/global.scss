@@ -29,11 +29,40 @@ $font-stack: 'Open Sans', sans-serif;
     font-family: $font-stack;
 }
 
+.center {
+    margin: 0 auto;
+}
+
+table {
+    font-size: 1.1em;
+}
+
 .backed {
     background: $bg;
     color: #fff;
     font-weight: 300;
     padding: 0.05em 0.4em;
+}
+
+#projects {
+    a {
+        text-decoration: none;
+        color: #000;
+    }
+
+    $tag-base: #ccc;
+    .project-tag {
+        text-decoration: none;
+        background: $tag-base;
+        font-size: 0.9em;
+        letter-spacing: 0.03em;
+        font-weight: 300;
+        padding: 0.2em 0.6em;
+        border-radius: 0.2em;
+        &:hover {
+            background: darken($tag-base, 10%);
+        }
+    }
 }
 
 p {

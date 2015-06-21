@@ -18,6 +18,7 @@
                     <th>Project</th>
                     <th>Homepage</th>
                     <th>Tags</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -29,6 +30,11 @@
                         {% for tag in project.tags.all %}
                         <a class="project-tag" href="{% url "projects:list-by-tag" tag.slug %}" title="Projects tagged {{ tag.name }}">{{ tag.name }}</a>
                         {% endfor %}
+                    </td>
+                    <td>
+                        {% if not project.verified_date %}
+                        Awaiting verification&hellip;
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

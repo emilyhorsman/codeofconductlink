@@ -20,7 +20,7 @@ class ProfileManager(BaseUserManager):
         return self._create_user(email, password, True, True, **extra_fields)
 
 class Profile(AbstractBaseUser, PermissionsMixin):
-    profile_name = models.CharField(max_length=80, unique=True, blank=True, null=True, validators=[
+    profile_name = models.CharField(max_length=80, unique=True, default=None, blank=True, null=True, validators=[
             validators.RegexValidator(
                 r'^\w+$', 'Profile names can only contain letters, numbers, and underscores.'
             ),

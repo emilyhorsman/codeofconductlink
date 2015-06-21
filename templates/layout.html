@@ -1,0 +1,47 @@
+{% load staticfiles %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>{% block head_title %}Code of Conduct{% endblock %}</title>
+
+        {% block pure %}
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+        <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-old-ie-min.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
+        <!--<![endif]-->
+        {% endblock %}
+
+        {% block webfonts %}
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600' rel='stylesheet' type='text/css'>
+        {% endblock %}
+
+        <link rel="stylesheet" href="{% static "global.css" %}">
+
+        {% block head %}
+        {% endblock %}
+
+        {% include "analytics.html" %}
+    </head>
+    <body>
+        {% block header %}
+        {% include "header.html" %}
+        {% endblock %}
+
+        <div class="content-wrapper">
+            <div class="pure-g">
+                <div class="{% block rowwrapper %}pure-u-1{% endblock %}">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+            {% block altcontent %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

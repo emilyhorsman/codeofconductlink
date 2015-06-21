@@ -1,0 +1,38 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+{% load account %}
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block altcontent %}
+<form class="login pure-g pure-form pure-form-stacked" method="POST" action="{% url 'account_login' %}">
+    <div class="pure-u-1 pure-u-md-1-2"><div class="box">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Login</legend>
+                {{ form.as_p }}
+                {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                {% endif %}
+                <input type="submit" class="pure-button pure-button-primary" value="{% trans "Sign In" %}" />
+
+                <br/ ><br />
+                <a href="{% url "account_reset_password" %}" title="Reset forgotten password">I&rsquo;ve forgotten my password and wish to reset it via email.</a>
+            </fieldset>
+    </div></div>
+    <div class="pure-u-1 pure-u-md-1-2"><div class="box">
+            <fieldset>
+                <legend>Social Login</legend>
+                {% if socialaccount.providers %}
+
+                <div class="socialaccount_ballot">
+                    <div class="socialaccount_providers">
+                        {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+                    </div>
+                </div>
+
+                {% include "socialaccount/snippets/login_extra.html" %}
+                {% endif %}
+            </fieldset>
+    </div></div>
+</form>
+{% endblock %}

@@ -1,5 +1,5 @@
-from django.forms import models, Widget
-from projects.forms import create_crispy_model_form
+from django.forms import Widget
+from common.forms import create_crispy_model_form
 from .models import Report
 
 class TextWidget(Widget):

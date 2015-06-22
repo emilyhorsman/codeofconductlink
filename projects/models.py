@@ -40,15 +40,6 @@ class Project(VerifiedModel):
     reports         = GenericRelation(Report)
     vouches         = GenericRelation(Vouch)
 
-    def report_text(self):
-        n = self.reports.count()
-        if n == 0:
-            return 'No reports have been filed on this project.'
-        elif n == 1:
-            return '1 report has been filed on this project.'
-        else:
-            return '{} reports have been filed on this project.'.format(n)
-
     def get_report_url(self):
         return '{}?project={}&target={}'.format(reverse('reports:new'), self.pk, self.name)
 

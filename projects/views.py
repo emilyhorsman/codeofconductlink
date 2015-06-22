@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.db.models import Q
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
-from allauth.account.decorators import verified_email_required
+from profiles.access_mixins import VerifiedEmailRequiredMixin
 from .models import Project, Report
 from .forms import CreateProjectForm
 
@@ -44,11 +44,12 @@ class ProjectDetail(DetailView):
             context['report_text'] = '1 report has been filed on this project entry.'
         else:
             context['report_text'] = '{} reports have been filed on this project entry.'.format(n)
-        if n > 0 and self.request.user.is_moderator:
+        reports = self.object.get_reports_for_user(self.request.user)
+        if reports:
             context['reports'] = self.object.reports
         return context
 
-class CreateProject(CreateView):
+class CreateProject(VerifiedEmailRequiredMixin, CreateView):
     form_class = CreateProjectForm
     template_name = 'projects/project_form.html'
 
@@ -58,10 +59,6 @@ class CreateProject(CreateView):
         if form.instance.user.is_staff:
             form.instance.verify(form.instance.user, False)
         return super(CreateProject, self).form_valid(form)
-
-    @method_decorator(verified_email_required)
-    def dispatch(self, *args, **kwargs):
-        return super(CreateProject, self).dispatch(*args, **kwargs)
 
 def can_verify(user):
     return user.is_moderator

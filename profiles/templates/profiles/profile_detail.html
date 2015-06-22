@@ -1,18 +1,11 @@
 {% extends "layout.html" %}
 
+{% load crispy_forms_tags %}
 {% block rowwrapper %}pure-u-1 pure-u-md-1-2{% endblock %}
 {% block content %}
 <p>Hi {{ user  }}!<br />Your publicly displayed name is <span class="backed">{{ user.name }}</span>.</p>
 
-<form method="POST" action="" class="pure-form pure-form-stacked">
-    {% csrf_token %}
-    <fieldset>
-        <legend>Update profile</legend>
-
-        {{ form.as_p }}
-
-        <input type="submit" class="pure-button pure-button-primary" value="Update Profile" />
-        <a href="{% url "account_change_password" %}" class="pure-button" title="I want to change my password">I want to change my password</a>
-    </fieldset>
-</form>
+{% crispy form %}
+<br />
+<a href="{% url "account_change_password" %}" class="pure-button" title="I want to change my password">I want to change my password</a>
 {% endblock %}

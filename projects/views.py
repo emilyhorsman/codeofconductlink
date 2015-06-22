@@ -44,9 +44,14 @@ class ProjectDetail(DetailView):
             context['report_text'] = '1 report has been filed on this project entry.'
         else:
             context['report_text'] = '{} reports have been filed on this project entry.'.format(n)
+
         reports = self.object.get_reports_for_user(self.request.user)
         if reports:
             context['reports'] = self.object.reports
+
+        if self.object.user == self.request.user:
+            context['can_edit'] = True
+
         return context
 
 class ProjectUpdate(VerifiedEmailRequiredMixin, UpdateView):

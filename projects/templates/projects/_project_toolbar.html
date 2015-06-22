@@ -1,0 +1,7 @@
+{% load icons %}
+{% if can_edit %}
+<div class="project-toolbar">
+    <a class="pure-button" href="{% url "projects:update" project.pk %}" title="Edit Project">{% icon "pencil" %}Edit</a>
+    <a class="pure-button" href="{% url "projects:delete" project.pk %}" title="Delete Project (must confirm)">{% icon "trash" %}Delete</a>
+</div>
+{% endif %}

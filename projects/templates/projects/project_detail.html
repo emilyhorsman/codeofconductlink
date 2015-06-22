@@ -18,13 +18,9 @@
 {% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
-    {% if project.user == user %}
-    <a href="{% url "projects:update" project.pk %}" title="Edit Project" class="pure-button pure-button-primary">Edit Project</a>
-    <a href="{% url "projects:delete" project.pk %}" title="Delete Project" class="pure-button button-danger">Delete Project</a>
-    {% endif %}
-{% endif %}
 <h3 class="project-name"><a href="{{ project.get_absolute_url }}" title="{{ project.name }}">{{ project.name }}</a></h3>
+
+{% include "projects/_project_toolbar.html" with project=project can_edit=can_edit %}
 
 <p class="project-reports">{{ report_text }}</p>
 {% if reports.count %}

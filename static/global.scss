@@ -174,3 +174,17 @@ h3.project-name a {
     font-size: 80%;
     td { vertical-align: top; }
 }
+
+div.project-toolbar {
+    margin: 0;
+    padding: 0;
+    .pure-button {
+        font-weight: 700;
+        font-size: 0.9em;
+        padding: 0.2em 0.5em;
+        background: #eee;
+        .icon {
+            margin-right: 0.4em;
+        }
+    }
+}

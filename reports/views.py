@@ -3,7 +3,7 @@ from django.utils.decorators import method_decorator
 from django.http import Http404
 from braces.views import FormValidMessageMixin
 from projects.models import Project
-from profiles.access_mixins import VerifiedEmailRequiredMixin
+from common.access_mixins import VerifiedEmailRequiredMixin
 from .models import Report
 from .forms import CreateReportForm, UpdateReportForm
 

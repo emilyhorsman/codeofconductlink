@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.db.models import Q
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
-from profiles.access_mixins import VerifiedEmailRequiredMixin
+from common.access_mixins import VerifiedEmailRequiredMixin
 from .models import Project, Report
 from .forms import CreateProjectForm, UpdateProjectForm
 

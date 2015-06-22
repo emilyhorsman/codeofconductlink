@@ -1,6 +1,6 @@
 from django.views.generic.edit import UpdateView
 from braces.views import FormValidMessageMixin
-from .access_mixins import VerifiedEmailRequiredMixin
+from common.access_mixins import VerifiedEmailRequiredMixin
 from .forms import ProfileDetailForm
 from .models import Profile
 

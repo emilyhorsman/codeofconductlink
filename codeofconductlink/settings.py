@@ -54,6 +54,7 @@ INSTALLED_APPS = (
     'taggit',
     'projects',
     'braces',
+    'crispy_forms',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -87,6 +88,8 @@ TEMPLATES = [
         },
     },
 ]
+
+CRISPY_TEMPLATE_PACK = 'uni_form'
 
 WSGI_APPLICATION = 'codeofconductlink.wsgi.application'
 

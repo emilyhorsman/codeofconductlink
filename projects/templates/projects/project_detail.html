@@ -6,7 +6,7 @@
     <p><b>This project is awaiting verification.</b> A member of our staff has not yet approved this project for public listing. The information on this page may be wrong.</p>
     {% if user.is_authenticated %}
         <p>
-        <a href="{{ project.get_report_url }}" title="Report Entry" class="pure-button button-report">Report this entry</a>
+        {% include "projects/_report_url.html" with project=project %}
         {% if user.is_moderator %}
             <a href="{% url "projects:verify" project.pk %}" title="Verify Project" class="pure-button pure-button-primary">Verify this project</a>
         {% endif %}
@@ -21,7 +21,7 @@
 <h3 class="project-name"><a href="{{ project.get_absolute_url }}" title="{{ project.name }}">{{ project.name }}</a></h3>
 
 <p class="project-reports">{{ report_text }}</p>
-{% if reports %}
+{% if reports.count %}
     <p>You are seeing these reports because you are a moderator or you filed the reports.</p>
     <table class="pure-table report-table">
         <thead>
@@ -37,5 +37,9 @@
             {% endfor %}
         </tbody>
     </table>
+{% endif %}
+
+{% if user.is_authenticated %}
+<p>{% include "projects/_report_url.html" with project=project %}</p>
 {% endif %}
 {% endblock %}

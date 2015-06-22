@@ -5,10 +5,13 @@
     <div class="project-verification">
     <p><b>This project is awaiting verification.</b> A member of our staff has not yet approved this project for public listing. The information on this page may be wrong.</p>
     {% if user.is_authenticated %}
-    <p>
-    <a href="{{ project.get_report_url }}" title="Report Project" class="pure-button button-report">Report this project</a>
-    </p>
-    <p class="project-reports">{{ report_text }}</p>
+        <p>
+        <a href="{{ project.get_report_url }}" title="Report Entry" class="pure-button button-report">Report this entry</a>
+        {% if user.is_moderator %}
+            <a href="{% url "projects:verify" project.pk %}" title="Verify Project" class="pure-button pure-button-primary">Verify this project</a>
+        {% endif %}
+        </p>
+        <p class="project-reports">{{ report_text }}</p>
     {% endif %}
 </div>
 {% endif %}
@@ -18,7 +21,7 @@
 <h3 class="project-name"><a href="{{ project.get_absolute_url }}" title="{{ project.name }}">{{ project.name }}</a></h3>
 
 <p class="project-reports">{{ report_text }}</p>
-{% if user.is_authenticated and user.is_moderator %}
+{% if reports %}
     <p>You are seeing this table because you are a moderator.</p>
     <table class="pure-table report-table">
         <thead>

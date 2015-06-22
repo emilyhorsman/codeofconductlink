@@ -37,7 +37,15 @@ class ProjectDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
-        context['report_text'] = self.object.report_text
+        n = self.object.reports.count()
+        if n == 0:
+            context['report_text'] = 'No reports have been filed on this project entry.'
+        elif n == 1:
+            context['report_text'] = '1 report has been filed on this project entry.'
+        else:
+            context['report_text'] = '{} reports have been filed on this project entry.'.format(n)
+        if n > 0 and self.request.user.is_moderator:
+            context['reports'] = self.object.reports
         return context
 
 class CreateProject(CreateView):
@@ -55,8 +63,8 @@ class CreateProject(CreateView):
     def dispatch(self, *args, **kwargs):
         return super(CreateProject, self).dispatch(*args, **kwargs)
 
-def can_verify(self):
-    return self.request.user.is_moderator
+def can_verify(user):
+    return user.is_moderator
 
 @user_passes_test(can_verify)
 def verify(request, pk):

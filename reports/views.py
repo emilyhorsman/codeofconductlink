@@ -5,13 +5,13 @@ from braces.views import FormValidMessageMixin
 from projects.models import Project
 from profiles.access_mixins import VerifiedEmailRequiredMixin
 from .models import Report
-from .forms import UpdateReportForm
+from .forms import CreateReportForm, UpdateReportForm
 
 class CreateReport(FormValidMessageMixin,
                    VerifiedEmailRequiredMixin,
                    CreateView):
     model = Report
-    fields = ('message',)
+    form_class = CreateReportForm
     form_valid_message = 'Report filed.'
 
     def get_context_data(self, **kwargs):

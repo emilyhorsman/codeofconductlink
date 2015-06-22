@@ -1,11 +1,18 @@
 from django.forms import models, Widget
+from projects.forms import create_crispy_model_form
 from .models import Report
 
 class TextWidget(Widget):
     def render(self, name, value, attrs=None):
         return '<p>{}</p>'.format(value)
 
-class UpdateReportForm(models.ModelForm):
+class CreateReportForm(create_crispy_model_form(legend_text='File report',
+                                                submit_text='Report')):
+    class Meta:
+        model  = Report
+        fields = ('message',)
+
+class UpdateReportForm(create_crispy_model_form(legend_text='Modify report resolution')):
     class Meta:
         model  = Report
         fields = ('resolved', 'message',)

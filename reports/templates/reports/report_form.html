@@ -1,16 +1,6 @@
 {% extends "layout.html" %}
 
+{% load crispy_forms_tags %}
 {% block content %}
-<form method="POST" action="" class="pure-form pure-form-stacked">
-    {% csrf_token %}
-    <fieldset>
-        <legend>Modify Report Resolution</legend>
-        {% if form.message_body %}
-        <p>{{ form.message_body }}</p>
-        {% endif %}
-        <p>{{ title }}</p>
-        {{ form.as_p }}
-        <input type="submit" value="Submit" class="pure-button pure-button-primary" />
-    </fieldset>
-</form>
+{% crispy form %}
 {% endblock %}

@@ -1,0 +1,460 @@
+- fields: {app_label: profiles, model: profile}
+  model: contenttypes.contenttype
+  pk: 1
+- fields: {app_label: reports, model: report}
+  model: contenttypes.contenttype
+  pk: 2
+- fields: {app_label: admin, model: logentry}
+  model: contenttypes.contenttype
+  pk: 3
+- fields: {app_label: auth, model: permission}
+  model: contenttypes.contenttype
+  pk: 4
+- fields: {app_label: auth, model: group}
+  model: contenttypes.contenttype
+  pk: 5
+- fields: {app_label: contenttypes, model: contenttype}
+  model: contenttypes.contenttype
+  pk: 6
+- fields: {app_label: sessions, model: session}
+  model: contenttypes.contenttype
+  pk: 7
+- fields: {app_label: sites, model: site}
+  model: contenttypes.contenttype
+  pk: 8
+- fields: {app_label: account, model: emailaddress}
+  model: contenttypes.contenttype
+  pk: 9
+- fields: {app_label: account, model: emailconfirmation}
+  model: contenttypes.contenttype
+  pk: 10
+- fields: {app_label: socialaccount, model: socialapp}
+  model: contenttypes.contenttype
+  pk: 11
+- fields: {app_label: socialaccount, model: socialaccount}
+  model: contenttypes.contenttype
+  pk: 12
+- fields: {app_label: socialaccount, model: socialtoken}
+  model: contenttypes.contenttype
+  pk: 13
+- fields: {app_label: taggit, model: tag}
+  model: contenttypes.contenttype
+  pk: 14
+- fields: {app_label: taggit, model: taggeditem}
+  model: contenttypes.contenttype
+  pk: 15
+- fields: {app_label: projects, model: vouch}
+  model: contenttypes.contenttype
+  pk: 16
+- fields: {app_label: projects, model: project}
+  model: contenttypes.contenttype
+  pk: 17
+- fields: {app_label: projects, model: submission}
+  model: contenttypes.contenttype
+  pk: 18
+- fields: {expire_date: ! '2015-07-06 14:08:08.496259+00:00', session_data: MTRhNzE4ODI1YTg4NTQ5MmRmMWM5MGJiNDFlZWNmNWMzNjA4ZDRiZjp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9oYXNoIjoiZTAxNDdhODRhOWEyYjY3ZGU0MjIzNWU5YWRlZTZmZDVlZGY0ZDI5ZSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX3Nlc3Npb25fZXhwaXJ5IjowfQ==}
+  model: sessions.session
+  pk: 0dklwmmalqrf63eqjik0mw4t46ib7ndz
+- fields: {expire_date: ! '2015-07-06 14:07:43.937792+00:00', session_data: NmQ5ZDhhY2Q1NDAyYzdmOWNjYjVhNGRmZjRlNDlkMTRmMTRiZDYwNjp7ImFjY291bnRfdXNlciI6MywiYWNjb3VudF92ZXJpZmllZF9lbWFpbCI6bnVsbH0=}
+  model: sessions.session
+  pk: ejonqi15pwu7qenqron5t5bobbudoqu5
+- fields: {expire_date: ! '2015-07-06 14:06:41.975619+00:00', session_data: MGExMGU3YzQ3ZDNmMWJhY2E3MGE5NGUyOGViYzA4NjYxMjY2N2Q0ZTp7Il9zZXNzaW9uX2V4cGlyeSI6MCwiX2F1dGhfdXNlcl9oYXNoIjoiOWQwOTM3ZGYwZDEwNmEzYzVjZWY4NWIxNGM4NzRiYTZjOTY2ZmRhOCIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6IjEifQ==}
+  model: sessions.session
+  pk: ytk3upudv2yzv71soxw14gcf4m7ln0vi
+- fields: {domain: example.com, name: example.com}
+  model: sites.site
+  pk: 1
+- fields: {created: ! '2015-06-22 14:06:25.344610+00:00', email_address: 1, key: rkr6tlastdzrzswfxm1mn2jsrapyrumlm3ue4luwfukfvbx3imofgyojr7umcjhd,
+    sent: ! '2015-06-22 14:06:25.421535+00:00'}
+  model: account.emailconfirmation
+  pk: 1
+- fields: {created: ! '2015-06-22 14:06:59.916983+00:00', email_address: 2, key: kgxitc03gzlgkc1wqjxliv9phakwl5lyxbb9ycgf5aluwilsv3t5tlc6d3vdxh7p,
+    sent: ! '2015-06-22 14:06:59.940112+00:00'}
+  model: account.emailconfirmation
+  pk: 2
+- fields: {created: ! '2015-06-22 14:07:43.906552+00:00', email_address: 3, key: tda0vhefltl2mfb0gozngwwooyeuuoo5ucmmljn3wiejdimzsge1abmggdelyb9j,
+    sent: ! '2015-06-22 14:07:43.923663+00:00'}
+  model: account.emailconfirmation
+  pk: 3
+- fields: {name: web framework, slug: web-framework}
+  model: taggit.tag
+  pk: 1
+- fields: {name: web, slug: web}
+  model: taggit.tag
+  pk: 2
+- fields: {name: python, slug: python}
+  model: taggit.tag
+  pk: 3
+- fields: {name: Diversity Statement, slug: diversity-statement}
+  model: taggit.tag
+  pk: 4
+- fields: {name: queer, slug: queer}
+  model: taggit.tag
+  pk: 5
+- fields: {name: javascript, slug: javascript}
+  model: taggit.tag
+  pk: 6
+- fields: {name: js, slug: js}
+  model: taggit.tag
+  pk: 7
+- fields: {name: community guidelines, slug: community-guidelines}
+  model: taggit.tag
+  pk: 8
+- fields: {name: unverified, slug: unverified}
+  model: taggit.tag
+  pk: 9
+- fields: {content_type: 17, object_id: 1, tag: 1}
+  model: taggit.taggeditem
+  pk: 1
+- fields: {content_type: 17, object_id: 1, tag: 2}
+  model: taggit.taggeditem
+  pk: 2
+- fields: {content_type: 17, object_id: 1, tag: 3}
+  model: taggit.taggeditem
+  pk: 3
+- fields: {content_type: 18, object_id: 1, tag: 4}
+  model: taggit.taggeditem
+  pk: 4
+- fields: {content_type: 18, object_id: 2, tag: 5}
+  model: taggit.taggeditem
+  pk: 5
+- fields: {content_type: 17, object_id: 2, tag: 2}
+  model: taggit.taggeditem
+  pk: 6
+- fields: {content_type: 17, object_id: 2, tag: 6}
+  model: taggit.taggeditem
+  pk: 7
+- fields: {content_type: 17, object_id: 2, tag: 7}
+  model: taggit.taggeditem
+  pk: 8
+- fields: {content_type: 18, object_id: 3, tag: 8}
+  model: taggit.taggeditem
+  pk: 9
+- fields: {content_type: 17, object_id: 3, tag: 9}
+  model: taggit.taggeditem
+  pk: 10
+- fields: {content_type: 17, object_id: 3, tag: 2}
+  model: taggit.taggeditem
+  pk: 11
+- fields: {codename: add_profile, content_type: 1, name: Can add profile}
+  model: auth.permission
+  pk: 1
+- fields: {codename: change_profile, content_type: 1, name: Can change profile}
+  model: auth.permission
+  pk: 2
+- fields: {codename: delete_profile, content_type: 1, name: Can delete profile}
+  model: auth.permission
+  pk: 3
+- fields: {codename: add_report, content_type: 2, name: Can add report}
+  model: auth.permission
+  pk: 4
+- fields: {codename: change_report, content_type: 2, name: Can change report}
+  model: auth.permission
+  pk: 5
+- fields: {codename: delete_report, content_type: 2, name: Can delete report}
+  model: auth.permission
+  pk: 6
+- fields: {codename: add_logentry, content_type: 3, name: Can add log entry}
+  model: auth.permission
+  pk: 7
+- fields: {codename: change_logentry, content_type: 3, name: Can change log entry}
+  model: auth.permission
+  pk: 8
+- fields: {codename: delete_logentry, content_type: 3, name: Can delete log entry}
+  model: auth.permission
+  pk: 9
+- fields: {codename: add_permission, content_type: 4, name: Can add permission}
+  model: auth.permission
+  pk: 10
+- fields: {codename: change_permission, content_type: 4, name: Can change permission}
+  model: auth.permission
+  pk: 11
+- fields: {codename: delete_permission, content_type: 4, name: Can delete permission}
+  model: auth.permission
+  pk: 12
+- fields: {codename: add_group, content_type: 5, name: Can add group}
+  model: auth.permission
+  pk: 13
+- fields: {codename: change_group, content_type: 5, name: Can change group}
+  model: auth.permission
+  pk: 14
+- fields: {codename: delete_group, content_type: 5, name: Can delete group}
+  model: auth.permission
+  pk: 15
+- fields: {codename: add_contenttype, content_type: 6, name: Can add content type}
+  model: auth.permission
+  pk: 16
+- fields: {codename: change_contenttype, content_type: 6, name: Can change content
+      type}
+  model: auth.permission
+  pk: 17
+- fields: {codename: delete_contenttype, content_type: 6, name: Can delete content
+      type}
+  model: auth.permission
+  pk: 18
+- fields: {codename: add_session, content_type: 7, name: Can add session}
+  model: auth.permission
+  pk: 19
+- fields: {codename: change_session, content_type: 7, name: Can change session}
+  model: auth.permission
+  pk: 20
+- fields: {codename: delete_session, content_type: 7, name: Can delete session}
+  model: auth.permission
+  pk: 21
+- fields: {codename: add_site, content_type: 8, name: Can add site}
+  model: auth.permission
+  pk: 22
+- fields: {codename: change_site, content_type: 8, name: Can change site}
+  model: auth.permission
+  pk: 23
+- fields: {codename: delete_site, content_type: 8, name: Can delete site}
+  model: auth.permission
+  pk: 24
+- fields: {codename: add_emailaddress, content_type: 9, name: Can add email address}
+  model: auth.permission
+  pk: 25
+- fields: {codename: change_emailaddress, content_type: 9, name: Can change email
+      address}
+  model: auth.permission
+  pk: 26
+- fields: {codename: delete_emailaddress, content_type: 9, name: Can delete email
+      address}
+  model: auth.permission
+  pk: 27
+- fields: {codename: add_emailconfirmation, content_type: 10, name: Can add email
+      confirmation}
+  model: auth.permission
+  pk: 28
+- fields: {codename: change_emailconfirmation, content_type: 10, name: Can change
+      email confirmation}
+  model: auth.permission
+  pk: 29
+- fields: {codename: delete_emailconfirmation, content_type: 10, name: Can delete
+      email confirmation}
+  model: auth.permission
+  pk: 30
+- fields: {codename: add_socialapp, content_type: 11, name: Can add social application}
+  model: auth.permission
+  pk: 31
+- fields: {codename: change_socialapp, content_type: 11, name: Can change social application}
+  model: auth.permission
+  pk: 32
+- fields: {codename: delete_socialapp, content_type: 11, name: Can delete social application}
+  model: auth.permission
+  pk: 33
+- fields: {codename: add_socialaccount, content_type: 12, name: Can add social account}
+  model: auth.permission
+  pk: 34
+- fields: {codename: change_socialaccount, content_type: 12, name: Can change social
+      account}
+  model: auth.permission
+  pk: 35
+- fields: {codename: delete_socialaccount, content_type: 12, name: Can delete social
+      account}
+  model: auth.permission
+  pk: 36
+- fields: {codename: add_socialtoken, content_type: 13, name: Can add social application
+      token}
+  model: auth.permission
+  pk: 37
+- fields: {codename: change_socialtoken, content_type: 13, name: Can change social
+      application token}
+  model: auth.permission
+  pk: 38
+- fields: {codename: delete_socialtoken, content_type: 13, name: Can delete social
+      application token}
+  model: auth.permission
+  pk: 39
+- fields: {codename: add_tag, content_type: 14, name: Can add Tag}
+  model: auth.permission
+  pk: 40
+- fields: {codename: change_tag, content_type: 14, name: Can change Tag}
+  model: auth.permission
+  pk: 41
+- fields: {codename: delete_tag, content_type: 14, name: Can delete Tag}
+  model: auth.permission
+  pk: 42
+- fields: {codename: add_taggeditem, content_type: 15, name: Can add Tagged Item}
+  model: auth.permission
+  pk: 43
+- fields: {codename: change_taggeditem, content_type: 15, name: Can change Tagged
+      Item}
+  model: auth.permission
+  pk: 44
+- fields: {codename: delete_taggeditem, content_type: 15, name: Can delete Tagged
+      Item}
+  model: auth.permission
+  pk: 45
+- fields: {codename: add_vouch, content_type: 16, name: Can add vouch}
+  model: auth.permission
+  pk: 46
+- fields: {codename: change_vouch, content_type: 16, name: Can change vouch}
+  model: auth.permission
+  pk: 47
+- fields: {codename: delete_vouch, content_type: 16, name: Can delete vouch}
+  model: auth.permission
+  pk: 48
+- fields: {codename: add_project, content_type: 17, name: Can add project}
+  model: auth.permission
+  pk: 49
+- fields: {codename: change_project, content_type: 17, name: Can change project}
+  model: auth.permission
+  pk: 50
+- fields: {codename: delete_project, content_type: 17, name: Can delete project}
+  model: auth.permission
+  pk: 51
+- fields: {codename: add_submission, content_type: 18, name: Can add submission}
+  model: auth.permission
+  pk: 52
+- fields: {codename: change_submission, content_type: 18, name: Can change submission}
+  model: auth.permission
+  pk: 53
+- fields: {codename: delete_submission, content_type: 18, name: Can delete submission}
+  model: auth.permission
+  pk: 54
+- fields:
+    date_joined: 2015-06-22 14:05:39.475250+00:00
+    email: test@admin.com
+    groups: []
+    is_active: true
+    is_staff: true
+    is_superuser: true
+    last_login: 2015-06-22 14:06:41.972366+00:00
+    password: pbkdf2_sha256$20000$Rsq7J0Zyu4dm$ETvHv/VPFusCvuT9HAJxZRzlxd5ZBtEixpfU1VofAyg=
+    profile_slug: sample_admin
+    public_name: Sample Admin
+    user_permissions: []
+  model: profiles.profile
+  pk: 1
+- fields:
+    date_joined: 2015-06-22 14:06:59.882117+00:00
+    email: test@verified.com
+    groups: []
+    is_active: true
+    is_staff: false
+    is_superuser: false
+    last_login: 2015-06-22 14:08:08.492791+00:00
+    password: pbkdf2_sha256$20000$ooJt9bw3uN9k$OeFXvODX2dkF8y1UAh+oEpx8TFp5Wi+1pkGmU6FBq3k=
+    profile_slug: sample_verified_user
+    public_name: Sample Verified User
+    user_permissions: []
+  model: profiles.profile
+  pk: 2
+- fields:
+    date_joined: 2015-06-22 14:07:43.872383+00:00
+    email: test@unverified.com
+    groups: []
+    is_active: true
+    is_staff: false
+    is_superuser: false
+    last_login: null
+    password: pbkdf2_sha256$20000$zTgoKuKNTxyV$7rK7vOu5K6OIdatDyz9R8OhkIV3UafonnibohBiEDDg=
+    profile_slug: null
+    public_name: null
+    user_permissions: []
+  model: profiles.profile
+  pk: 3
+- fields: {content_type: 17, created_date: ! '2015-06-22 14:22:01+00:00', message: Sample
+      report., object_id: 1, resolved: false, user: 2}
+  model: reports.report
+  pk: 1
+- fields: {content_type: 17, created_date: ! '2015-06-22 14:22:17+00:00', message: Sample
+      resolved report., object_id: 1, resolved: true, user: 2}
+  model: reports.report
+  pk: 2
+- fields: {action_flag: 1, action_time: ! '2015-06-22 14:10:48.695626+00:00', change_message: '',
+    content_type: 18, object_id: '1', object_repr: 'https://www.djangoproject.com/diversity/',
+    user: 1}
+  model: admin.logentry
+  pk: 1
+- fields: {action_flag: 1, action_time: ! '2015-06-22 14:17:28.433982+00:00', change_message: '',
+    content_type: 18, object_id: '2', object_repr: 'http://github.com/', user: 1}
+  model: admin.logentry
+  pk: 2
+- fields: {action_flag: 1, action_time: ! '2015-06-22 14:18:07.935463+00:00', change_message: '',
+    content_type: 17, object_id: '2', object_repr: Emberjs, user: 1}
+  model: admin.logentry
+  pk: 3
+- fields: {action_flag: 1, action_time: ! '2015-06-22 14:20:20.353446+00:00', change_message: '',
+    content_type: 18, object_id: '3', object_repr: 'https://github.com/emberjs/website/blob/master/source/guidelines.html.erb',
+    user: 1}
+  model: admin.logentry
+  pk: 4
+- fields: {action_flag: 1, action_time: ! '2015-06-22 14:21:12.666795+00:00', change_message: '',
+    content_type: 16, object_id: '1', object_repr: Vouch object, user: 1}
+  model: admin.logentry
+  pk: 5
+- fields: {action_flag: 1, action_time: ! '2015-06-22 14:21:19.024323+00:00', change_message: '',
+    content_type: 16, object_id: '2', object_repr: Vouch object, user: 1}
+  model: admin.logentry
+  pk: 6
+- fields: {action_flag: 1, action_time: ! '2015-06-22 14:21:50.164266+00:00', change_message: '',
+    content_type: 16, object_id: '3', object_repr: Vouch object, user: 1}
+  model: admin.logentry
+  pk: 7
+- fields: {action_flag: 1, action_time: ! '2015-06-22 14:22:15.527050+00:00', change_message: '',
+    content_type: 2, object_id: '1', object_repr: Report object, user: 1}
+  model: admin.logentry
+  pk: 8
+- fields: {action_flag: 1, action_time: ! '2015-06-22 14:22:26.980002+00:00', change_message: '',
+    content_type: 2, object_id: '2', object_repr: Report object, user: 1}
+  model: admin.logentry
+  pk: 9
+- fields: {action_flag: 1, action_time: ! '2015-06-22 14:23:17.178688+00:00', change_message: '',
+    content_type: 17, object_id: '3', object_repr: Sample Unverified Project, user: 1}
+  model: admin.logentry
+  pk: 10
+- fields: {email: test@admin.com, primary: true, user: 1, verified: true}
+  model: account.emailaddress
+  pk: 1
+- fields: {email: test@verified.com, primary: true, user: 2, verified: true}
+  model: account.emailaddress
+  pk: 2
+- fields: {email: test@unverified.com, primary: true, user: 3, verified: false}
+  model: account.emailaddress
+  pk: 3
+- fields: {content_type: 17, created_date: ! '2015-06-22 14:20:41+00:00', object_id: 1,
+    user: 1}
+  model: projects.vouch
+  pk: 1
+- fields: {content_type: 17, created_date: ! '2015-06-22 14:21:12+00:00', object_id: 1,
+    user: 2}
+  model: projects.vouch
+  pk: 2
+- fields: {content_type: 18, created_date: ! '2015-06-22 14:21:22+00:00', object_id: 1,
+    user: 1}
+  model: projects.vouch
+  pk: 3
+- fields: {code_of_conduct: 'https://www.djangoproject.com/conduct/', created_date: ! '2015-06-22
+      14:09:50.798964+00:00', homepage: 'https://www.djangoproject.com/', name: Django,
+    user: 2, verified_by: 1, verified_date: ! '2015-06-22 14:22:41.102502+00:00'}
+  model: projects.project
+  pk: 1
+- fields: {code_of_conduct: 'http://emberjs.com/guidelines/', created_date: ! '2015-06-22
+      14:17:36+00:00', homepage: 'http://emberjs.com/', name: Emberjs, user: 2, verified_by: 1,
+    verified_date: ! '2015-06-22 14:17:38+00:00'}
+  model: projects.project
+  pk: 2
+- fields: {code_of_conduct: '', created_date: ! '2015-06-22 14:22:57+00:00', homepage: 'http://google.com',
+    name: Sample Unverified Project, user: 2, verified_by: null, verified_date: null}
+  model: projects.project
+  pk: 3
+- fields: {created_date: ! '2015-06-22 14:10:08+00:00', is_contributor: false, private_message: Sample
+      PM to moderators., project: 1, public_message: Django released an awesome community
+      Diversity Statement which inspired this whole thing., updated_date: ! '2015-06-22
+      14:10:08+00:00', url: 'https://www.djangoproject.com/diversity/', user: 2, verified_by: 1,
+    verified_date: ! '2015-06-22 14:10:10+00:00'}
+  model: projects.submission
+  pk: 1
+- fields: {created_date: ! '2015-06-22 14:16:55+00:00', is_contributor: true, private_message: Sample
+      queer contributor., project: 1, public_message: '', updated_date: ! '2015-06-22
+      14:16:55+00:00', url: 'http://github.com/', user: 2, verified_by: 1, verified_date: ! '2015-06-22
+      14:16:57+00:00'}
+  model: projects.submission
+  pk: 2
+- fields: {created_date: ! '2015-06-22 14:18:26+00:00', is_contributor: false, private_message: '',
+    project: 2, public_message: Submit a pull request to the Emberjs code of conduct.,
+    updated_date: ! '2015-06-22 14:18:26+00:00', url: 'https://github.com/emberjs/website/blob/master/source/guidelines.html.erb',
+    user: 2, verified_by: 1, verified_date: ! '2015-06-22 14:18:27+00:00'}
+  model: projects.submission
+  pk: 3

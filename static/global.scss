@@ -64,6 +64,20 @@ table {
     color: #fff;
     font-weight: 300;
     padding: 0.05em 0.4em;
+
+    a {
+        text-decoration: none;
+        color: #fff;
+    }
+
+    &.comfy {
+        padding: 0.2em 0.6em;
+        font-size: 1.2em;
+    }
+}
+
+.project {
+    margin: 1em;
 }
 
 #projects {

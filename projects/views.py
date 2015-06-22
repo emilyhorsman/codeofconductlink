@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
 from profiles.access_mixins import VerifiedEmailRequiredMixin
 from .models import Project, Report
-from .forms import CreateProjectForm
+from .forms import CreateProjectForm, UpdateProjectForm
 
 class ProjectIndex(ListView):
     context_object_name = 'projects'
@@ -48,6 +48,17 @@ class ProjectDetail(DetailView):
         if reports:
             context['reports'] = self.object.reports
         return context
+
+class ProjectUpdate(VerifiedEmailRequiredMixin, UpdateView):
+    model = Project
+    form_class = UpdateProjectForm
+    template_name = 'projects/project_form.html'
+
+    def permission_test(self, request, *args, **kwargs):
+        return Project.objects.filter(user=request.user, pk=kwargs['pk']).exists()
+
+class ProjectDelete(CreateView):
+    pass
 
 class CreateProject(VerifiedEmailRequiredMixin, CreateView):
     form_class = CreateProjectForm

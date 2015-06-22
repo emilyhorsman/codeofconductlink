@@ -30,7 +30,7 @@ $font-stack: 'Open Sans', sans-serif;
 }
 
 .pure-button {
-    &.button-report {
+    &.button-danger, &.button-report {
         background: $alizarin;
         color: #fff;
         &:hover {

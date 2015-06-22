@@ -26,3 +26,9 @@ class CreateProjectForm(create_crispy_model_form(
         fields = ('name', 'homepage', 'code_of_conduct', 'tags',)
 
     recaptcha = ReCAPTCHAField()
+
+class UpdateProjectForm(create_crispy_model_form(
+                        legend_text='Edit Project')):
+    class Meta:
+        model = Project
+        fields = ('name', 'homepage', 'code_of_conduct', 'tags',)

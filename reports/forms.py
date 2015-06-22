@@ -1,6 +1,10 @@
 from django.forms import models, Widget
 from .models import Report
 
+class TextWidget(Widget):
+    def render(self, name, value, attrs=None):
+        return '<p>{}</p>'.format(value)
+
 class UpdateReportForm(models.ModelForm):
     class Meta:
         model  = Report
@@ -13,7 +17,14 @@ class UpdateReportForm(models.ModelForm):
         user = kwargs.pop('request_user')
         super(UpdateReportForm, self).__init__(*args, **kwargs)
         if user.is_moderator:
+            self.instance.message_readonly = True
+            self.fields['message'].widget = TextWidget()
             self.fields['message'].widget.attrs['readonly'] = True
 
     def clean_message(self):
-        return self.instance.message
+        # We don't care what the moderator has to say. Return the original
+        # message (it is readonly to moderators).
+        if getattr(self.instance, 'message_readonly', False):
+            del self.instance.message_readonly
+            return self.instance.message
+        return self.cleaned_data['message']

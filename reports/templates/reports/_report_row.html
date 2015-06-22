@@ -1,0 +1,13 @@
+<tr>
+    <td>
+        {% if report.resolved %}
+        <span class="resolved-mark">Resolved.</span>
+        {% endif %}
+        <a href="{% url "reports:update" report.pk %}" title="Update Report">Update Report</a>
+    </td>
+    <td>{{ report.created_date }}</td>
+    <td>
+        by {{ report.user.name }}<br />
+        {{ report.message }}
+    </td>
+</tr>

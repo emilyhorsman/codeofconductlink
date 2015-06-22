@@ -29,11 +29,21 @@ $font-stack: 'Open Sans', sans-serif;
     font-family: $font-stack;
 }
 
+.pure-button {
+    &.button-report {
+        background: $alizarin;
+        color: #fff;
+        &:hover {
+            background: darken($alizarin, 10%);
+        }
+    }
+}
+
 .message {
     padding: 0.5em;
     background: #333;
     border-bottom: 1px solid #eee;
-    &.success {
+    &.danger {
         background: $emerald;
     }
 }
@@ -136,4 +146,9 @@ p {
 h3.project-name a {
     text-decoration: none;
     color: #000;
+}
+
+.report-table {
+    font-size: 80%;
+    td { vertical-align: top; }
 }

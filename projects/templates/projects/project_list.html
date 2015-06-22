@@ -32,11 +32,7 @@
                     </td>
                     <td>
                         {% if not project.verified_date %}
-                            {% if user.can_verify %}
-                            <a class="pure-button pure-button-primary" href="{% url "projects:verify" project.pk %}" title="Verify">Verify</a>
-                            {% else %}
                             Awaiting verification&hellip;
-                            {% endif %}
                         {% endif %}
                     </td>
                 </tr>

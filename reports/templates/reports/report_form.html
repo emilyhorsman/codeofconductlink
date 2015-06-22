@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<form method="POST" action="" class="pure-form pure-form-stacked">
+    {% csrf_token %}
+    <fieldset>
+        <legend>Modify Report Resolution</legend>
+        <p>{{ title }}</p>
+        {{ form.as_p }}
+        <input type="submit" value="Submit" class="pure-button pure-button-primary" />
+    </fieldset>
+</form>
+{% endblock %}

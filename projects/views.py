@@ -1,13 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, FormView, UpdateView
 from django.utils.decorators import method_decorator
 from django.db.models import Q
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
 from allauth.account.decorators import verified_email_required
-from .models import Project
-from .forms import CreateProjectForm, CreateReportForm
+from .models import Project, Report
+from .forms import CreateProjectForm
 
 class ProjectIndex(ListView):
     context_object_name = 'projects'
@@ -18,7 +18,7 @@ class ProjectIndex(ListView):
         # - not verified but the project's user is logged in
         # - not verified but a staff member/moderator is logged in
         u = self.request.user
-        if u.is_authenticated() and u.can_verify:
+        if u.is_authenticated() and u.is_moderator:
             return Project.objects.all().order_by('verified_date')
 
         return Project.objects.filter(
@@ -36,8 +36,8 @@ class ProjectDetail(DetailView):
     context_object_name = 'project'
 
     def get_context_data(self, **kwargs):
-        context = super(ProjectDetail, self).get_context_data(**kwargs)
-        context['report_form'] = CreateReportForm()
+        context = super(DetailView, self).get_context_data(**kwargs)
+        context['report_text'] = self.object.report_text
         return context
 
 class CreateProject(CreateView):
@@ -55,9 +55,8 @@ class CreateProject(CreateView):
     def dispatch(self, *args, **kwargs):
         return super(CreateProject, self).dispatch(*args, **kwargs)
 
-def can_verify(user):
-    r = user.can_verify
-    return r
+def can_verify(self):
+    return self.request.user.is_moderator
 
 @user_passes_test(can_verify)
 def verify(request, pk):

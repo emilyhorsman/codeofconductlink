@@ -8,8 +8,3 @@ class CreateProjectForm(models.ModelForm):
         fields = ('name', 'homepage', 'code_of_conduct', 'tags',)
 
     recaptcha = ReCAPTCHAField()
-
-class CreateReportForm(models.ModelForm):
-    class Meta:
-        model = Report
-        fields = ('message',)

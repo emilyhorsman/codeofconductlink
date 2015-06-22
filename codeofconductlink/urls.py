@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     url(r'^profiles/', include('profiles.urls', namespace='profiles')),
     url(r'^projects/', include('projects.urls', namespace='projects')),
+    url(r'^reports/', include('reports.urls', namespace='reports')),
     url(r'^$', projects.views.ProjectIndex.as_view(), name='index'),
 ]

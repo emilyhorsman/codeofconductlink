@@ -18,7 +18,7 @@ class Profile(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     @property
-    def can_verify(self):
+    def is_moderator(self):
         return self.is_staff
 
     @property

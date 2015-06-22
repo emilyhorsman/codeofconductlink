@@ -2,13 +2,37 @@
 
 {% block outsidewrapper %}
 {% if not project.verified_date %}
-<div class="project-verification">
-<p><b>This project is awaiting verification.</b> A member of our staff has not yet approved this project for public listing. The information on this page may be wrong.</p>
-{% include "reports/_report_form.html" with form=report_form %}
+    <div class="project-verification">
+    <p><b>This project is awaiting verification.</b> A member of our staff has not yet approved this project for public listing. The information on this page may be wrong.</p>
+    {% if user.is_authenticated %}
+    <p>
+    <a href="{{ project.get_report_url }}" title="Report Project" class="pure-button button-report">Report this project</a>
+    </p>
+    <p class="project-reports">{{ report_text }}</p>
+    {% endif %}
 </div>
 {% endif %}
 {% endblock %}
 
 {% block content %}
 <h3 class="project-name"><a href="{{ project.get_absolute_url }}" title="{{ project.name }}">{{ project.name }}</a></h3>
+
+<p class="project-reports">{{ report_text }}</p>
+{% if user.is_authenticated and user.is_moderator %}
+    <p>You are seeing this table because you are a moderator.</p>
+    <table class="pure-table report-table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Date</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in project.reports.all %}
+                {% include "reports/_report_row.html" with report=report %}</li>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
 {% endblock %}

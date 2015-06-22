@@ -6,6 +6,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.utils.text import slugify
 from taggit.managers import TaggableManager
+from reports.models import Report
 
 class Vouch(models.Model):
     content_type   = models.ForeignKey(ContentType)
@@ -14,17 +15,6 @@ class Vouch(models.Model):
 
     user           = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='vouches')
     created_date   = models.DateTimeField(default=timezone.now)
-
-class Report(models.Model):
-    content_type   = models.ForeignKey(ContentType)
-    object_id      = models.PositiveIntegerField()
-    content_object = GenericForeignKey()
-
-    user           = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='reports')
-    message        = models.TextField(blank=True, null=True)
-    created_date   = models.DateTimeField(default=timezone.now)
-    resolved       = models.BooleanField(default=False)
-    vouches        = GenericRelation(Vouch)
 
 class VerifiedModel(models.Model):
     class Meta:
@@ -49,6 +39,18 @@ class Project(VerifiedModel):
     tags            = TaggableManager(blank=True)
     reports         = GenericRelation(Report)
     vouches         = GenericRelation(Vouch)
+
+    def report_text(self):
+        n = self.reports.count()
+        if n == 0:
+            return 'No reports have been filed on this project.'
+        elif n == 1:
+            return '1 report has been filed on this project.'
+        else:
+            return '{} reports have been filed on this project.'.format(n)
+
+    def get_report_url(self):
+        return '{}?project={}&target={}'.format(reverse('reports:new'), self.pk, self.name)
 
     def get_absolute_url(self):
         return reverse('projects:detail', args=(self.pk, slugify(self.name),))

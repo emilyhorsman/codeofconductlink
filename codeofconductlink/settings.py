@@ -53,6 +53,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'taggit',
     'projects',
+    'braces',
 )
 
 MIDDLEWARE_CLASSES = (

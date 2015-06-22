@@ -43,8 +43,11 @@ $font-stack: 'Open Sans', sans-serif;
     padding: 0.5em;
     background: #333;
     border-bottom: 1px solid #eee;
-    &.danger {
+    &.success {
         background: $emerald;
+    }
+    &.error {
+        background: $alizarin;
     }
 }
 

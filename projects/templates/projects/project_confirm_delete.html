@@ -1,6 +1,9 @@
 {% extends "layout.html" %}
 
-{% load crispy_forms_tags %}
 {% block content %}
-{% crispy form %}
+<form method="POST" class="pure-form">
+    {% csrf_token %}
+    <p>Are you sure you want to delete the project &lsquo;{{ object }}&rsquo;?</p>
+    <input type="submit" value="Delete" class="pure-button button-danger" />
+</form>
 {% endblock %}

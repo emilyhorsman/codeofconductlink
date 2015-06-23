@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect
-from django.core.urlresolvers import reverse
-from django.views.generic import View, ListView, DetailView, CreateView, FormView, UpdateView
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.views.generic import View, ListView, DetailView, DeleteView, CreateView, FormView, UpdateView
 from django.db.models import Q
 from django.contrib import messages
 from braces.views import UserPassesTestMixin
@@ -61,9 +61,10 @@ class ProjectUpdate(ProjectOwnerPermissionsMixin,
 
 class ProjectDelete(ProjectOwnerPermissionsMixin,
                     VerifiedEmailRequiredMixin,
-                    CreateView):
+                    DeleteView):
     model = Project
-    form_class = forms.DeleteProjectForm
+    template_name = 'projects/project_confirm_delete.html'
+    success_url = reverse_lazy('projects:index')
 
 class CreateProject(VerifiedEmailRequiredMixin, CreateView):
     form_class = forms.CreateProjectForm

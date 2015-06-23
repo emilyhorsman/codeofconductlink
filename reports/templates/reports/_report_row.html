@@ -3,11 +3,17 @@
         {% if report.resolved %}
         <span class="resolved-mark">Resolved.</span>
         {% endif %}
+        {% if user.is_moderator or report.user == user %}
         <a href="{% url "reports:update" report.pk %}" title="Update Report">Update Report</a>
+        {% endif %}
     </td>
     <td>{{ report.created_date }}</td>
     <td>
+        {% if report.user == user %}
+        by You!<br />
+        {% else %}
         by {{ report.user.name }}<br />
+        {% endif %}
         {{ report.message }}
     </td>
 </tr>

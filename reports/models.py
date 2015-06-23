@@ -18,3 +18,6 @@ class Report(models.Model):
     resolved         = models.BooleanField(default=False)
     visible_to_owner = models.BooleanField(default=False,
                                            help_text='I want to let the owner of this content see this report. If I do not opt-in, the owner will not see my report.')
+
+    def check_update_permission(self, user):
+        return user.is_moderator or self.user == user

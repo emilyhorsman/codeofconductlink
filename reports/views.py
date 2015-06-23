@@ -1,8 +1,10 @@
 from django.views.generic import UpdateView, CreateView
 from django.contrib.contenttypes.models import ContentType
 from django.utils.decorators import method_decorator
-from django.shortcuts import get_object_or_404
-from braces.views import FormValidMessageMixin
+from django.shortcuts import get_object_or_404, redirect
+from django.core.urlresolvers import reverse
+from django.contrib import messages
+from braces.views import UserPassesTestMixin, FormValidMessageMixin
 from projects.models import Project
 from common.access_mixins import VerifiedEmailRequiredMixin
 from .models import Report
@@ -32,18 +34,22 @@ class CreateReport(FormValidMessageMixin,
         self.success_url = target.get_absolute_url()
         return super(CreateReport, self).form_valid(form)
 
-class UpdateReport(VerifiedEmailRequiredMixin,
+class UpdateReport(UserPassesTestMixin,
                    FormValidMessageMixin,
                    UpdateView):
     model      = Report
     form_class = UpdateReportForm
     form_valid_message = 'Report updated.'
 
-    def permission_test(self, request, *args, **kwargs):
-        if not request.user.is_authenticated():
+    def test_func(self, user):
+        if not user.is_authenticated():
             return False
-        return request.user.is_moderator or Report.objects.filter(pk=kwargs['pk'],
-                                                                  user=request.user).exists()
+        return user.is_moderator or Report.objects.filter(pk=self.request.resolver_match.kwargs['pk'],
+                                                          user=user).exists()
+
+    def no_permissions_fail(self, request):
+        messages.error(request, 'You are not the owner of that report.')
+        return redirect(reverse('projects:index'))
 
     def get_success_url(self):
         return self.object.content_object.get_absolute_url()

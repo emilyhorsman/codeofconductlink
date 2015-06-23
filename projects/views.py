@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
-from django.views.generic import ListView, DetailView, CreateView, FormView, UpdateView
+from django.views.generic import View, ListView, DetailView, CreateView, FormView, UpdateView
 from django.utils.decorators import method_decorator
 from django.db.models import Q
 from django.contrib.auth.decorators import user_passes_test
@@ -68,7 +68,7 @@ class ProjectUpdate(UserPassesTestMixin,
 
     def no_permissions_fail(self, request):
         messages.error(request, 'You must be the project owner to edit this project.')
-        return redirect(reverse("projects:detail", args=(self.request.resolver_match.kwargs['pk'],)))
+        return redirect(reverse('projects:detail', args=(self.request.resolver_match.kwargs['pk'],)))
 
 class ProjectDelete(UserPassesTestMixin,
                     VerifiedEmailRequiredMixin,
@@ -82,7 +82,7 @@ class ProjectDelete(UserPassesTestMixin,
 
     def no_permissions_fail(self, request):
         messages.error(request, 'You must be the project owner to delete this project.')
-        return redirect(reverse("projects:detail", args=(self.request.resolver_match.kwargs['pk'],)))
+        return redirect(reverse('projects:detail', args=(self.request.resolver_match.kwargs['pk'],)))
 
 class CreateProject(VerifiedEmailRequiredMixin, CreateView):
     form_class = CreateProjectForm
@@ -95,12 +95,16 @@ class CreateProject(VerifiedEmailRequiredMixin, CreateView):
             form.instance.verify(form.instance.user, False)
         return super(CreateProject, self).form_valid(form)
 
-def can_verify(user):
-    return user.is_moderator
+class ProjectVerify(UserPassesTestMixin, View):
+    def get(self, request, *args, **kwargs):
+        project = get_object_or_404(Project, pk=kwargs['pk'])
+        project.verify(request.user)
+        messages.success(request, '{} has been verified.'.format(project.name))
+        return redirect(reverse('projects:detail', args=(project.pk, project.name,)))
 
-@user_passes_test(can_verify)
-def verify(request, pk):
-    project = get_object_or_404(Project, pk=pk)
-    project.verify(request.user)
-    messages.success(request, '{} has been verified.'.format(project.name))
-    return redirect(reverse('index'))
+    def test_func(self, user):
+        return user.is_moderator
+
+    def no_permissions_fail(self, request):
+        messages.error(request, 'You must be a moderator to verify this project.')
+        return redirect(reverse('projects:detail', args=(self.request.resolver_match.kwargs['pk'],)))

@@ -26,7 +26,7 @@ class CreateReportForm(models.ModelForm):
 class UpdateReportForm(create_crispy_model_form(legend_text='Modify report resolution')):
     class Meta:
         model  = Report
-        fields = ('resolved', 'message',)
+        fields = ('resolved', 'visible_to_owner', 'message',)
 
     # The message should be readonly if the user is not the owner. (e.g.
     # moderator is resolving a report)
@@ -34,15 +34,18 @@ class UpdateReportForm(create_crispy_model_form(legend_text='Modify report resol
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('request_user')
         super(UpdateReportForm, self).__init__(*args, **kwargs)
-        if user.is_moderator:
-            self.instance.message_readonly = True
+        # Moderators can't edit _other_ people's messages.
+        if user.is_moderator and self.instance.user != user:
+            self.instance.only_edit_resolution = True
             self.fields['message'].widget = TextWidget()
             self.fields['message'].widget.attrs['readonly'] = True
+            self.fields['visible_to_owner'].widget = TextWidget()
+            self.fields['visible_to_owner'].widget.attrs['readonly'] = True
 
-    def clean_message(self):
+    def clean(self):
         # We don't care what the moderator has to say. Return the original
-        # message (it is readonly to moderators).
-        if getattr(self.instance, 'message_readonly', False):
-            del self.instance.message_readonly
-            return self.instance.message
-        return self.cleaned_data['message']
+        # fields that don't involve report resolution.
+        if getattr(self.instance, 'only_edit_resolution', False):
+            del self.instance.only_edit_resolution
+            self.cleaned_data['message'] = self.instance.message
+            self.cleaned_data['visible_to_owner'] = self.instance.visible_to_owner

@@ -1,16 +1,27 @@
-from django.forms import Widget
-from common.forms import create_crispy_model_form
+from django.forms import models, Widget
+from crispy_forms.layout import Submit, Layout, Fieldset, HTML
+from common.forms import pure_helper, create_crispy_model_form
 from .models import Report
 
 class TextWidget(Widget):
     def render(self, name, value, attrs=None):
         return '<p>{}</p>'.format(value)
 
-class CreateReportForm(create_crispy_model_form(legend_text='File report',
-                                                submit_text='Report')):
+class CreateReportForm(models.ModelForm):
     class Meta:
         model  = Report
-        fields = ('message',)
+        fields = ('message', 'visible_to_owner',)
+
+    def __init__(self, *args, **kwargs):
+        target = kwargs.pop('target')
+        super(CreateReportForm, self).__init__(*args, **kwargs)
+        self.helper = pure_helper()
+        self.helper.layout = Layout(
+            Fieldset('Filing a report on {}'.format(target),
+                     HTML("""<p class="backed form-message">Your report will only be visible to moderators by default. It will never be available to the general public.</p>"""),
+                     *self.Meta.fields),
+            Submit('submit', 'File Report', css_class='pure-button pure-button-primary')
+        )
 
 class UpdateReportForm(create_crispy_model_form(legend_text='Modify report resolution')):
     class Meta:

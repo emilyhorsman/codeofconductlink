@@ -56,6 +56,28 @@ $font-stack: 'Open Sans', sans-serif;
     }
 }
 
+form {
+    .formHint {
+        max-width: 30em;
+        margin-left: 1em;
+        font-weight: 700;
+        font-size: 0.8em;
+        color: #333;
+    }
+
+    label {
+        font-weight: 700;
+    }
+
+    .checkboxinput {
+        margin-left: 0.3em;
+    }
+
+    .ctrlHolder {
+        margin-bottom: 1em;
+    }
+}
+
 .center {
     margin: 0 auto;
 }
@@ -78,6 +100,12 @@ table {
     &.comfy {
         padding: 0.2em 0.6em;
         font-size: 1.2em;
+    }
+
+    &.form-message {
+        max-width: 25em;
+        padding: 1em;
+        font-size: 0.9em;
     }
 }
 

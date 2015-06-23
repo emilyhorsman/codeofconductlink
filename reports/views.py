@@ -1,33 +1,35 @@
 from django.views.generic import UpdateView, CreateView
+from django.contrib.contenttypes.models import ContentType
 from django.utils.decorators import method_decorator
-from django.http import Http404
+from django.shortcuts import get_object_or_404
 from braces.views import FormValidMessageMixin
 from projects.models import Project
 from common.access_mixins import VerifiedEmailRequiredMixin
 from .models import Report
 from .forms import CreateReportForm, UpdateReportForm
+import projects.models
 
 class CreateReport(FormValidMessageMixin,
                    VerifiedEmailRequiredMixin,
                    CreateView):
     model = Report
     form_class = CreateReportForm
-    form_valid_message = 'Report filed.'
+    form_valid_message = 'Report filed, thank you <3!'
 
-    def get_context_data(self, **kwargs):
-        context = super(CreateReport, self).get_context_data(**kwargs)
-        context['title'] = 'Report on {}'.format(self.request.GET.get('target'))
-        return context
+    def get_target_object(self, request):
+        return get_object_or_404(getattr(projects.models, self.request.GET['model']),
+                                 pk=self.request.GET['pk'])
+
+    def get_form_kwargs(self):
+        kwargs = super(CreateReport, self).get_form_kwargs()
+        kwargs.update({ 'target': self.get_target_object(self.request) })
+        return kwargs
 
     def form_valid(self, form):
-        if 'project' in self.request.GET:
-            try:
-                project = Project.objects.get(pk=self.request.GET['project'])
-            except Project.DoesNotExist:
-                raise Http404
-            form.instance.content_object = project
-            self.success_url = project.get_absolute_url()
+        target = self.get_target_object(self.request)
+        form.instance.content_object = target
         form.instance.user = self.request.user
+        self.success_url = target.get_absolute_url()
         return super(CreateReport, self).form_valid(form)
 
 class UpdateReport(VerifiedEmailRequiredMixin,

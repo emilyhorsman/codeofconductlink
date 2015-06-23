@@ -2,6 +2,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelatio
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.db.models import Q
 from django.conf import settings
 from django.utils import timezone
 from django.utils.text import slugify
@@ -41,17 +42,25 @@ class Project(VerifiedModel):
     vouches         = GenericRelation(Vouch)
 
     def get_report_url(self):
-        return '{}?project={}&target={}'.format(reverse('reports:new'), self.pk, self.name)
+        return '{}?model=Project&pk={}&target={}'.format(reverse('reports:new'), self.pk, self.name)
 
     def get_absolute_url(self):
         return reverse('projects:detail', args=(self.pk, slugify(self.name),))
 
     def get_reports_for_user(self, request_user):
+        # All reports should be visible to moderators. Reports that have
+        # opted in to being visible to the owner should be visible to the owner
+        # if they're logged in. Otherwise, only your own reports are visible.
         if request_user.is_authenticated():
             if request_user.is_moderator:
                 return self.reports
 
-            return self.reports.filter(user=request_user)
+            # Project owner
+            owner = Q(visible_to_owner=True)
+            by_user = Q(user=request_user)
+            if self.user == request_user:
+                return self.reports.filter(owner | by_user)
+            return self.reports.filter(by_user)
 
     def __str__(self):
         return self.name

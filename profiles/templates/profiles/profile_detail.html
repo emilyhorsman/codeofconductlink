@@ -1,10 +1,9 @@
 {% extends "layout.html" %}
 
 {% load crispy_forms_tags %}
-{% load icons %}
 {% block rowwrapper %}pure-u-1 pure-u-md-1-2{% endblock %}
 {% block content %}
-<p>Hi {{ user  }}! {% icon "heart" %}<br />Your publicly displayed name is <span class="backed">{{ user.name }}</span>.</p>
+<p>Hi {{ user  }}!<br />Your publicly displayed name is <span class="backed">{{ user.name }}</span>.</p>
 
 {% crispy form %}
 <br />

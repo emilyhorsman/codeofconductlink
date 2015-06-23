@@ -5,6 +5,7 @@ from django.utils.decorators import method_decorator
 from django.db.models import Q
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
+from braces.views import UserPassesTestMixin
 from common.access_mixins import VerifiedEmailRequiredMixin
 from .models import Project, Report
 from .forms import CreateProjectForm, UpdateProjectForm, DeleteProjectForm
@@ -54,20 +55,34 @@ class ProjectDetail(DetailView):
 
         return context
 
-class ProjectUpdate(VerifiedEmailRequiredMixin, UpdateView):
+class ProjectUpdate(UserPassesTestMixin,
+                    VerifiedEmailRequiredMixin,
+                    UpdateView):
     model = Project
     form_class = UpdateProjectForm
     template_name = 'projects/project_form.html'
 
-    def permission_test(self, request, *args, **kwargs):
-        return Project.objects.filter(user=request.user, pk=kwargs['pk']).exists()
+    def test_func(self, user):
+        return Project.objects.filter(user=user,
+                                      pk=self.request.resolver_match.kwargs['pk']).exists()
 
-class ProjectDelete(VerifiedEmailRequiredMixin, CreateView):
+    def no_permissions_fail(self, request):
+        messages.error(request, 'You must be the project owner to edit this project.')
+        return redirect(reverse("projects:detail", args=(self.request.resolver_match.kwargs['pk'],)))
+
+class ProjectDelete(UserPassesTestMixin,
+                    VerifiedEmailRequiredMixin,
+                    CreateView):
     model = Project
     form_class = DeleteProjectForm
 
-    def permission_test(self, request, *args, **kwargs):
-        return Project.objects.filter(user=request.user, pk=kwargs['pk']).exists()
+    def test_func(self, user):
+        return Project.objects.filter(user=user,
+                                      pk=self.request.resolver_match.kwargs['pk']).exists()
+
+    def no_permissions_fail(self, request):
+        messages.error(request, 'You must be the project owner to delete this project.')
+        return redirect(reverse("projects:detail", args=(self.request.resolver_match.kwargs['pk'],)))
 
 class CreateProject(VerifiedEmailRequiredMixin, CreateView):
     form_class = CreateProjectForm

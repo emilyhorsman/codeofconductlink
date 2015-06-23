@@ -208,19 +208,21 @@ p {
     td { vertical-align: top; }
 }
 
-a.project-main-link {
-    line-height: 3em;
-    font-size: 1.25em;
-}
-
 div.project-toolbar a, a.project-main-link {
     border-radius: 0.2em;
     color: #fff;
     text-decoration: none;
     padding: 0.3em 0.6em 0.3em 0.3em;
     background-color: $wet-asphalt;
+    &:hover {
+        background-color: darken($wet-asphalt, 10%);
+    }
+    line-height: 2.5em;
     &.delete {
         background-color: $alizarin;
+        &:hover {
+            background-color: darken($alizarin, 10%);
+        }
     }
 }
 

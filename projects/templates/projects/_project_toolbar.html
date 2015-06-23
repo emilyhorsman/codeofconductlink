@@ -1,6 +1,14 @@
+{% load url_extras %}
 <div class="project-toolbar">
-<a href="{{ project.get_report_url }}" title="Report Project"><i class="zmdi zmdi-flag zmd-fw"></i> Report Entry</a>
-<a href="" title="Vouch for Project Community"><i class="zmdi zmdi-favorite-outline zmd-fw"></i> Vouch For Project Community</a>
+{% if project.homepage %}
+<a class="project-main-link" href="{{ project.homepage }}" title="{{ project.homepage|netloc }}"><i class="zmdi zmdi-home zmd-fw"></i> {{ project.homepage|netloc }}</a><br />
+{% endif %}
+{% if project.code_of_conduct %}
+<a class="project-main-link" href="{{ project.code_of_conduct }}" title="Code of Conduct"><i class="zmdi zmdi-face zmd-fw"></i> Code of Conduct</a><br />
+{% endif %}
+
+<a href="{{ project.get_report_url }}" title="Report Project"><i class="zmdi zmdi-flag zmd-fw"></i> Report Entry</a><br />
+<a href="" title="Community Vouch"><i class="zmdi zmdi-favorite-outline zmd-fw"></i> Community Vouch</a><br />
 {% if can_edit %}
     <a href="{% url "projects:update" project.pk %}" title="Edit Project"><i class="zmdi zmdi-edit zmd-fw"></i> Edit</a>
     <a href="{% url "projects:delete" project.pk %}" title="Delete Project (must confirm)" class="delete"><i class="zmdi zmdi-delete zmd-fw"></i> Delete</a>

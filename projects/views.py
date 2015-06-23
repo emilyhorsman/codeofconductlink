@@ -40,34 +40,30 @@ class ProjectDetail(DetailView):
 
         return context
 
-class ProjectUpdate(UserPassesTestMixin,
+class ProjectOwnerPermissionsMixin(UserPassesTestMixin):
+    permission_fail_message = 'You must be the project owner to perform the requested action.'
+
+    def test_func(self, user):
+        return Project.objects.filter(user=user,
+                                      pk=self.request.resolver_match.kwargs['pk']).exists()
+
+    def no_permissions_fail(self, request):
+        messages.error(request, self.permission_fail_message)
+        return redirect(reverse('projects:detail', args=(self.request.resolver_match.kwargs['pk'],)))
+
+
+class ProjectUpdate(ProjectOwnerPermissionsMixin,
                     VerifiedEmailRequiredMixin,
                     UpdateView):
     model = Project
     form_class = forms.UpdateProjectForm
     template_name = 'projects/project_form.html'
 
-    def test_func(self, user):
-        return Project.objects.filter(user=user,
-                                      pk=self.request.resolver_match.kwargs['pk']).exists()
-
-    def no_permissions_fail(self, request):
-        messages.error(request, 'You must be the project owner to edit this project.')
-        return redirect(reverse('projects:detail', args=(self.request.resolver_match.kwargs['pk'],)))
-
-class ProjectDelete(UserPassesTestMixin,
+class ProjectDelete(ProjectOwnerPermissionsMixin,
                     VerifiedEmailRequiredMixin,
                     CreateView):
     model = Project
     form_class = forms.DeleteProjectForm
-
-    def test_func(self, user):
-        return Project.objects.filter(user=user,
-                                      pk=self.request.resolver_match.kwargs['pk']).exists()
-
-    def no_permissions_fail(self, request):
-        messages.error(request, 'You must be the project owner to delete this project.')
-        return redirect(reverse('projects:detail', args=(self.request.resolver_match.kwargs['pk'],)))
 
 class CreateProject(VerifiedEmailRequiredMixin, CreateView):
     form_class = forms.CreateProjectForm

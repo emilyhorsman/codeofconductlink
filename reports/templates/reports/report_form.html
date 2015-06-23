@@ -3,4 +3,8 @@
 {% load crispy_forms_tags %}
 {% block content %}
 {% crispy form %}
+<br />
+{% if form.instance.user == user %}
+<a href="{% url "reports:delete" form.instance.pk %}" title="Delete Report" class="pure-button button-danger">Delete Report</a>
+{% endif %}
 {% endblock %}

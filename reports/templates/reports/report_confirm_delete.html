@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<form method="POST" class="pure-form">
+    {% csrf_token %}
+    <p>Are you sure you want to delete your report?</p>
+    <input type="submit" value="Delete" class="pure-button button-danger" />
+</form>
+{% endblock %}

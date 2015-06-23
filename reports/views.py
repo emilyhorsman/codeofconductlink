@@ -1,4 +1,4 @@
-from django.views.generic import UpdateView, CreateView
+from django.views.generic import UpdateView, CreateView, DeleteView
 from django.contrib.contenttypes.models import ContentType
 from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404, redirect
@@ -10,6 +10,25 @@ from common.access_mixins import VerifiedEmailRequiredMixin
 from .models import Report
 from .forms import CreateReportForm, UpdateReportForm
 import projects.models
+
+class DeleteReport(UserPassesTestMixin,
+                   VerifiedEmailRequiredMixin,
+                   DeleteView):
+    model = Report
+    template_name = 'reports/report_confirm_delete.html'
+
+    def test_func(self, user):
+        return Report.objects.filter(user=user,
+                                     pk=self.request.resolver_match.kwargs['pk']).exists()
+
+    def no_permissions_fail(self, request):
+        messages.error(request, 'You must own the report to delete it.')
+        # This isn't the most ideal place to redirect to, but I don't really
+        # care about the UX of a user that is likely malicious.
+        return redirect(reverse('projects:index'))
+
+    def get_success_url(self):
+        return self.object.content_object.get_absolute_url()
 
 class CreateReport(FormValidMessageMixin,
                    VerifiedEmailRequiredMixin,

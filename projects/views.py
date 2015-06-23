@@ -1,23 +1,19 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.core.urlresolvers import reverse
 from django.views.generic import View, ListView, DetailView, CreateView, FormView, UpdateView
-from django.utils.decorators import method_decorator
 from django.db.models import Q
-from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
 from braces.views import UserPassesTestMixin
 from common.access_mixins import VerifiedEmailRequiredMixin
 from .models import Project, Report
-from .forms import CreateProjectForm, UpdateProjectForm, DeleteProjectForm
+from . import forms
 
 class ProjectIndex(ListView):
     context_object_name = 'projects'
 
     def get_queryset(self):
-        # Only show projects that are
-        # - verified
-        # - not verified but the project's user is logged in
-        # - not verified but a staff member/moderator is logged in
+        # Show all projects if a moderator is logged in. Otherwise only show
+        # verified or owned projects.
         u = self.request.user
         if u.is_authenticated() and u.is_moderator:
             return Project.objects.all().order_by('verified_date')
@@ -38,18 +34,7 @@ class ProjectDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
-        n = self.object.reports.count()
-        if n == 0:
-            context['report_text'] = 'No reports have been filed on this project entry.'
-        elif n == 1:
-            context['report_text'] = '1 report has been filed on this project entry.'
-        else:
-            context['report_text'] = '{} reports have been filed on this project entry.'.format(n)
-
-        reports = self.object.get_reports_for_user(self.request.user)
-        if reports:
-            context['reports'] = self.object.reports
-
+        context['reports'] = self.object.get_reports_for_user(self.request.user)
         if self.object.user == self.request.user:
             context['can_edit'] = True
 
@@ -59,7 +44,7 @@ class ProjectUpdate(UserPassesTestMixin,
                     VerifiedEmailRequiredMixin,
                     UpdateView):
     model = Project
-    form_class = UpdateProjectForm
+    form_class = forms.UpdateProjectForm
     template_name = 'projects/project_form.html'
 
     def test_func(self, user):
@@ -74,7 +59,7 @@ class ProjectDelete(UserPassesTestMixin,
                     VerifiedEmailRequiredMixin,
                     CreateView):
     model = Project
-    form_class = DeleteProjectForm
+    form_class = forms.DeleteProjectForm
 
     def test_func(self, user):
         return Project.objects.filter(user=user,
@@ -85,12 +70,12 @@ class ProjectDelete(UserPassesTestMixin,
         return redirect(reverse('projects:detail', args=(self.request.resolver_match.kwargs['pk'],)))
 
 class CreateProject(VerifiedEmailRequiredMixin, CreateView):
-    form_class = CreateProjectForm
+    form_class = forms.CreateProjectForm
     template_name = 'projects/project_form.html'
 
+    # Automatically verify projects submitted by staff.
     def form_valid(self, form):
         form.instance.user = self.request.user
-        # Automatically verify projects submitted by staff.
         if form.instance.user.is_staff:
             form.instance.verify(form.instance.user, False)
         return super(CreateProject, self).form_valid(form)

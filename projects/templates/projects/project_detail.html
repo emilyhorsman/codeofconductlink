@@ -13,22 +13,26 @@
 
 {% include "projects/_project_toolbar.html" with project=project can_edit=can_edit %}
 
-<p class="project-reports">{{ report_text }}</p>
-{% if reports.count %}
-    <p>You are seeing these reports because you are a moderator or you filed the reports.</p>
-    <table class="pure-table report-table">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Date</th>
-                <th>Message</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for report in project.reports.all %}
-                {% include "reports/_report_row.html" with report=report %}</li>
-            {% endfor %}
-        </tbody>
-    </table>
+{% with n=project.reports.count %}
+<p class="project-reports">{{ n }} report{{ n|pluralize:" has,s have" }} been filed on this project entry.</p>
+{% if n %}
+    {% if reports %}
+        <p>You are seeing these reports because you are a moderator or you filed the reports.</p>
+        <table class="pure-table report-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Date</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports.all %}
+                    {% include "reports/_report_row.html" with report=report %}</li>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
 {% endif %}
+{% endwith %}
 {% endblock %}

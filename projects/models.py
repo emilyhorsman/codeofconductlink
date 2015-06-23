@@ -47,10 +47,11 @@ class Project(VerifiedModel):
         return reverse('projects:detail', args=(self.pk, slugify(self.name),))
 
     def get_reports_for_user(self, request_user):
-        if request_user.is_moderator:
-            return self.reports
+        if request_user.is_authenticated():
+            if request_user.is_moderator:
+                return self.reports
 
-        return self.reports.filter(user=request_user)
+            return self.reports.filter(user=request_user)
 
     def __str__(self):
         return self.name

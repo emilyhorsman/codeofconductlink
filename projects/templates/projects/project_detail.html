@@ -4,15 +4,6 @@
 {% if not project.verified_date %}
     <div class="project-verification">
     <p><b>This project is awaiting verification.</b> A member of our staff has not yet approved this project for public listing. The information on this page may be wrong.</p>
-    {% if user.is_authenticated %}
-        <p>
-        {% include "projects/_report_url.html" with project=project %}
-        {% if user.is_moderator %}
-            <a href="{% url "projects:verify" project.pk %}" title="Verify Project" class="pure-button pure-button-primary">Verify this project</a>
-        {% endif %}
-        </p>
-        <p class="project-reports">{{ report_text }}</p>
-    {% endif %}
 </div>
 {% endif %}
 {% endblock %}
@@ -39,9 +30,5 @@
             {% endfor %}
         </tbody>
     </table>
-{% endif %}
-
-{% if user.is_authenticated %}
-<p>{% include "projects/_report_url.html" with project=project %}</p>
 {% endif %}
 {% endblock %}

@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 
+{% load url_extras %}
 {% block outsidewrapper %}
 {% if not project.verified_date %}
     <div class="project-verification">
@@ -9,7 +10,15 @@
 {% endblock %}
 
 {% block content %}
-<h3 class="project-name"><a href="{{ project.get_absolute_url }}" title="{{ project.name }}">{{ project.name }}</a></h3>
+<h2 class="project-name">
+    <a class="local" href="{{ project.get_absolute_url }}" title="{{ project.name }}">{{ project.name }}</a>
+</h2>
+{% if project.homepage %}
+<a class="project-main-link" href="{{ project.homepage }}" title="{{ project.homepage|netloc }}"><i class="zmdi zmdi-home zmd-fw"></i> {{ project.homepage|netloc }}</a>
+{% endif %}
+{% if project.code_of_conduct %}
+<a class="project-main-link" href="{{ project.code_of_conduct }}" title="Code of Conduct"><i class="zmdi zmdi-face zmd-fw"></i> Code of Conduct</a>
+{% endif %}
 
 {% include "projects/_project_toolbar.html" with project=project can_edit=can_edit %}
 

@@ -1,8 +1,8 @@
 <div class="project-toolbar">
+<a href="{{ project.get_report_url }}" title="Report Project"><i class="zmdi zmdi-flag zmd-fw"></i> Report Entry</a>
+<a href="" title="Vouch for Project Community"><i class="zmdi zmdi-favorite-outline zmd-fw"></i> Vouch For Project Community</a>
 {% if can_edit %}
     <a href="{% url "projects:update" project.pk %}" title="Edit Project"><i class="zmdi zmdi-edit zmd-fw"></i> Edit</a>
     <a href="{% url "projects:delete" project.pk %}" title="Delete Project (must confirm)" class="delete"><i class="zmdi zmdi-delete zmd-fw"></i> Delete</a>
 {% endif %}
-<a href="{{ project.get_report_url }}" title="Report Project"><i class="zmdi zmdi-flag zmd-fw"></i> Report Entry</a>
-<a href="" title="Vouch for Project Community"><i class="zmdi zmdi-favorite-outline zmd-fw"></i> Vouch For Project Community</a>
 </div>

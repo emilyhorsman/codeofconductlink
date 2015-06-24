@@ -6,6 +6,7 @@ Assuming you have Python 3 and virtualenvwrapper installed:
 
 ```
 mkvirtualenv -p $(which python3) codeofconductlink
+workon codeofconductlink
 git clone $repo
 cd codeofconductlink
 cp .env.dev.sample .env.dev

@@ -18,9 +18,9 @@ python manage.py runserver --norecaptcha
 
 Sample data gives user/pass combinations of:
 
-(admin user) test@admin.com/testing
-(email verified non-admin user) test@verified.com/testing
-(email not verified non-admin user) test@unverified.com/testing
+* (admin user) `test@admin.com/testing`
+* (email verified non-admin user) `test@verified.com/testing`
+* (email not verified non-admin user) `test@unverified.com/testing`
 
 You'll need to fill out the `.env.dev` file, grab a reCAPTCHA site and secret key if you want to play with that.
 

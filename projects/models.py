@@ -41,6 +41,16 @@ class Project(VerifiedModel):
     reports         = GenericRelation(Report)
     vouches         = GenericRelation(Vouch)
 
+    def toggle_vouch(self, user):
+        if self.has_vouched(user):
+            self.vouches.filter(user=user).delete()
+            return False
+        Vouch.objects.create(content_object=self, user=user)
+        return True
+
+    def has_vouched(self, user):
+        return self.vouches.filter(user=user).exists()
+
     def get_report_url(self):
         return '{}?model=Project&pk={}&target={}'.format(reverse('reports:new'), self.pk, self.name)
 

@@ -3,7 +3,7 @@
 {% load url_extras %}
 {% load icons %}
 {% block content %}
-{% include "projects/_project_toolbar.html" with project=project can_edit=can_edit %}
+{% include "projects/_project_toolbar.html" with has_vouched=has_vouched project=project can_edit=can_edit %}
 <h2 class="project-name">
     <a class="local" href="{{ project.get_absolute_url }}" title="{{ project.name }}">{{ project.name }}</a>
 </h2>

@@ -35,6 +35,7 @@ class ProjectDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
         context['reports'] = self.object.get_reports_for_user(self.request.user)
+        context['has_vouched'] = self.request.user.is_authenticated() and self.object.has_vouched(self.request.user)
         if self.object.user == self.request.user:
             context['can_edit'] = True
 
@@ -89,4 +90,14 @@ class ProjectVerify(UserPassesTestMixin, View):
 
     def no_permissions_fail(self, request):
         messages.error(request, 'You must be a moderator to verify this project.')
-        return redirect(reverse('projects:detail', args=(self.request.resolver_match.kwargs['pk'],)))
+        return redirect(project.get_absolute_url())
+
+class ProjectVouch(VerifiedEmailRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        project = get_object_or_404(Project, pk=kwargs['pk'])
+        status = project.toggle_vouch(request.user)
+        if status:
+            messages.success(request, 'You have vouched for the {} project community.'.format(project.name))
+        else:
+            messages.success(request, 'You no longer vouch for the {} project community.'.format(project.name))
+        return redirect(project.get_absolute_url())

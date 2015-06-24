@@ -12,4 +12,6 @@ urlpatterns = [
     url(r'^(?P<pk>[0-9]+)/verify$', views.ProjectVerify.as_view(), name='verify'),
 
     url(r'^tag/(?P<tag>[-_\w]+)/$', views.ProjectIndexByTag.as_view(), name='list-by-tag'),
+
+    url(r'^(?P<pk>[0-9]+)/vouch$', views.ProjectVouch.as_view(), name='vouch'),
 ]

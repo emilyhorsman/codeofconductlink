@@ -205,18 +205,13 @@ p {
 }
 
 .project-name {
-    margin: 0;
+    margin: 0.2em 0;
     a {
         text-decoration: none;
         color: #000;
         font-weight: 300;
         font-size: 1.25em;
     }
-}
-
-.report-table {
-    font-size: 80%;
-    td { vertical-align: top; }
 }
 
 .project-toolbar {
@@ -231,9 +226,10 @@ p {
         color: #fff;
         text-decoration: none;
         padding: 0.3em 0.6em 0.3em 0.3em;
-        background-color: $wet-asphalt;
+        font-weight: 300;
+        background-color: $peter-river;
         &:hover {
-            background-color: darken($wet-asphalt, 10%);
+            background-color: darken($peter-river, 10%);
         }
         &.delete {
             background-color: $alizarin;
@@ -247,4 +243,17 @@ p {
 div.project-toolbar {
     margin: 0 0 0.5em 0;
     padding: 0;
+}
+
+.project-report {
+    border-bottom: 1px solid $accent;
+    margin-bottom: 1em;
+    .report-visibility {
+        font-size: 0.8em;
+        font-style: italic;
+    }
+    .date {
+        font-style: italic;
+        font-size: 0.9em;
+    }
 }

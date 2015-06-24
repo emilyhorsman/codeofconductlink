@@ -7,7 +7,7 @@
     <li><a class="project-main-link" href="{{ project.code_of_conduct }}" title="Code of Conduct"><i class="zmdi zmdi-face zmd-fw"></i> Code of Conduct</a></li>
     {% endif %}
 
-    <li><a href="{{ project.get_report_url }}" title="Report Project"><i class="zmdi zmdi-flag zmd-fw"></i> Report Entry</a></li>
+    <li><a href="{{ project.get_report_url }}" title="Report Project"><i class="zmdi zmdi-flag zmd-fw"></i> ({{ project.reports.count }}) Report Entry</a></li>
     <li><a href="" title="Community Vouch"><i class="zmdi zmdi-favorite-outline zmd-fw"></i> Community Vouch</a></li>
     {% if can_edit %}
     <li><a href="{% url "projects:update" project.pk %}" title="Edit Project"><i class="zmdi zmdi-edit zmd-fw"></i> Edit</a></li>

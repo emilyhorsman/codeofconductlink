@@ -84,7 +84,7 @@ class Submission(VerifiedModel):
     #   public_message='Ignoring transphobia.'
     user            = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='submissions')
     project         = models.ForeignKey(Project, related_name='submissions')
-    tag             = TaggableManager()
+    tags            = TaggableManager()
     is_contributor  = models.BooleanField(default=False)
     url             = models.URLField()
     public_message  = models.TextField(blank=True, null=True)

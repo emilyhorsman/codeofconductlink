@@ -205,7 +205,7 @@ p {
 }
 
 .project-name {
-    margin: 0.2em 0;
+    margin: 0;
     a {
         text-decoration: none;
         color: #000;
@@ -243,6 +243,20 @@ p {
 div.project-toolbar {
     margin: 0 0 0.5em 0;
     padding: 0;
+}
+
+#project-tags {
+    list-style-type: none;
+    margin: 0 0 0.5em 0;
+    padding: 0;
+    li {
+        float: left;
+        margin-right: 1em;
+        a {
+            text-decoration: none;
+            color: #000;
+        }
+    }
 }
 
 .project-report {

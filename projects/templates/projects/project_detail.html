@@ -7,6 +7,13 @@
     <a class="local" href="{{ project.get_absolute_url }}" title="{{ project.name }}">{{ project.name }}</a>
 </h2>
 
+<ul id="project-tags">
+{% for tag in project.tags.all %}
+<li><a href="{% url "projects:list-by-tag" tag.slug %}" title="Projects tagged {{ tag.name }}"><i class="zmdi zmdi-label-heart zmd-fw"></i>{{ tag.name }}</a></li>
+{% endfor %}
+<div style="clear: both;"></div>
+</ul>
+
 {% if not project.verified_date %}
 <div class="project-verification">
     <p><b>This project is awaiting verification.</b> A member of our staff has not yet approved this project for public listing. The information on this page may be wrong.</p>

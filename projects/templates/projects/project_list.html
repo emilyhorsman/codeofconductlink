@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% load url_extras %}
+{% load icons %}
 
 {% block altcontent %}
 <div class="pure-g">
@@ -11,34 +12,14 @@
 </div>
 <div class="pure-g">
     <div class="pure-u-1">
-        <table id="projects" class="pure-table pure-table-horizontal">
-            <thead>
-                <tr>
-                    <th>Project</th>
-                    <th>Homepage</th>
-                    <th>Tags</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
+        <div id="project-list">
             {% for project in projects %}
-                <tr>
-                    <td><a class="project-name" href="{{ project.get_absolute_url }}" title="{{ project }}">{{ project }}</a></td>
-                    <td>{% if project.homepage %}<a href="{{ project.homepage }}" title="{{ project }} homepage" target="_blank">{{ project.homepage|netloc|truncatechars:20 }}</a>{% endif %}</td>
-                    <td>
-                        {% for tag in project.tags.all %}
-                        <a class="project-tag" href="{% url "projects:list-by-tag" tag.slug %}" title="Projects tagged {{ tag.name }}">{{ tag.name }}</a>
-                        {% endfor %}
-                    </td>
-                    <td>
-                        {% if not project.verified_date %}
-                            Awaiting verification&hellip;
-                        {% endif %}
-                    </td>
-                </tr>
+                <h2><a href="{{ project.get_absolute_url }}" title="{{ project.name }}">{{ project.name }}</a></h2>
+                {% for tag in project.tags.all %}
+                <a class="project-tag" href="{% url "projects:list-by-tag" tag.slug %}" title="Projects tagged {{ tag.name }}">{% icon "zmdi zmdi-label-heart zmd-fw" %}{{ tag.name }}</a>
+                {% endfor %}
             {% endfor %}
-            </tbody>
-        </table>
+        </div>
     </div>
 </div>
 {% endblock %}

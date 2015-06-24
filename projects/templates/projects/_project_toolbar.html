@@ -1,17 +1,18 @@
 {% load url_extras %}
+{% load icons %}
 <ul class="project-toolbar">
     {% if project.homepage %}
-    <li><a class="project-main-link" href="{{ project.homepage }}" title="{{ project.homepage|netloc }}"><i class="zmdi zmdi-home zmd-fw"></i> {{ project.homepage|netloc|truncatewith:"20,Homepage" }}</a></li>
+    <li><a class="project-main-link" href="{{ project.homepage }}" title="{{ project.homepage|netloc }}">{% icon "zmdi zmdi-home zmd-fw" %} {{ project.homepage|netloc|truncatewith:"20,Homepage" }}</a></li>
     {% endif %}
     {% if project.code_of_conduct %}
-    <li><a class="project-main-link" href="{{ project.code_of_conduct }}" title="Code of Conduct"><i class="zmdi zmdi-face zmd-fw"></i> Code of Conduct</a></li>
+    <li><a class="project-main-link" href="{{ project.code_of_conduct }}" title="Code of Conduct">{% icon "zmdi zmdi-face zmd-fw" %} Code of Conduct</a></li>
     {% endif %}
 
-    <li><a href="{{ project.get_report_url }}" title="Report Project"><i class="zmdi zmdi-flag zmd-fw"></i> ({{ project.reports.count }}) Report Entry</a></li>
-    <li><a href="" title="Community Vouch"><i class="zmdi zmdi-favorite-outline zmd-fw"></i> Community Vouch</a></li>
+    <li><a href="{{ project.get_report_url }}" title="Report Project">{% icon "zmdi zmdi-flag zmd-fw" %} ({{ project.reports.count }}) Report Entry</a></li>
+    <li><a href="" title="Community Vouch">{% icon "zmdi zmdi-favorite-outline zmd-fw" %} Community Vouch</a></li>
     {% if can_edit %}
-    <li><a href="{% url "projects:update" project.pk %}" title="Edit Project"><i class="zmdi zmdi-edit zmd-fw"></i> Edit</a></li>
-    <li><a href="{% url "projects:delete" project.pk %}" title="Delete Project (must confirm)" class="delete"><i class="zmdi zmdi-delete zmd-fw"></i> Delete</a></li>
+    <li><a href="{% url "projects:update" project.pk %}" title="Edit Project">{% icon "zmdi zmdi-edit zmd-fw" %} Edit</a></li>
+    <li><a href="{% url "projects:delete" project.pk %}" title="Delete Project (must confirm)" class="delete">{% icon "zmdi zmdi-delete zmd-fw" %} Delete</a></li>
     {% endif %}
 </ul>
 <div style="clear: both;"></div>

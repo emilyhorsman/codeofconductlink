@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 
 {% load url_extras %}
+{% load icons %}
 {% block content %}
 {% include "projects/_project_toolbar.html" with project=project can_edit=can_edit %}
 <h2 class="project-name">
@@ -9,7 +10,7 @@
 
 <ul id="project-tags">
 {% for tag in project.tags.all %}
-<li><a href="{% url "projects:list-by-tag" tag.slug %}" title="Projects tagged {{ tag.name }}"><i class="zmdi zmdi-label-heart zmd-fw"></i>{{ tag.name }}</a></li>
+<li><a href="{% url "projects:list-by-tag" tag.slug %}" title="Projects tagged {{ tag.name }}">{% icon "zmdi zmdi-label-heart zmd-fw" %}{{ tag.name }}</a></li>
 {% endfor %}
 <div style="clear: both;"></div>
 </ul>

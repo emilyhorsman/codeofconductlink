@@ -12,14 +12,35 @@
 </div>
 <div class="pure-g">
     <div class="pure-u-1">
-        <div id="project-list">
+        <ul id="project-list">
             {% for project in projects %}
-                <h2><a href="{{ project.get_absolute_url }}" title="{{ project.name }}">{{ project.name }}</a></h2>
-                {% for tag in project.tags.all %}
-                <a class="project-tag" href="{% url "projects:list-by-tag" tag.slug %}" title="Projects tagged {{ tag.name }}">{% icon "zmdi zmdi-label-heart zmd-fw" %}{{ tag.name }}</a>
-                {% endfor %}
+            <li>
+                <a href="{{ project.get_absolute_url }}" title="{{ project.name }}">{{ project.name }}</a>
+                <ul>
+                    {% if project.verified_date %}
+                    <li>
+                    Verified by {{ project.verified_by.name }} on {{ project.verified_date|date:"d M Y" }}
+                    {% else %}
+                    Awaiting verification...
+                    </li>
+                    {% endif %}
+                    {% if project.homepage %}
+                    <li><a href="{{ project.homepage }}" title="Homepage">{{ project.homepage|netloc }}</a></li>
+                    {% endif %}
+                    {% if project.code_of_conduct %}
+                    <li><a href="{{ project.code_of_conduct }}" title="Code of Conduct">Code of Conduct</a></li>
+                    {% endif %}
+                    <li>
+                        <ul>
+                            {% for tag in project.tags.all %}
+                            <li><a href="{% url "projects:list-by-tag" tag.slug %}" title="Projects tagged {{ tag.name }}">{% icon "zmdi zmdi-label-heart zmd-fw" %}{{ tag.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            </li>
             {% endfor %}
-        </div>
+        </ul>
     </div>
 </div>
 {% endblock %}

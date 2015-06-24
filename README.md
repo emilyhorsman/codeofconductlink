@@ -1,3 +1,25 @@
+#### Core Objective
+
+* Find a project you're interested in
+* See if it currently has a code of conduct
+* See if it there have been instances of problematic conduct in community
+* See if it has underrepresented (women, queer, and trans identifying, people of colour, neurodiverse and disabled folks, etc) contributors or authors
+* Submit `Submission`s (see `projects/models.py#Submission`) to projects with a tag such as 'problematic conduct', 'queer contributor', etc
+* Highlight projects with diverse communities and a code of conduct
+* Vouch for Projects and their Submissions
+* Data entry enters a verification queue for moderators to accept before public listing
+
+#### Further Goals
+
+* Optionally public profiles to see Submissions, Projects, and Vouches you've made
+    * Identity tags on profiles, attach yourself to a project as a contributor or author, project can be featured as having a maintainer with your identity tags.
+      e.g. I identity as queer, I contribute to codeofconductlink, projects/codeofconductlink is shown as having queer contributors.
+    * Project icons for PoC, queer, trans contributors, etc (h/t @lynncyrin)
+* disqus comments on projects
+* GitHub/other badge for project community (“This product has a code of conduct.” etc)
+* Project edit history with `django-reversion`
+
+
 #### Contributing
 
 This project is written with Python 3, Django 1.8.x, and sass.

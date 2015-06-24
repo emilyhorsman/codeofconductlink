@@ -24,7 +24,7 @@
             {% for project in projects %}
                 <tr>
                     <td><a class="project-name" href="{{ project.get_absolute_url }}" title="{{ project }}">{{ project }}</a></td>
-                    <td>{% if project.homepage %}<a href="{{ project.homepage }}" title="{{ project }} homepage" target="_blank">{{ project.homepage|netloc }}</a>{% endif %}</td>
+                    <td>{% if project.homepage %}<a href="{{ project.homepage }}" title="{{ project }} homepage" target="_blank">{{ project.homepage|netloc|truncatechars:20 }}</a>{% endif %}</td>
                     <td>
                         {% for tag in project.tags.all %}
                         <a class="project-tag" href="{% url "projects:list-by-tag" tag.slug %}" title="Projects tagged {{ tag.name }}">{{ tag.name }}</a>

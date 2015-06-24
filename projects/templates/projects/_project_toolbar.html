@@ -1,6 +1,9 @@
 {% load url_extras %}
 {% load icons %}
 <ul class="project-toolbar">
+    {% if not project.verified_date and user.is_moderator %}
+    <li><a class="pure-button pure-button-primary project-main-link" href="{% url "projects:verify" project.pk %}" title="Verify Project">{% icon "zmdi zmdi-check zmdi-fw" %} Verify</a></li>
+    {% endif %}
     {% if project.homepage %}
     <li><a class="pure-button pure-button-primary project-main-link" href="{{ project.homepage }}" title="{{ project.homepage|netloc }}">{% icon "zmdi zmdi-home zmd-fw" %} {{ project.homepage|netloc|truncatewith:"20,Homepage" }}</a></li>
     {% endif %}

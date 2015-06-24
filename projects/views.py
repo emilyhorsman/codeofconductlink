@@ -83,7 +83,7 @@ class ProjectVerify(UserPassesTestMixin, View):
         project = get_object_or_404(Project, pk=kwargs['pk'])
         project.verify(request.user)
         messages.success(request, '{} has been verified.'.format(project.name))
-        return redirect(reverse('projects:detail', args=(project.pk, project.name,)))
+        return redirect(project.get_absolute_url())
 
     def test_func(self, user):
         return user.is_moderator

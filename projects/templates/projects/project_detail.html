@@ -1,19 +1,17 @@
 {% extends "layout.html" %}
 
 {% load url_extras %}
-{% block outsidewrapper %}
-{% if not project.verified_date %}
-    <div class="project-verification">
-    <p><b>This project is awaiting verification.</b> A member of our staff has not yet approved this project for public listing. The information on this page may be wrong.</p>
-</div>
-{% endif %}
-{% endblock %}
-
 {% block content %}
+{% include "projects/_project_toolbar.html" with project=project can_edit=can_edit %}
 <h2 class="project-name">
     <a class="local" href="{{ project.get_absolute_url }}" title="{{ project.name }}">{{ project.name }}</a>
 </h2>
-{% include "projects/_project_toolbar.html" with project=project can_edit=can_edit %}
+
+{% if not project.verified_date %}
+<div class="project-verification">
+    <p><b>This project is awaiting verification.</b> A member of our staff has not yet approved this project for public listing. The information on this page may be wrong.</p>
+</div>
+{% endif %}
 
 {% with n=project.reports.count %}
 <p class="project-reports">{{ n }} report{{ n|pluralize:" has,s have" }} been filed on this project entry.</p>

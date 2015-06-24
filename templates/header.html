@@ -1,22 +1,26 @@
-<div class="pure-g" id="header">
+<div class="pure-menu pure-menu-horizontal" id="header">
+    <h2 class="pure-menu-heading"><a class="pure-menu-heading" href="/" title="a software community tracker">a software community tracker</a></h2>
+    <ul class="pure-menu-list">
+        {% if user.is_authenticated %}
+            {% if user.is_staff %}
+            <li class="pure-menu-item"><a class="pure-menu-link" href="{% url "admin:index" %}" title="Admin">Django Admin</a></li>
+            {% endif %}
+            <li class="pure-menu-item"><a class="pure-menu-link" href="{% url "profiles:detail" %}" title="Profile">Profile</a></li>
+            <li class="pure-menu-item"><a class="pure-menu-link" href="{% url "account_logout" %}?next=/" title="Logout">Logout</a></li>
+        {% else %}
+        <li class="pure-menu-item"><a class="pure-menu-link" href="{% url "account_signup" %}" title="Register">Register</a></li>
+        <li class="pure-menu-item"><a class="pure-menu-link" href="{% url "account_login" %}?next={% url "profiles:detail" %}" title="Login">Login</a></li>
+        {% endif %}
+    </ul>
+    <div style="clear: both;"></div>
+</div>
+<div class="pure-g" id="messages">
     <div class="pure-u-1">
         <header>
-            <h2><a href="/" title="a software community tracker">a software community tracker</a></h2>
             {% if messages %}
             {% for message in messages %}
             <div class="message {{ message.tags }}">{{ message }}</div>
             {% endfor %}
-            {% endif %}
-            <br />
-            {% if user.is_authenticated %}
-                {% if user.is_staff %}
-                <a href="{% url "admin:index" %}" title="Admin" class="pure-button">Django Admin</a>&nbsp;
-                {% endif %}
-            <a href="{% url "profiles:detail" %}" title="Profile" class="pure-button">Profile</a>&nbsp;
-            <a href="{% url "account_logout" %}?next=/" title="Logout" class="pure-button">Logout</a>
-            {% else %}
-            <a href="{% url "account_signup" %}" title="Register" class="pure-button">Register</a>&nbsp;
-            <a href="{% url "account_login" %}?next={% url "profiles:detail" %}" title="Login" class="pure-button">Login</a>
             {% endif %}
         </header>
     </div>

@@ -34,9 +34,12 @@ class ProjectDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
-        context['submissions'] = self.object.get_submissions_for_user(self.request.user)
-        context['reports'] = self.object.get_reports_for_user(self.request.user)
-        context['has_vouched'] = self.request.user.is_authenticated() and self.object.has_vouched(self.request.user)
+
+        if self.request.user.is_authenticated():
+            context['submissions'] = self.object.get_submissions_for_user(self.request.user)
+            context['reports']     = self.object.get_reports_for_user(self.request.user)
+            context['has_vouched'] = self.object.has_vouched(self.request.user)
+
         if self.object.user == self.request.user:
             context['can_edit'] = True
 

@@ -2,3 +2,4 @@
 *.sqlite3*
 *.css
 *.css.map
+*__pycache__*

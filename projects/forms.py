@@ -4,13 +4,21 @@ from common.forms import pure_helper, create_crispy_model_form
 from profiles.recaptcha import ReCAPTCHAField
 from .models import Project, Report, Submission
 
-class CreateProjectForm(create_crispy_model_form(
-                        legend_text='Submit a new project for tracking')):
+class CreateProjectForm(models.ModelForm):
     class Meta:
         model = Project
         fields = ('name', 'homepage', 'code_of_conduct', 'tags',)
 
     recaptcha = ReCAPTCHAField()
+
+    def __init__(self, *args, **kwargs):
+        super(CreateProjectForm, self).__init__(*args, **kwargs)
+        self.helper = pure_helper()
+        self.helper.layout = Layout(
+            Fieldset('Submit a new project for tracking', 'recaptcha', *self.Meta.fields),
+            Submit('submit', 'Create', css_class='pure-button pure-button-primary')
+        )
+
 
 class UpdateProjectForm(create_crispy_model_form(
                         legend_text='Edit Project')):

@@ -25,6 +25,9 @@ $accent: $concrete;
 
 $font-stack: 'Open Sans', sans-serif;
 
+@import "components/header";
+
+
 .pure-g [class *="pure-u"] {
     font-family: $font-stack;
 }
@@ -136,43 +139,6 @@ table {
 
 p {
     line-height: 1.5em;
-}
-
-#header {
-    color: #fff;
-    background: $bg;
-    border-bottom: 0.2em solid $accent;
-    font-family: $font-stack;
-
-    h2 {
-        margin: 0;
-        padding: 0;
-        font-size: 1.5em;
-        line-height: 1em;
-        font-weight: 300;
-    }
-
-    .pure-menu-heading {
-        text-transform: none;
-    }
-
-    li .pure-menu-link {
-        font-size: 1em;
-        line-height: 2em;
-        height: 100%;
-        &:hover {
-            background: lighten($bg, 10%);
-        }
-    }
-
-    ul {
-        float: right;
-    }
-
-    a {
-        color: #fff;
-        text-decoration: none;
-    }
 }
 
 #messages {

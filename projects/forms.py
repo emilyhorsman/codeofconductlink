@@ -9,7 +9,7 @@ class CreateProjectForm(models.ModelForm):
         model = Project
         fields = ('name', 'homepage', 'code_of_conduct', 'tags',)
 
-    recaptcha = ReCAPTCHAField()
+    recaptcha = ReCAPTCHAField(label='')
 
     def __init__(self, *args, **kwargs):
         super(CreateProjectForm, self).__init__(*args, **kwargs)

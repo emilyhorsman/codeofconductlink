@@ -122,7 +122,7 @@ class SubmissionCreate(VerifiedEmailRequiredMixin, CreateView):
     template_name = 'projects/submission_form.html'
 
     def get_form_kwargs(self):
-        kwargs = super(CreateSubmission, self).get_form_kwargs()
+        kwargs = super(SubmissionCreate, self).get_form_kwargs()
         kwargs.update({
             'project': get_object_or_404(Project, pk=self.request.resolver_match.kwargs['pk'])
         })
@@ -133,4 +133,4 @@ class SubmissionCreate(VerifiedEmailRequiredMixin, CreateView):
         form.instance.project = project
         form.instance.user = self.request.user
         self.success_url = project.get_absolute_url()
-        return super(CreateSubmission, self).form_valid(form)
+        return super(SubmissionCreate, self).form_valid(form)

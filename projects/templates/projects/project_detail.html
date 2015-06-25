@@ -21,7 +21,7 @@
 </div>
 {% endif %}
 
-<a href="{% url "projects:create-submission" project.pk project.name %}" title="Add submission to this project">Add submission to this project</a>
+<a href="{% url "projects:create-submission" project.pk project.name|slugify %}" title="Add submission to this project">Add submission to this project</a>
 
 <ul>
 {% for submission in submissions %}

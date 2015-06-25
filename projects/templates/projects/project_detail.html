@@ -21,6 +21,35 @@
 </div>
 {% endif %}
 
+<a href="{% url "projects:create-submission" project.pk project.name %}" title="Add submission to this project">Add submission to this project</a>
+
+<ul>
+{% for submission in submissions %}
+<li>
+    Submission by {{ submission.user.name }} on {{ submission.created_date|date:"d M Y" }}
+    <ul>
+        {% if user.is_moderator and not submission.verified_date %}
+        <li>This submission is awaiting verification: <a href="{% url "projects:verify-submission" submission.pk %}" title="Verify">Verify Submission</a></li>
+        {% endif %}
+        <li><a href="{{ submission.url }}" title="{{ submission.url|netloc }}">{{ submission.url|netloc }}</a></li>
+        <li>{{ submission.is_contributor|yesno:"Project contributor," }}</li>
+        <li>
+            Tags:
+            <ul>
+                {% for tag in submission.tags.all %}
+                <li>{{ tag.name }}</li>
+                {% endfor %}
+            </ul>
+        </li>
+        <li>Public message:<br />{{ submission.public_message }}</li>
+        {% if user.is_moderator %}
+        <li>You are seeing this private message because you are a moderator:<br />{{ submission.private_message }}</li>
+        {% endif %}
+    </ul>
+</li>
+{% endfor %}
+</ul>
+
 {% endblock %}
 {% block altcontent %}
 <div class="pure-g">

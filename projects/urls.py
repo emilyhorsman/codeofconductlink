@@ -14,4 +14,8 @@ urlpatterns = [
     url(r'^tag/(?P<tag>[-_\w]+)/$', views.ProjectIndexByTag.as_view(), name='list-by-tag'),
 
     url(r'^(?P<pk>[0-9]+)/vouch$', views.ProjectVouch.as_view(), name='vouch'),
+
+    url(r'^(?P<pk>[0-9]+)/submissions/create$', views.SubmissionCreate.as_view(), name='create-submission'),
+    url(r'^(?P<pk>[0-9]+)-(?P<name>[-_\w]+)/submission/create$', views.SubmissionCreate.as_view(), name='create-submission'),
+    url(r'^submissions/(?P<pk>[0-9]+)/verify$', views.SubmissionVerify.as_view(), name='verify-submission'),
 ]

@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.contrib import messages
 from braces.views import UserPassesTestMixin
 from common.access_mixins import VerifiedEmailRequiredMixin
-from .models import Project, Report
+from .models import Project, Report, Submission
 from . import forms
 
 class ProjectIndex(ListView):
@@ -34,6 +34,7 @@ class ProjectDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
+        context['submissions'] = self.object.get_submissions_for_user(self.request.user)
         context['reports'] = self.object.get_reports_for_user(self.request.user)
         context['has_vouched'] = self.request.user.is_authenticated() and self.object.has_vouched(self.request.user)
         if self.object.user == self.request.user:
@@ -90,7 +91,7 @@ class ProjectVerify(UserPassesTestMixin, View):
 
     def no_permissions_fail(self, request):
         messages.error(request, 'You must be a moderator to verify this project.')
-        return redirect(project.get_absolute_url())
+        return redirect('/')
 
 class ProjectVouch(VerifiedEmailRequiredMixin, View):
     def get(self, request, *args, **kwargs):
@@ -101,3 +102,35 @@ class ProjectVouch(VerifiedEmailRequiredMixin, View):
         else:
             messages.success(request, 'You no longer vouch for the {} project community.'.format(project.name))
         return redirect(project.get_absolute_url())
+
+class SubmissionVerify(UserPassesTestMixin, View):
+    def get(self, request, *args, **kwargs):
+        submission = get_object_or_404(Submission, pk=kwargs['pk'])
+        submission.verify(request.user)
+        messages.success(request, 'Submission verified.')
+        return redirect(submission.project.get_absolute_url())
+
+    def test_func(self, user):
+        return user.is_moderator
+
+    def no_permissions_fail(self, request):
+        messages.error(request, 'You must be a moderator to verify this submission.')
+        return redirect('/')
+
+class SubmissionCreate(VerifiedEmailRequiredMixin, CreateView):
+    form_class = forms.CreateSubmissionForm
+    template_name = 'projects/submission_form.html'
+
+    def get_form_kwargs(self):
+        kwargs = super(CreateSubmission, self).get_form_kwargs()
+        kwargs.update({
+            'project': get_object_or_404(Project, pk=self.request.resolver_match.kwargs['pk'])
+        })
+        return kwargs
+
+    def form_valid(self, form):
+        project = get_object_or_404(Project, pk=self.request.resolver_match.kwargs['pk'])
+        form.instance.project = project
+        form.instance.user = self.request.user
+        self.success_url = project.get_absolute_url()
+        return super(CreateSubmission, self).form_valid(form)

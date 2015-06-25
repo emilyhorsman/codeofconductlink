@@ -57,6 +57,15 @@ class Project(VerifiedModel):
     def get_absolute_url(self):
         return reverse('projects:detail', args=(self.pk, slugify(self.name),))
 
+    def get_submissions_for_user(self, request_user):
+        if request_user.is_authenticated() and request_user.is_moderator:
+            return self.submissions.all()
+
+        return self.submissions.filter(
+            Q(verified_date__isnull=False) |
+            Q(user=request_user)
+        )
+
     def get_reports_for_user(self, request_user):
         # All reports should be visible to moderators. Reports that have
         # opted in to being visible to the owner should be visible to the owner
@@ -84,11 +93,11 @@ class Submission(VerifiedModel):
     #   public_message='Ignoring transphobia.'
     user            = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='submissions')
     project         = models.ForeignKey(Project, related_name='submissions')
-    tags            = TaggableManager()
-    is_contributor  = models.BooleanField(default=False)
+    tags            = TaggableManager(help_text='Tag a submission to describe its content. Is it "problematic content"? A link to a "queer" contributor?')
+    is_contributor  = models.BooleanField(default=False, help_text='Is this submission describing a project author/contributor?')
     url             = models.URLField()
-    public_message  = models.TextField(blank=True, null=True)
-    private_message = models.TextField(blank=True, null=True)
+    public_message  = models.TextField(blank=True, null=True, help_text='This message will publicly accompany the submission.')
+    private_message = models.TextField(blank=True, null=True, help_text='This message will only be displayed to moderators verifying the submission.')
     created_date    = models.DateTimeField(default=timezone.now)
     updated_date    = models.DateTimeField(default=timezone.now)
     reports         = GenericRelation(Report)

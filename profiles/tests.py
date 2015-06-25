@@ -39,3 +39,24 @@ class TestProfileDetailCanChange(TestCase):
         response = ProfileDetail.as_view()(request)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.user.profile_slug, 'foobar')
+
+class TestProfileMenu(TestCase):
+    def test_menu_options_if_not_logged_in(self):
+        response = self.client.get('/')
+        self.assertTemplateUsed(response, 'profiles/logged_out_menu.html')
+        self.assertTemplateNotUsed(response, 'profiles/logged_in_menu.html')
+        self.assertTemplateNotUsed(response, 'profiles/admin_menu.html')
+
+    def test_menu_options_if_logged_in(self):
+        p = verified_user()
+        login_user(self.client, p)
+        response = self.client.get('/')
+        self.assertTemplateUsed(response, 'profiles/logged_in_menu.html')
+        self.assertTemplateNotUsed(response, 'profiles/admin_menu.html')
+        self.assertTemplateNotUsed(response, 'profiles/logged_out_menu.html')
+
+    def test_menu_options_if_admin(self):
+        p = verified_user(is_staff=True)
+        login_user(self.client, p)
+        response = self.client.get('/')
+        self.assertTemplateUsed(response, 'profiles/admin_menu.html')

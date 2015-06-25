@@ -19,6 +19,6 @@ def unverified_user(**kwargs):
 
 def verified_user(**kwargs):
     p = unverified_user(**kwargs)
-    e = EmailAddress(user=p, verified=True)
+    e = EmailAddress(user=p, email=p.email, verified=True)
     e.save()
     return p

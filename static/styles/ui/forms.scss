@@ -1,0 +1,21 @@
+form {
+    .formHint {
+        max-width: 30em;
+        margin-left: 1em;
+        font-weight: 700;
+        font-size: 0.8em;
+        color: #333;
+    }
+
+    label {
+        font-weight: 700;
+    }
+
+    .checkboxinput {
+        margin-left: 0.3em;
+    }
+
+    .ctrlHolder {
+        margin-bottom: 1em;
+    }
+}

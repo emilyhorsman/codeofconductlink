@@ -25,60 +25,21 @@ $accent: $concrete;
 
 $font-stack: 'Open Sans', sans-serif;
 
-@import "components/header";
-
-
 .pure-g [class *="pure-u"] {
     font-family: $font-stack;
 }
 
-.pure-button {
-    &.button-danger, &.button-report {
-        background: $alizarin;
-        color: #fff;
-        &:hover {
-            background: darken($alizarin, 10%);
-        }
-    }
-}
+// Large components of the project
+@import "components/header";
+
+// UI Objects
+@import "ui/buttons";
+@import "ui/messages";
+@import "ui/forms";
 
 .icon {
     width: 1em;
     height: 1em;
-}
-
-.message {
-    padding: 0.5em;
-    background: #333;
-    border-bottom: 1px solid #eee;
-    &.success {
-        background: $emerald;
-    }
-    &.error {
-        background: $alizarin;
-    }
-}
-
-form {
-    .formHint {
-        max-width: 30em;
-        margin-left: 1em;
-        font-weight: 700;
-        font-size: 0.8em;
-        color: #333;
-    }
-
-    label {
-        font-weight: 700;
-    }
-
-    .checkboxinput {
-        margin-left: 0.3em;
-    }
-
-    .ctrlHolder {
-        margin-bottom: 1em;
-    }
 }
 
 .center {
@@ -139,11 +100,6 @@ table {
 
 p {
     line-height: 1.5em;
-}
-
-#messages {
-    text-align: center;
-    color: #fff;
 }
 
 .content-wrapper {

@@ -1,0 +1,9 @@
+.pure-button {
+    &.button-danger, &.button-report {
+        background: $alizarin;
+        color: #fff;
+        &:hover {
+            background: darken($alizarin, 10%);
+        }
+    }
+}

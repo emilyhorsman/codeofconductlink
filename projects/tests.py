@@ -2,7 +2,7 @@ from django.test import TestCase, RequestFactory
 from django.core.urlresolvers import reverse
 from profiles.test_helpers import ProfileFactory, login_user, unverified_user, verified_user
 from .test_helpers import ProjectFactory
-from .views import ProjectIndex
+from .views import ProjectIndex, ProjectUpdate
 
 class TestCreateProjectPermissions(TestCase):
     def test_login_requirement(self):
@@ -62,3 +62,17 @@ class TestProjectDisplayBasedOnPermissions(TestCase):
         self.assertContains(response, self.verified_alice_project.name)
         self.assertNotContains(response, self.unverified_ada_project.name)
         self.assertNotContains(response, self.unverified_alice_project.name)
+
+class TestProjectEditing(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.admin = verified_user(is_staff=True)
+        self.alice = verified_user()
+        self.ada   = verified_user()
+        self.project = ProjectFactory(user=self.alice, name='Verified Alice Project')
+        self.project.verify(self.admin)
+
+    def test_show_edit_button_to_project_owner(self):
+        login_user(self.client, self.alice)
+        response = self.client.get(self.project.get_absolute_url())
+        self.assertContains(response, reverse('projects:update', args=(self.project.pk,)))

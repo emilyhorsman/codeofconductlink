@@ -48,7 +48,7 @@ You'll need to fill out the `.env.dev` file, grab a reCAPTCHA site and secret ke
 
 Right now there's no use of an asset pipeline or anything. I just run
 
-`sass --watch static/global.scss:/Users/emily/static/global.css`
+`sass --watch static/styles/global.scss:/Users/emily/static/global.css`
 
 (my `.env.dev` contains `STATICFILES_DIR=~/static`)
 

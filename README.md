@@ -22,6 +22,8 @@
 
 #### Contributing
 
+View the list of [contributors](https://github.com/emilyhorsman/codeofconductlink/blob/develop/CONTRIBUTORS.md).
+
 This project is written with Python 3, Django 1.8.x, and sass.
 
 Assuming you have Python 3 and virtualenvwrapper installed:

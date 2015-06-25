@@ -1,4 +1,4 @@
-from django.test import SimpleTestCase, TestCase, RequestFactory
+from django.test import TestCase, RequestFactory
 from django.core.urlresolvers import reverse
 from .test_helpers import ProfileFactory, login_user, unverified_user, verified_user
 from .views import ProfileDetail
@@ -12,7 +12,7 @@ class TestProfilePublicName(TestCase):
         p = ProfileFactory(public_name='foo')
         self.assertEqual(p.name, 'foo')
 
-class TestProfileDetailPermissions(SimpleTestCase):
+class TestProfileDetailPermissions(TestCase):
     def test_redirect_if_not_logged_in(self):
         path = reverse('profiles:detail')
         response = self.client.get(path, follow=True)

@@ -2,7 +2,7 @@ from allauth.account.models import EmailAddress
 import factory
 from . import models
 
-class ProfileFactory(factory.Factory):
+class ProfileFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Profile
 

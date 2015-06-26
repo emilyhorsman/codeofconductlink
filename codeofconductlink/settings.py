@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'projects',
     'braces',
     'crispy_forms',
+    'reversion',
 )
 
 MIDDLEWARE_CLASSES = (

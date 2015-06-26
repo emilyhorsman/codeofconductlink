@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.conf import settings
 from django.utils import timezone
 from django.utils.text import slugify
+import reversion
 from taggit.managers import TaggableManager
 from reports.models import Report
 
@@ -51,6 +52,7 @@ class VerifiedModel(models.Model):
         if save:
             self.save()
 
+@reversion.register
 class Project(VerifiedModel):
     user            = models.ForeignKey(settings.AUTH_USER_MODEL)
     created_date    = models.DateTimeField(default=timezone.now)

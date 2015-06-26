@@ -5,6 +5,7 @@ from django.views.generic import View, ListView, DetailView, DeleteView, CreateV
 from django.db.models import Q
 from django.contrib import messages
 from braces.views import UserPassesTestMixin
+import reversion
 from common.access_mixins import VerifiedEmailRequiredMixin
 from .models import Project, Report, Submission, Vouch
 from . import models
@@ -67,12 +68,20 @@ class ProjectUpdate(ProjectUpdatePermissionsMixin,
     form_class = forms.UpdateProjectForm
     template_name = 'projects/project_form.html'
 
+    @reversion.create_revision()
+    def form_valid(self, form):
+        return super(ProjectUpdate, self).form_valid(form)
+
 class ProjectDelete(ProjectUpdatePermissionsMixin,
                     VerifiedEmailRequiredMixin,
                     DeleteView):
     model = Project
     template_name = 'projects/project_confirm_delete.html'
     success_url = reverse_lazy('projects:index')
+
+    @reversion.create_revision()
+    def delete(self, request, *args, **kwargs):
+        return super(ProjectDelete, self).delete(request, *args, **kwargs)
 
 class CreateProject(VerifiedEmailRequiredMixin, CreateView):
     form_class = forms.CreateProjectForm

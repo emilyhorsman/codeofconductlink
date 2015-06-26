@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from profiles.test_helpers import ProfileFactory, login_user, unverified_user, verified_user
 from .test_helpers import ProjectFactory
 from .views import ProjectIndex, ProjectUpdate
+from .models import Vouch
 
 class TestCreateProjectPermissions(TestCase):
     def test_login_requirement(self):
@@ -65,7 +66,6 @@ class TestProjectDisplayBasedOnPermissions(TestCase):
 
 class TestProjectEditing(TestCase):
     def setUp(self):
-        self.factory = RequestFactory()
         self.admin = verified_user(is_staff=True)
         self.alice = verified_user()
         self.ada   = verified_user()
@@ -76,3 +76,24 @@ class TestProjectEditing(TestCase):
         login_user(self.client, self.alice)
         response = self.client.get(self.project.get_absolute_url())
         self.assertContains(response, reverse('projects:update', args=(self.project.pk,)))
+
+class TestProjectVouch(TestCase):
+    def setUp(self):
+        self.admin = verified_user(is_staff=True)
+        self.alice = verified_user()
+        self.project = ProjectFactory(user=self.alice, name='Foo')
+        self.project.verify(self.admin)
+
+    def test_vouch_toggle(self):
+        vouch_path = '{path}?model={model}&pk={pk}'.format(path=reverse('projects:vouch'),
+                                                           model=self.project.__class__.__name__,
+                                                           pk=self.project.pk)
+
+        login_user(self.client, self.alice)
+        response = self.client.get(vouch_path, follow=True)
+        self.assertRedirects(response, self.project.get_absolute_url())
+        self.assertTrue(self.project.vouches.filter(user=self.alice).exists())
+
+        response = self.client.get(vouch_path, follow=True)
+        self.assertRedirects(response, self.project.get_absolute_url())
+        self.assertFalse(self.project.vouches.filter(user=self.alice).exists())

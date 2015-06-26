@@ -13,7 +13,7 @@
 
     <li><a class="pure-button pure-button-primary" href="{{ project.get_report_url }}" title="Report Project">{% icon "zmdi zmdi-flag zmd-fw" %} ({{ project.reports.count }}) Report Entry</a></li>
     <li>
-        <a class="pure-button pure-button-primary" href="{% url "projects:vouch" project.pk %}" title="Community Vouch">
+        <a class="pure-button pure-button-primary" href="{{ project.get_vouch_url }}" title="Community Vouch">
             {% if has_vouched %}
             {% icon "zmdi zmdi-favorite zmd-fw" %} ({{ project.vouches.count }}) Remove Your Vouch
             {% else %}

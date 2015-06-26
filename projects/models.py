@@ -17,6 +17,26 @@ class Vouch(models.Model):
     user           = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='vouches')
     created_date   = models.DateTimeField(default=timezone.now)
 
+    @staticmethod
+    def get_url(target):
+        return '{path}?model={model}?pk={pk}'.format(path=reverse('projects:vouch'),
+                                                     model=target.__class__.__name__,
+                                                     pk=target.pk)
+
+    @staticmethod
+    def toggle_vouch(target, user):
+        v = target.vouches.filter(user=user)
+        if v.exists():
+            v.delete()
+            return target.undo_vouch_message()
+        Vouch.objects.create(content_object=target, user=user)
+        return target.vouch_message()
+
+    @staticmethod
+    def has_vouched(target, user):
+        return target.vouches.filter(user=user).exists()
+
+
 class VerifiedModel(models.Model):
     class Meta:
         abstract = True
@@ -41,15 +61,14 @@ class Project(VerifiedModel):
     reports         = GenericRelation(Report)
     vouches         = GenericRelation(Vouch)
 
-    def toggle_vouch(self, user):
-        if self.has_vouched(user):
-            self.vouches.filter(user=user).delete()
-            return False
-        Vouch.objects.create(content_object=self, user=user)
-        return True
+    def vouch_message(self):
+        return 'You have vouched for the {} project community.'.format(self.name)
 
-    def has_vouched(self, user):
-        return self.vouches.filter(user=user).exists()
+    def undo_vouch_message(self):
+        return 'You no longer vouch for the {} project community.'.format(self.name)
+
+    def get_vouch_url(self):
+        return Vouch.get_url(self)
 
     def get_report_url(self):
         return '{}?model=Project&pk={}&target={}'.format(reverse('reports:new'), self.pk, self.name)

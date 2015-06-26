@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.views.generic import View, ListView, DetailView, DeleteView, CreateView, FormView, UpdateView
@@ -5,7 +6,8 @@ from django.db.models import Q
 from django.contrib import messages
 from braces.views import UserPassesTestMixin
 from common.access_mixins import VerifiedEmailRequiredMixin
-from .models import Project, Report, Submission
+from .models import Project, Report, Submission, Vouch
+from . import models
 from . import forms
 
 class ProjectIndex(ListView):
@@ -38,7 +40,7 @@ class ProjectDetail(DetailView):
         if self.request.user.is_authenticated():
             context['submissions'] = self.object.get_submissions_for_user(self.request.user)
             context['reports']     = self.object.get_reports_for_user(self.request.user)
-            context['has_vouched'] = self.object.has_vouched(self.request.user)
+            context['has_vouched'] = Vouch.has_vouched(self.object, self.request.user)
 
         if self.object.user == self.request.user:
             context['can_edit'] = True
@@ -96,15 +98,14 @@ class ProjectVerify(UserPassesTestMixin, View):
         messages.error(request, 'You must be a moderator to verify this project.')
         return redirect('/')
 
-class ProjectVouch(VerifiedEmailRequiredMixin, View):
+class ToggleVouch(VerifiedEmailRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        project = get_object_or_404(Project, pk=kwargs['pk'])
-        status = project.toggle_vouch(request.user)
-        if status:
-            messages.success(request, 'You have vouched for the {} project community.'.format(project.name))
-        else:
-            messages.success(request, 'You no longer vouch for the {} project community.'.format(project.name))
-        return redirect(project.get_absolute_url())
+        if request.GET.get('model', '') not in ['Project', 'Submission']:
+            raise Http404()
+        target = get_object_or_404(getattr(models, request.GET.get('model')), pk=request.GET.get('pk'))
+        status = Vouch.toggle_vouch(target, request.user)
+        messages.success(request, status)
+        return redirect(target.get_absolute_url())
 
 class SubmissionVerify(UserPassesTestMixin, View):
     def get(self, request, *args, **kwargs):

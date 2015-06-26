@@ -13,4 +13,9 @@
     &.error {
         background: $alizarin;
     }
+    .close-button {
+        display: none;
+        cursor: pointer;
+        float: right;
+    }
 }

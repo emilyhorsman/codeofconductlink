@@ -19,7 +19,7 @@ class Vouch(models.Model):
 
     @staticmethod
     def get_url(target):
-        return '{path}?model={model}?pk={pk}'.format(path=reverse('projects:vouch'),
+        return '{path}?model={model}&pk={pk}'.format(path=reverse('projects:vouch'),
                                                      model=target.__class__.__name__,
                                                      pk=target.pk)
 

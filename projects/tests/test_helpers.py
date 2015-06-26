@@ -1,5 +1,5 @@
 import factory
-from . import models
+from projects import models
 
 class ProjectFactory(factory.django.DjangoModelFactory):
     class Meta:

@@ -1,0 +1,13 @@
+
+.project-report {
+    border-bottom: 1px solid $accent;
+    margin-bottom: 1em;
+    .report-visibility {
+        font-size: 0.8em;
+        font-style: italic;
+    }
+    .date {
+        font-style: italic;
+        font-size: 0.9em;
+    }
+}

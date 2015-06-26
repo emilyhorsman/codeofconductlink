@@ -31,11 +31,15 @@ $font-stack: 'Open Sans', sans-serif;
 
 // Large components of the project
 @import "components/header";
+@import "components/projects/components/project-details";
+@import "components/projects/components/project-report";
+@import "components/projects/components/project-toolbar";
 
 // UI Objects
 @import "ui/buttons";
 @import "ui/messages";
 @import "ui/forms";
+@import "ui/backed";
 
 .icon {
     width: 1em;
@@ -48,54 +52,6 @@ $font-stack: 'Open Sans', sans-serif;
 
 table {
     font-size: 1.1em;
-}
-
-.backed {
-    background: $bg;
-    color: #fff;
-    font-weight: 300;
-    padding: 0.05em 0.4em;
-
-    a {
-        text-decoration: none;
-        color: #fff;
-    }
-
-    &.comfy {
-        padding: 0.2em 0.6em;
-        font-size: 1.2em;
-    }
-
-    &.form-message {
-        max-width: 25em;
-        padding: 1em;
-        font-size: 0.9em;
-    }
-}
-
-.project {
-    margin: 1em;
-}
-
-#projects {
-    a {
-        text-decoration: none;
-        color: #000;
-    }
-
-    $tag-base: #ccc;
-    .project-tag {
-        text-decoration: none;
-        background: $tag-base;
-        font-size: 0.9em;
-        letter-spacing: 0.03em;
-        font-weight: 300;
-        padding: 0.2em 0.6em;
-        border-radius: 0.2em;
-        &:hover {
-            background: darken($tag-base, 10%);
-        }
-    }
 }
 
 p {
@@ -118,74 +74,5 @@ p {
         .box {
             margin: 0 1em;
         }
-    }
-}
-
-.project-verification {
-    max-width: 30em;
-    padding: 0.5em 1em;
-}
-
-.project-name {
-    margin: 0;
-    a {
-        text-decoration: none;
-        color: #000;
-        font-weight: 300;
-        font-size: 1.25em;
-    }
-}
-
-.project-toolbar {
-    list-style-type: none;
-    line-height: 2.5em;
-    padding: 0;
-    margin: 0;
-    li { float: left; margin-right: 0.5em; }
-
-    a {
-        border-radius: 0.2em;
-        color: #fff;
-        text-decoration: none;
-        padding: 0.3em 0.6em 0.3em 0.3em;
-        font-weight: 300;
-        &.delete {
-            background-color: $alizarin;
-            &:hover {
-                background-color: darken($alizarin, 10%);
-            }
-        }
-    }
-}
-
-div.project-toolbar {
-    margin: 0 0 0.5em 0;
-    padding: 0;
-}
-
-#project-tags {
-    list-style-type: none;
-    margin: 0 0 0.5em 0;
-    padding: 0;
-    li {
-        float: left;
-        margin-right: 1em;
-        a {
-            text-decoration: none;
-            color: #000;
-        }
-    }
-}
-
-.project-report {
-    border-bottom: 1px solid $accent;
-    margin-bottom: 1em;
-    .report-visibility {
-        font-size: 0.8em;
-        font-style: italic;
-    }
-    .date {
-        font-style: italic;
-        font-size: 0.9em;
     }
 }

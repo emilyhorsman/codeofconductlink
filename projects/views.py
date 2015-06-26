@@ -41,16 +41,17 @@ class ProjectDetail(DetailView):
             context['submissions'] = self.object.get_submissions_for_user(self.request.user)
             context['reports']     = self.object.get_reports_for_user(self.request.user)
             context['has_vouched'] = Vouch.has_vouched(self.object, self.request.user)
-
-        if self.object.user == self.request.user:
-            context['can_edit'] = True
+            context['can_edit']    = self.object.user == self.request.user or \
+                                     self.request.user.is_moderator
 
         return context
 
-class ProjectOwnerPermissionsMixin(UserPassesTestMixin):
+class ProjectUpdatePermissionsMixin(UserPassesTestMixin):
     permission_fail_message = 'You must be the project owner to perform the requested action.'
 
     def test_func(self, user):
+        if user.is_moderator:
+            return True
         return Project.objects.filter(user=user,
                                       pk=self.request.resolver_match.kwargs['pk']).exists()
 
@@ -59,14 +60,14 @@ class ProjectOwnerPermissionsMixin(UserPassesTestMixin):
         return redirect(reverse('projects:detail', args=(self.request.resolver_match.kwargs['pk'],)))
 
 
-class ProjectUpdate(ProjectOwnerPermissionsMixin,
+class ProjectUpdate(ProjectUpdatePermissionsMixin,
                     VerifiedEmailRequiredMixin,
                     UpdateView):
     model = Project
     form_class = forms.UpdateProjectForm
     template_name = 'projects/project_form.html'
 
-class ProjectDelete(ProjectOwnerPermissionsMixin,
+class ProjectDelete(ProjectUpdatePermissionsMixin,
                     VerifiedEmailRequiredMixin,
                     DeleteView):
     model = Project

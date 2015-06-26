@@ -69,8 +69,41 @@ class TestProjectEditing(TestCase):
         self.ada   = verified_user()
         self.project = ProjectFactory(user=self.alice, name='Verified Alice Project')
         self.project.verify(self.admin)
+        self.project_update_url = reverse('projects:update', args=(self.project.pk,))
+
+    def check_edit_button(self, check_contains):
+        response = self.client.get(self.project.get_absolute_url())
+        if check_contains:
+            self.assertContains(response, self.project_update_url)
+        else:
+            self.assertNotContains(response, self.project_update_url)
+
+    def test_show_edit_button_to_moderator(self):
+        login_user(self.client, self.admin)
+        self.check_edit_button(True)
 
     def test_show_edit_button_to_project_owner(self):
         login_user(self.client, self.alice)
-        response = self.client.get(self.project.get_absolute_url())
-        self.assertContains(response, reverse('projects:update', args=(self.project.pk,)))
+        self.check_edit_button(True)
+
+    def test_dont_show_edit_button_to_other_users(self):
+        self.check_edit_button(False)
+        login_user(self.client, self.ada)
+        self.check_edit_button(False)
+
+    def test_permission_project_owner(self):
+        login_user(self.client, self.alice)
+        response = self.client.get(self.project_update_url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_permission_moderator(self):
+        login_user(self.client, self.admin)
+        response = self.client.get(self.project_update_url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_permission_redirects(self):
+        response = self.client.get(self.project_update_url)
+        self.assertEqual(response.status_code, 302)
+        login_user(self.client, self.ada)
+        response = self.client.get(self.project_update_url)
+        self.assertEqual(response.status_code, 302)

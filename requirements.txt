@@ -6,6 +6,7 @@ django-allauth==0.20.0
 django-braces==1.8.0
 django-crispy-forms==1.4.0
 django-extensions==1.5.5
+django-reversion==1.8.7
 django-taggit==0.15.0
 factory-boy==2.5.2
 oauthlib==0.7.2

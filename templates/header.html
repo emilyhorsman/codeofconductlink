@@ -1,3 +1,5 @@
+{% load icons %}
+
 <div class="pure-menu pure-menu-horizontal" id="header">
     <h2 class="pure-menu-heading"><a class="pure-menu-heading" href="/" title="a software community tracker">a software community tracker</a></h2>
     <ul class="pure-menu-list">
@@ -17,7 +19,7 @@
         <header>
             {% if messages %}
             {% for message in messages %}
-            <div class="message {{ message.tags }}">{{ message }}</div>
+            <div class="message {{ message.tags }}">{% icon "zmdi zmdi-close zmd-fw close-button" %}{{ message }}</div>
             {% endfor %}
             {% endif %}
         </header>

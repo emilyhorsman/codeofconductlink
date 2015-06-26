@@ -46,5 +46,10 @@
             {% block altcontent %}
             {% endblock %}
         </div>
+
+        {% block js %}
+        <script src="{% static "scripts/vendor/jquery-1.11.3.min.js" %}"></script>
+        <script src="{% static "scripts/main.js" %}"></script>
+        {% endblock %}
     </body>
 </html>

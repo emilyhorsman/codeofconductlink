@@ -1,0 +1,32 @@
+.project {
+    margin: 1em;
+}
+
+.project-name {
+    margin: 0;
+    a {
+        text-decoration: none;
+        color: #000;
+        font-weight: 300;
+        font-size: 1.25em;
+    }
+}
+
+#project-tags {
+    list-style-type: none;
+    margin: 0 0 0.5em 0;
+    padding: 0;
+    li {
+        float: left;
+        margin-right: 1em;
+        a {
+            text-decoration: none;
+            color: #000;
+        }
+    }
+}
+
+.project-verification {
+    max-width: 30em;
+    padding: 0.5em 1em;
+}

@@ -1,0 +1,22 @@
+.backed {
+    background: $bg;
+    color: #fff;
+    font-weight: 300;
+    padding: 0.05em 0.4em;
+
+    a {
+        text-decoration: none;
+        color: #fff;
+    }
+
+    &.comfy {
+        padding: 0.2em 0.6em;
+        font-size: 1.2em;
+    }
+
+    &.form-message {
+        max-width: 25em;
+        padding: 1em;
+        font-size: 0.9em;
+    }
+}

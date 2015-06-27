@@ -10,7 +10,7 @@ class TestProjectVouch(TestCase):
         self.admin = verified_user(is_staff=True)
         self.alice = verified_user()
         self.project = ProjectFactory(user=self.alice, name='Foo')
-        self.project.verify(self.admin)
+        self.project.toggle_verify(self.admin)
         self.vouch_path = '{path}?model={model}&pk={pk}'.format(path=reverse('projects:vouch'),
                                                                model=self.project.__class__.__name__,
                                                                pk=self.project.pk)

@@ -46,9 +46,19 @@ class VerifiedModel(models.Model):
     verified_by   = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True,
                                       related_name='%(class)s_verifications')
 
-    def verify(self, verifying_user, save=True):
-        self.verified_date = timezone.now()
-        self.verified_by   = verifying_user
+    def get_verify_url(self):
+        return '{path}?model={model}&pk={pk}'.format(path=reverse('projects:verify'),
+                                                     model=self.__class__.__name__,
+                                                     pk=self.pk)
+
+    def toggle_verify(self, verifying_user, save=True):
+        if self.verified_date:
+            self.verified_date = None
+            self.verified_by   = None
+        else:
+            self.verified_date = timezone.now()
+            self.verified_by   = verifying_user
+
         if save:
             self.save()
 

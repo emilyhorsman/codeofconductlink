@@ -51,7 +51,7 @@ class ProjectUpdatePermissionsMixin(UserPassesTestMixin):
     permission_fail_message = 'You must be the project owner to perform the requested action.'
 
     def test_func(self, user):
-        if user.is_moderator:
+        if user.is_authenticated() and user.is_moderator:
             return True
         return Project.objects.filter(user=user,
                                       pk=self.request.resolver_match.kwargs['pk']).exists()
@@ -94,20 +94,6 @@ class CreateProject(VerifiedEmailRequiredMixin, CreateView):
             form.instance.verify(form.instance.user, False)
         return super(CreateProject, self).form_valid(form)
 
-class ProjectVerify(UserPassesTestMixin, View):
-    def get(self, request, *args, **kwargs):
-        project = get_object_or_404(Project, pk=kwargs['pk'])
-        project.verify(request.user)
-        messages.success(request, '{} has been verified.'.format(project.name))
-        return redirect(project.get_absolute_url())
-
-    def test_func(self, user):
-        return user.is_moderator
-
-    def no_permissions_fail(self, request):
-        messages.error(request, 'You must be a moderator to verify this project.')
-        return redirect('/')
-
 class ToggleVouch(VerifiedEmailRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         if request.GET.get('model', '') not in ['Project', 'Submission']:
@@ -117,18 +103,21 @@ class ToggleVouch(VerifiedEmailRequiredMixin, View):
         messages.success(request, status)
         return redirect(target.get_absolute_url())
 
-class SubmissionVerify(UserPassesTestMixin, View):
+class ToggleVerify(UserPassesTestMixin, View):
     def get(self, request, *args, **kwargs):
-        submission = get_object_or_404(Submission, pk=kwargs['pk'])
-        submission.verify(request.user)
-        messages.success(request, 'Submission verified.')
-        return redirect(submission.project.get_absolute_url())
+        if request.GET.get('model', '') not in ['Project', 'Submission']:
+            raise Http404()
+        target = get_object_or_404(getattr(models, request.GET.get('model')), pk=request.GET.get('pk'))
+        target.toggle_verify(request.user)
+        if getattr(target, 'project', False):
+            return redirect(target.project.get_absolute_url())
+        return redirect(target.get_absolute_url())
 
     def test_func(self, user):
-        return user.is_moderator
+        return user.is_authenticated() and user.is_moderator
 
     def no_permissions_fail(self, request):
-        messages.error(request, 'You must be a moderator to verify this submission.')
+        messages.error(request, 'You must be a moderator to verify data.')
         return redirect('/')
 
 class SubmissionCreate(VerifiedEmailRequiredMixin, CreateView):

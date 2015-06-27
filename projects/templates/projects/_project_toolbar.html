@@ -1,8 +1,16 @@
 {% load url_extras %}
 {% load icons %}
 <ul class="project-toolbar">
-    {% if not project.verified_date and user.is_moderator %}
-    <li><a class="pure-button pure-button-primary project-main-link" href="{% url "projects:verify" project.pk %}" title="Verify Project">{% icon "zmdi zmdi-check zmdi-fw" %} Verify</a></li>
+    {% if user.is_moderator %}
+    <li>
+        <a class="pure-button pure-button-primary project-main-link" href="{{ project.get_verify_url|safe }}" title="Verify Project">
+        {% if project.verified_date %}
+            {% icon "zmdi zmdi-close zmdi-fw" %} Unverify
+        {% else %}
+            {% icon "zmdi zmdi-check zmdi-fw" %} Verify
+        {% endif %}
+        </a>
+    </li>
     {% endif %}
     {% if project.homepage %}
     <li><a class="pure-button pure-button-primary project-main-link" href="{{ project.homepage }}" title="{{ project.homepage|netloc }}">{% icon "zmdi zmdi-home zmd-fw" %} {{ project.homepage|netloc|truncatewith:"20,Homepage" }}</a></li>
@@ -11,9 +19,9 @@
     <li><a class="pure-button pure-button-primary project-main-link" href="{{ project.code_of_conduct }}" title="Code of Conduct">{% icon "zmdi zmdi-face zmd-fw" %} Code of Conduct</a></li>
     {% endif %}
 
-    <li><a class="pure-button pure-button-primary" href="{{ project.get_report_url }}" title="Report Project">{% icon "zmdi zmdi-flag zmd-fw" %} ({{ project.reports.count }}) Report Entry</a></li>
+    <li><a class="pure-button pure-button-primary" href="{{ project.get_report_url|safe }}" title="Report Project">{% icon "zmdi zmdi-flag zmd-fw" %} ({{ project.reports.count }}) Report Entry</a></li>
     <li>
-        <a class="pure-button pure-button-primary" href="{{ project.get_vouch_url }}" title="Community Vouch">
+        <a class="pure-button pure-button-primary" href="{{ project.get_vouch_url|safe }}" title="Community Vouch">
             {% if has_vouched %}
             {% icon "zmdi zmdi-favorite zmd-fw" %} ({{ project.vouches.count }}) Remove Your Vouch
             {% else %}

@@ -33,11 +33,11 @@ class TestProjectDisplayBasedOnPermissions(TestCase):
         # and one that has not.
         self.unverified_ada_project   = ProjectFactory(user=self.ada, name='Unverified Ada Project')
         self.verified_ada_project     = ProjectFactory(user=self.ada, name='Verified Ada Project')
-        self.verified_ada_project.verify(self.admin)
+        self.verified_ada_project.toggle_verify(self.admin)
 
         self.unverified_alice_project = ProjectFactory(user=self.alice, name='Unverified Alice Project')
         self.verified_alice_project   = ProjectFactory(user=self.alice, name='Verified Alice Project')
-        self.verified_alice_project.verify(self.admin)
+        self.verified_alice_project.toggle_verify(self.admin)
 
     def test_admin_sees_all_projects(self):
         login_user(self.client, self.admin)
@@ -68,7 +68,7 @@ class TestProjectEditing(TestCase):
         self.alice = verified_user()
         self.ada   = verified_user()
         self.project = ProjectFactory(user=self.alice, name='Verified Alice Project')
-        self.project.verify(self.admin)
+        self.project.toggle_verify(self.admin)
         self.project_update_url = reverse('projects:update', args=(self.project.pk,))
 
     def check_edit_button(self, check_contains):

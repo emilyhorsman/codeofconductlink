@@ -94,23 +94,30 @@ class CreateProject(VerifiedEmailRequiredMixin, CreateView):
             form.instance.verify(form.instance.user, False)
         return super(CreateProject, self).form_valid(form)
 
+def get_object_from_get_params(request):
+    if request.GET.get('model', '') not in ['Project', 'Submission']:
+        raise Http404()
+    return get_object_or_404(getattr(models, request.GET.get('model')), pk=request.GET.get('pk'))
+
 class ToggleVouch(VerifiedEmailRequiredMixin, View):
-    def get(self, request, *args, **kwargs):
-        if request.GET.get('model', '') not in ['Project', 'Submission']:
-            raise Http404()
-        target = get_object_or_404(getattr(models, request.GET.get('model')), pk=request.GET.get('pk'))
+    def post(self, request, *args, **kwargs):
+        target = get_object_from_get_params(request)
         status = Vouch.toggle_vouch(target, request.user)
         messages.success(request, status)
         return redirect(target.get_absolute_url())
 
-class ToggleVerify(UserPassesTestMixin, View):
     def get(self, request, *args, **kwargs):
-        if request.GET.get('model', '') not in ['Project', 'Submission']:
-            raise Http404()
-        target = get_object_or_404(getattr(models, request.GET.get('model')), pk=request.GET.get('pk'))
+        target = get_object_from_get_params(request)
+        return redirect(target.get_absolute_url())
+
+class ToggleVerify(UserPassesTestMixin, View):
+    def post(self, request, *args, **kwargs):
+        target = get_object_from_get_params(request)
         target.toggle_verify(request.user)
-        if getattr(target, 'project', False):
-            return redirect(target.project.get_absolute_url())
+        return redirect(target.get_absolute_url())
+
+    def get(self, request, *args, **kwargs):
+        target = get_object_from_get_params(request)
         return redirect(target.get_absolute_url())
 
     def test_func(self, user):

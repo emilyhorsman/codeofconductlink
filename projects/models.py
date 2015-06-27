@@ -134,5 +134,8 @@ class Submission(VerifiedModel):
     reports         = GenericRelation(Report)
     vouches         = GenericRelation(Vouch)
 
+    def get_absolute_url(self):
+        return self.project.get_absolute_url()
+
     def __str__(self):
         return self.url

@@ -3,13 +3,13 @@
 <ul class="project-toolbar">
     {% if user.is_moderator %}
     <li>
-        <a class="pure-button pure-button-primary project-main-link" href="{{ project.get_verify_url|safe }}" title="Verify Project">
+        <form method="POST" action="{{ project.get_verify_url|safe }}">{% csrf_token %}
         {% if project.verified_date %}
-            {% icon "zmdi zmdi-close zmdi-fw" %} Unverify
+            <button type="submit" class="pure-button pure-button-primary project-main-link">{% icon "zmdi zmdi-close zmdi-fw" %} Unverify</button>
         {% else %}
-            {% icon "zmdi zmdi-check zmdi-fw" %} Verify
+            <button type="submit" class="pure-button pure-button-primary project-main-link">{% icon "zmdi zmdi-check zmdi-fw" %} Verify</button>
         {% endif %}
-        </a>
+        </form>
     </li>
     {% endif %}
     {% if project.homepage %}
@@ -21,13 +21,13 @@
 
     <li><a class="pure-button pure-button-primary" href="{{ project.get_report_url|safe }}" title="Report Project">{% icon "zmdi zmdi-flag zmd-fw" %} ({{ project.reports.count }}) Report Entry</a></li>
     <li>
-        <a class="pure-button pure-button-primary" href="{{ project.get_vouch_url|safe }}" title="Community Vouch">
+        <form method="POST" action="{{ project.get_vouch_url|safe }}">{% csrf_token %}
             {% if has_vouched %}
-            {% icon "zmdi zmdi-favorite zmd-fw" %} ({{ project.vouches.count }}) Remove Your Vouch
+            <button type="submit" class="pure-button pure-button-primary project-main-link">{% icon "zmdi zmdi-favorite zmd-fw" %} ({{ project.vouches.count }}) Remove Your Vouch</button>
             {% else %}
-            {% icon "zmdi zmdi-favorite-outline zmd-fw" %} ({{ project.vouches.count }}) Vouch For Community
+            <button type="submit" class="pure-button pure-button-primary project-main-link">{% icon "zmdi zmdi-favorite-outline zmd-fw" %} ({{ project.vouches.count }}) Vouch For Community</button>
             {% endif %}
-        </a>
+        </form>
     </li>
     {% if can_edit %}
     <li><a class="pure-button pure-button-primary" href="{% url "projects:update" project.pk %}" title="Edit Project">{% icon "zmdi zmdi-edit zmd-fw" %} Edit</a></li>

@@ -13,12 +13,12 @@ class TestProjectVerification(TestCase):
 
     def test_no_get_params(self):
         login_user(self.client, self.admin)
-        response = self.client.get(reverse('projects:verify'))
+        response = self.client.post(reverse('projects:verify'))
         self.assertEqual(response.status_code, 404)
 
     def test_invalid_model_get_param(self):
         login_user(self.client, self.admin)
-        response = self.client.get('{}?model=Foo'.format(reverse('projects:verify')))
+        response = self.client.post('{}?model=Foo'.format(reverse('projects:verify')))
         self.assertEqual(response.status_code, 404)
 
     def test_show_verify_button_to_moderator(self):
@@ -32,21 +32,21 @@ class TestProjectVerification(TestCase):
         self.assertNotContains(response, self.verify_path)
 
     def test_verify_permissions(self):
-        response = self.client.get(self.verify_path)
+        response = self.client.post(self.verify_path)
         self.assertEqual(response.status_code, 302)
         login_user(self.client, self.alice)
-        response = self.client.get(self.verify_path)
+        response = self.client.post(self.verify_path)
         self.assertEqual(response.status_code, 302)
 
     def test_toggle_verification(self):
         login_user(self.client, self.admin)
-        response = self.client.get(self.verify_path)
+        response = self.client.post(self.verify_path)
         p = Project.objects.get(pk=self.project.pk)
         self.assertTrue(response['Location'].endswith(self.project.get_absolute_url()))
         self.assertTrue(p.verified_date > p.created_date)
         self.assertEqual(p.verified_by, self.admin)
 
-        response = self.client.get(self.verify_path)
+        response = self.client.post(self.verify_path)
         p = Project.objects.get(pk=self.project.pk)
         self.assertTrue(response['Location'].endswith(self.project.get_absolute_url()))
         self.assertFalse(p.verified_date)
@@ -63,13 +63,13 @@ class TestSubmissionVerification(TestCase):
 
     def test_toggle_verification(self):
         login_user(self.client, self.admin)
-        response = self.client.get(self.verify_path)
+        response = self.client.post(self.verify_path)
         s = Submission.objects.get(pk=self.submission.pk)
         self.assertTrue(response['Location'].endswith(self.project.get_absolute_url()))
         self.assertTrue(s.verified_date > s.created_date)
         self.assertEqual(s.verified_by, self.admin)
 
-        response = self.client.get(self.verify_path)
+        response = self.client.post(self.verify_path)
         s = Submission.objects.get(pk=self.submission.pk)
         self.assertTrue(response['Location'].endswith(self.project.get_absolute_url()))
         self.assertFalse(s.verified_date)

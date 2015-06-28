@@ -89,13 +89,14 @@ class Project(VerifiedModel):
         return reverse('projects:detail', args=(self.pk, slugify(self.name),))
 
     def get_submissions_for_user(self, request_user):
-        if request_user.is_authenticated() and request_user.is_moderator:
-            return self.submissions.all()
+        q = Q(verified_date__isnull=False)
+        if request_user.is_authenticated():
+            if request_user.is_moderator:
+                return self.submissions.all()
 
-        return self.submissions.filter(
-            Q(verified_date__isnull=False) |
-            Q(user=request_user)
-        )
+            return self.submissions.filter(q | Q(user=request_user))
+
+        return self.submissions.filter(q)
 
     def get_reports_for_user(self, request_user):
         # All reports should be visible to moderators. Reports that have

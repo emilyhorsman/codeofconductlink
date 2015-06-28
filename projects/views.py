@@ -38,8 +38,8 @@ class ProjectDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
 
+        context['submissions'] = self.object.get_submissions_for_user(self.request.user)
         if self.request.user.is_authenticated():
-            context['submissions'] = self.object.get_submissions_for_user(self.request.user)
             context['reports']     = self.object.get_reports_for_user(self.request.user)
             context['has_vouched'] = Vouch.has_vouched(self.object, self.request.user)
             context['can_edit']    = self.object.user == self.request.user or \
@@ -134,13 +134,19 @@ class SubmissionCreate(VerifiedEmailRequiredMixin, CreateView):
     def get_form_kwargs(self):
         kwargs = super(SubmissionCreate, self).get_form_kwargs()
         kwargs.update({
-            'project': get_object_or_404(Project, pk=self.request.resolver_match.kwargs['pk'])
+            'project': get_object_or_404(Project, pk=self.request.resolver_match.kwargs['project_pk'])
         })
         return kwargs
 
     def form_valid(self, form):
-        project = get_object_or_404(Project, pk=self.request.resolver_match.kwargs['pk'])
+        project = get_object_or_404(Project, pk=self.request.resolver_match.kwargs['project_pk'])
         form.instance.project = project
         form.instance.user = self.request.user
         self.success_url = project.get_absolute_url()
         return super(SubmissionCreate, self).form_valid(form)
+
+class SubmissionUpdate(UserPassesTestMixin, UpdateView):
+    pass
+
+class SubmissionDelete(UserPassesTestMixin, DeleteView):
+    pass

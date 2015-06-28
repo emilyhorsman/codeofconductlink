@@ -29,7 +29,7 @@
     Submission by {{ submission.user.name }} on {{ submission.created_date|date:"d M Y" }}
     <ul>
         {% if user.is_moderator and not submission.verified_date %}
-        <li>This submission is awaiting verification: <a href="{% url "projects:verify-submission" submission.pk %}" title="Verify">Verify Submission</a></li>
+        <li>This submission is awaiting verification: <a href="{{ submission.get_verify_url|safe }}" title="Verify">Verify Submission</a></li>
         {% endif %}
         <li><a href="{{ submission.url }}" title="{{ submission.url|netloc }}">{{ submission.url|netloc }}</a></li>
         <li>{{ submission.is_contributor|yesno:"Project contributor," }}</li>

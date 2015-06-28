@@ -44,7 +44,7 @@ $font-stack: 'Open Sans', sans-serif;
 @import "ui/backed";
 
 body {
-  background: #eee;
+    background: #eee;
 }
 
 .icon {
@@ -62,15 +62,6 @@ table {
 
 p {
     line-height: 1.5em;
-}
-
-a {
-    text-decoration: none;
-    color: darken($alizarin, 20);
-}
-
-a:hover {
-    color: $alizarin;
 }
 
 // This is a bit too specific and can probably be refactored:

@@ -15,46 +15,44 @@
         <ul id="project-list" class="project-list">
             {% for project in projects %}
             <li class="card">
-                    <!-- Verified by {{ project.verified_by.name }} on {{ project.verified_date|date:"d M Y" }}
-                        Awaiting verification... -->
                 {% if not project.verified_date %}
-                    <div class="not-verified">
-                        <i class="zmdi zmdi-alert-circle-o zmdi-fw"></i> Awaiting verification&hellip;
-                    </div>
+                <div class="not-verified">
+                    <i class="zmdi zmdi-alert-circle-o zmdi-fw"></i> Awaiting verification&hellip;
+                </div>
                 {% endif %}
                 <div class="card-left">
                     <h2><a href="{{ project.get_absolute_url }}" title="{{ project.name }}">{{ project.name }}</a></h2>
                     {% if project.homepage %}
-                        <h3><a href="{{ project.homepage }}" title="Homepage">{{ project.homepage|netloc }}</a></h3>
+                    <h3><a href="{{ project.homepage }}" title="Homepage">{{ project.homepage|netloc }}</a></h3>
                     {% endif %}
                     {% if project.code_of_conduct %}
-                        <h3><a href="{{ project.code_of_conduct }}" title="Code of Conduct">Code of Conduct</a></h3>
+                    <h3><a href="{{ project.code_of_conduct }}" title="Code of Conduct">Code of Conduct</a></h3>
                     {% endif %}
-              </div>
+                </div>
 
-              <div class="card-right">
-                <p>
-                  <i class="zmdi zmdi-favorite-outline zmdi-fw"></i> 1
-                </p>
-                <p>
-                  <i class="zmdi zmdi-flag zmdi-fw"></i> 0
-                </p>
-              </div>
+                <div class="card-right">
+                    <p>
+                        <a href="{{ project.get_vouch_url|safe }}" title="Vouch for {{ project.name }}"><i class="zmdi zmdi-favorite-outline zmdi-fw"></i> {{ project.vouches.count }}</a>
+                    </p>
+                    <p>
+                        <a href="{{ project.get_report_url|safe }}" title="Report {{ project.name }}"><i class="zmdi zmdi-flag zmdi-fw"></i> {{ project.reports.count }}</a>
+                    </p>
+                </div>
 
-              <div class="clear"></div>
+                <div class="clear"></div>
 
-              <div class="tags">
-                <ul>
-                    {% for tag in project.tags.all %}
+                <div class="tags">
+                    <ul>
+                        {% for tag in project.tags.all %}
                         <li><a href="{% url "projects:list-by-tag" tag.slug %}" title="Projects tagged {{ tag.name }}">{% icon "zmdi zmdi-label-heart zmd-fw" %}{{ tag.name }}</a></li>
-                    {% empty %}
+                        {% empty %}
                         <li>no tags added yet</li>
-                    {% endfor %}
-                  <div class="clear"></div>
-                </ul>
-              </div>
-            {% endfor %}
-        </ul>
-    </div>
+                        {% endfor %}
+                        <div class="clear"></div>
+                    </ul>
+                </div>
+                {% endfor %}
+            </ul>
+        </div>
 </div>
 {% endblock %}

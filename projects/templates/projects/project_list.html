@@ -12,33 +12,47 @@
 </div>
 <div class="pure-g">
     <div class="pure-u-1">
-        <ul id="project-list">
+        <ul id="project-list" class="project-list">
             {% for project in projects %}
-            <li>
-                <a href="{{ project.get_absolute_url }}" title="{{ project.name }}">{{ project.name }}</a>
-                <ul>
-                    {% if project.verified_date %}
-                    <li>
-                    Verified by {{ project.verified_by.name }} on {{ project.verified_date|date:"d M Y" }}
-                    {% else %}
-                    Awaiting verification...
-                    </li>
-                    {% endif %}
+            <li class="card">
+                    <!-- Verified by {{ project.verified_by.name }} on {{ project.verified_date|date:"d M Y" }}
+                        Awaiting verification... -->
+                {% if not project.verified_date %}
+                    <div class="not-verified">
+                        <i class="zmdi zmdi-alert-circle-o zmdi-fw"></i> Awaiting verification&hellip;
+                    </div>
+                {% endif %}
+                <div class="card-left">
+                    <h2><a href="{{ project.get_absolute_url }}" title="{{ project.name }}">{{ project.name }}</a></h2>
                     {% if project.homepage %}
-                    <li><a href="{{ project.homepage }}" title="Homepage">{{ project.homepage|netloc }}</a></li>
+                        <h3><a href="{{ project.homepage }}" title="Homepage">{{ project.homepage|netloc }}</a></h3>
                     {% endif %}
                     {% if project.code_of_conduct %}
-                    <li><a href="{{ project.code_of_conduct }}" title="Code of Conduct">Code of Conduct</a></li>
+                        <h3><a href="{{ project.code_of_conduct }}" title="Code of Conduct">Code of Conduct</a></h3>
                     {% endif %}
-                    <li>
-                        <ul>
-                            {% for tag in project.tags.all %}
-                            <li><a href="{% url "projects:list-by-tag" tag.slug %}" title="Projects tagged {{ tag.name }}">{% icon "zmdi zmdi-label-heart zmd-fw" %}{{ tag.name }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </li>
+              </div>
+
+              <div class="card-right">
+                <p>
+                  <i class="zmdi zmdi-favorite-outline zmdi-fw"></i> 1
+                </p>
+                <p>
+                  <i class="zmdi zmdi-flag zmdi-fw"></i> 0
+                </p>
+              </div>
+
+              <div class="clear"></div>
+
+              <div class="tags">
+                <ul>
+                    {% for tag in project.tags.all %}
+                        <li><a href="{% url "projects:list-by-tag" tag.slug %}" title="Projects tagged {{ tag.name }}">{% icon "zmdi zmdi-label-heart zmd-fw" %}{{ tag.name }}</a></li>
+                    {% empty %}
+                        <li>no tags added yet</li>
+                    {% endfor %}
+                  <div class="clear"></div>
                 </ul>
-            </li>
+              </div>
             {% endfor %}
         </ul>
     </div>

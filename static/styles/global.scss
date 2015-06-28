@@ -19,6 +19,7 @@ $clouds: #ecf0f1;
 $silver: #bdc3c7;
 $concrete: #95a5a6;
 $asbestos: #7f8c8d;
+$black: #333;
 
 $bg: $midnight-blue;
 $accent: $concrete;
@@ -31,6 +32,7 @@ $font-stack: 'Open Sans', sans-serif;
 
 // Large components of the project
 @import "components/header";
+@import "components/project-card.scss";
 @import "components/projects/components/project-details";
 @import "components/projects/components/project-report";
 @import "components/projects/components/project-toolbar";
@@ -40,6 +42,10 @@ $font-stack: 'Open Sans', sans-serif;
 @import "ui/messages";
 @import "ui/forms";
 @import "ui/backed";
+
+body {
+  background: #eee;
+}
 
 .icon {
     width: 1em;
@@ -58,6 +64,16 @@ p {
     line-height: 1.5em;
 }
 
+a {
+    text-decoration: none;
+    color: $black;
+}
+
+a:hover {
+    color: $green-sea;
+}
+
+// This is a bit too specific and can probably be refactored:
 .content-wrapper {
     .pure-g {
         padding: 0.5em 2em;

@@ -1,42 +1,33 @@
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.views.generic import View, ListView, DetailView, DeleteView, CreateView, FormView, UpdateView
 from django.db.models import Q
 from django.contrib import messages
 from braces.views import UserPassesTestMixin
+import vanilla
 import reversion
 from common.access_mixins import VerifiedEmailRequiredMixin
 from .models import Project, Report, Submission, Vouch
 from . import models
 from . import forms
 
-class ProjectIndex(ListView):
+class ProjectIndex(vanilla.ListView):
+    model = Project
     context_object_name = 'projects'
 
     def get_queryset(self):
-        # Show all projects if a moderator is logged in. Otherwise only show
-        # verified or owned projects.
-        u = self.request.user
-        if u.is_authenticated() and u.is_moderator:
-            return Project.objects.all().order_by('verified_date')
-
-        return Project.objects.filter(
-            Q(verified_date__isnull=False) |
-            Q(user=u.pk)
-        ).order_by('verified_date')
+        return Project.index_qs_for_user(self.request.user)
 
 class ProjectIndexByTag(ProjectIndex):
     def get_queryset(self):
-        qs = super(ProjectIndexByTag, self).get_queryset()
-        return qs.filter(tags__slug=self.kwargs['tag'])
+        return Project.tag_qs_for_user(self.request.user, self.kwargs['tag'])
 
-class ProjectDetail(DetailView):
+class ProjectDetail(vanilla.DetailView):
     model = Project
     context_object_name = 'project'
 
     def get_context_data(self, **kwargs):
-        context = super(DetailView, self).get_context_data(**kwargs)
+        context = super(ProjectDetail, self).get_context_data(**kwargs)
 
         context['submissions'] = self.object.get_submissions_for_user(self.request.user)
         if self.request.user.is_authenticated():
@@ -53,8 +44,10 @@ class ProjectUpdatePermissionsMixin(UserPassesTestMixin):
     def test_func(self, user):
         if user.is_authenticated() and user.is_moderator:
             return True
-        return Project.objects.filter(user=user,
-                                      pk=self.request.resolver_match.kwargs['pk']).exists()
+        return Project.objects.filter(
+                user=user,
+                pk=self.request.resolver_match.kwargs['pk']
+            ).exists()
 
     def no_permissions_fail(self, request):
         messages.error(request, self.permission_fail_message)
@@ -63,10 +56,9 @@ class ProjectUpdatePermissionsMixin(UserPassesTestMixin):
 
 class ProjectUpdate(ProjectUpdatePermissionsMixin,
                     VerifiedEmailRequiredMixin,
-                    UpdateView):
+                    vanilla.UpdateView):
     model = Project
     form_class = forms.UpdateProjectForm
-    template_name = 'projects/project_form.html'
 
     @reversion.create_revision()
     def form_valid(self, form):
@@ -74,18 +66,17 @@ class ProjectUpdate(ProjectUpdatePermissionsMixin,
 
 class ProjectDelete(ProjectUpdatePermissionsMixin,
                     VerifiedEmailRequiredMixin,
-                    DeleteView):
+                    vanilla.DeleteView):
     model = Project
-    template_name = 'projects/project_confirm_delete.html'
     success_url = reverse_lazy('projects:index')
 
     @reversion.create_revision()
     def delete(self, request, *args, **kwargs):
         return super(ProjectDelete, self).delete(request, *args, **kwargs)
 
-class CreateProject(VerifiedEmailRequiredMixin, CreateView):
+class CreateProject(VerifiedEmailRequiredMixin, vanilla.CreateView):
+    model = Project
     form_class = forms.CreateProjectForm
-    template_name = 'projects/project_form.html'
 
     # Automatically verify projects submitted by staff.
     def form_valid(self, form):
@@ -97,9 +88,11 @@ class CreateProject(VerifiedEmailRequiredMixin, CreateView):
 def get_object_from_get_params(request):
     if request.GET.get('model', '') not in ['Project', 'Submission']:
         raise Http404()
-    return get_object_or_404(getattr(models, request.GET.get('model')), pk=request.GET.get('pk'))
+    return get_object_or_404(
+               getattr(models, request.GET.get('model')),
+               pk=request.GET.get('pk'))
 
-class ToggleVouch(VerifiedEmailRequiredMixin, View):
+class ToggleVouch(VerifiedEmailRequiredMixin, vanilla.View):
     def post(self, request, *args, **kwargs):
         target = get_object_from_get_params(request)
         status = Vouch.toggle_vouch(target, request.user)
@@ -110,7 +103,7 @@ class ToggleVouch(VerifiedEmailRequiredMixin, View):
         target = get_object_from_get_params(request)
         return redirect(target.get_absolute_url())
 
-class ToggleVerify(UserPassesTestMixin, View):
+class ToggleVerify(UserPassesTestMixin, vanilla.View):
     def post(self, request, *args, **kwargs):
         target = get_object_from_get_params(request)
         target.toggle_verify(request.user)
@@ -127,26 +120,26 @@ class ToggleVerify(UserPassesTestMixin, View):
         messages.error(request, 'You must be a moderator to verify data.')
         return redirect('/')
 
-class SubmissionCreate(VerifiedEmailRequiredMixin, CreateView):
-    form_class = forms.CreateSubmissionForm
-    template_name = 'projects/submission_form.html'
+class SubmissionCreate(VerifiedEmailRequiredMixin, vanilla.CreateView):
+    model = Submission
 
-    def get_form_kwargs(self):
-        kwargs = super(SubmissionCreate, self).get_form_kwargs()
-        kwargs.update({
-            'project': get_object_or_404(Project, pk=self.request.resolver_match.kwargs['project_pk'])
-        })
-        return kwargs
+    def get_form(self, data=None, files=None, **kwargs):
+        project = get_object_or_404(
+                    Project,
+                    pk=self.request.resolver_match.kwargs['project_pk'])
+        return forms.CreateSubmissionForm(data=data, files=files, project=project, **kwargs)
 
     def form_valid(self, form):
-        project = get_object_or_404(Project, pk=self.request.resolver_match.kwargs['project_pk'])
+        project = get_object_or_404(
+                    Project,
+                    pk=self.request.resolver_match.kwargs['project_pk'])
         form.instance.project = project
         form.instance.user = self.request.user
         self.success_url = project.get_absolute_url()
         return super(SubmissionCreate, self).form_valid(form)
 
-class SubmissionUpdate(UserPassesTestMixin, UpdateView):
+class SubmissionUpdate(UserPassesTestMixin, vanilla.UpdateView):
     pass
 
-class SubmissionDelete(UserPassesTestMixin, DeleteView):
+class SubmissionDelete(UserPassesTestMixin, vanilla.DeleteView):
     pass

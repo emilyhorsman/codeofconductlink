@@ -73,6 +73,26 @@ class Project(VerifiedModel):
     reports         = GenericRelation(Report)
     vouches         = GenericRelation(Vouch)
 
+    class Meta:
+        ordering = ('verified_date',)
+
+    @staticmethod
+    def index_qs_for_user(user):
+        # Show all projects if a moderator is logged in. Otherwise only show
+        # verified or owned projects.
+        q = Q(verified_date__isnull=False)
+        if user.is_authenticated():
+            if user.is_moderator:
+                return Project.objects.all()
+
+            return Project.objects.filter(q | Q(user=user))
+
+        return Project.objects.filter(q)
+
+    @staticmethod
+    def tag_qs_for_user(user, slug):
+        return Project.index_qs_for_user(user).filter(tags__slug=slug)
+
     def vouch_message(self):
         return 'You have vouched for the {} project community.'.format(self.name)
 

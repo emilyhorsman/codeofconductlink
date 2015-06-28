@@ -50,8 +50,8 @@ class CreateReport(FormValidMessageMixin,
         target = self.get_target_object(self.request)
         form.instance.content_object = target
         form.instance.user = self.request.user
-        form.save()
-        return redirect(target.get_absolute_url())
+        self.success_url = target.get_absolute_url()
+        return super(CreateReport, self).form_valid(form)
 
 class UpdateReport(UserPassesTestMixin,
                    FormValidMessageMixin,

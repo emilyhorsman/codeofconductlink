@@ -1,10 +1,12 @@
 table#project-list-table {
+    width: 100%;
+
     td {
         vertical-align: top;
 
         &.project-name {
             max-width: 30em;
-            overflow-wrap: break-word;
+            word-wrap: break-word;
         }
 
         &.actions {

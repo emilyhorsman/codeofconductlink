@@ -36,7 +36,7 @@ cd codeofconductlink
 cp .env.dev.sample .env.dev
 pip install -r requirements.txt
 python manage.py migrate
-python manage.py loaddata sample_data.yaml
+python manage.py loaddata functional_tests/sample_data.yaml
 python manage.py runserver --norecaptcha
 ```
 
@@ -52,7 +52,7 @@ Right now there's no use of an asset pipeline or anything. I just run
 
 `sass --watch static/styles/global.scss:/Users/emily/static/global.css`
 
-(my `.env.dev` contains `STATICFILES_DIR=~/static`)
+(my `.env.dev` contains `STATICFILES_DIR=/Users/emily/static`)
 
 This obviously needs improvement.
 

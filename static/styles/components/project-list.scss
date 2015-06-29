@@ -1,0 +1,12 @@
+.view-options {
+    margin: 0 0.5em;
+    a {
+        margin: 0 -0.2em;
+        &.pure-button-active {
+            color: #aaa;
+            &:hover {
+                background: #e6e6e6;
+            }
+        }
+    }
+}

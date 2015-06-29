@@ -33,6 +33,8 @@ $font-stack: 'Open Sans', sans-serif;
 // Large components of the project
 @import "components/header";
 @import "components/project-card.scss";
+@import "components/project-table.scss";
+@import "components/project-list.scss";
 @import "components/projects/components/project-details";
 @import "components/projects/components/project-report";
 @import "components/projects/components/project-toolbar";
@@ -56,12 +58,12 @@ body {
     margin: 0 auto;
 }
 
-table {
-    font-size: 1.1em;
-}
-
 p {
     line-height: 1.5em;
+}
+
+.clear {
+    clear: both;
 }
 
 // This is a bit too specific and can probably be refactored:

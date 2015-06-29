@@ -39,6 +39,21 @@ class TestProjectDisplayBasedOnPermissions(TestCase):
         self.verified_alice_project   = ProjectFactory(user=self.alice, name='Verified Alice Project')
         self.verified_alice_project.toggle_verify(self.admin)
 
+    def test_show_format_options(self):
+        response = self.client.get(reverse('projects:index'))
+        self.assertContains(response, '?format=table')
+
+    def test_show_table_format(self):
+        response = self.client.get('{}?format=table'.format(reverse('projects:index')))
+        self.assertTemplateUsed(response, 'projects/_project_list_table.html')
+        self.assertTemplateNotUsed(response, 'projects/_project_list_cards.html')
+
+    def test_show_cards_format(self):
+        response = self.client.get(reverse('projects:index'))
+        self.assertTemplateUsed(response, 'projects/_project_list_cards.html')
+        self.assertTemplateNotUsed(response, 'projects/_project_list_table.html')
+
+
     def test_admin_sees_all_projects(self):
         login_user(self.client, self.admin)
         response = self.client.get(reverse('projects:index'))

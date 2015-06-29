@@ -1,0 +1,41 @@
+{% load url_extras %}
+{% load icons %}
+<table id="project-list-table" class="pure-table pure-table-bordered pure-table-striped">
+    <thead>
+        <tr>
+            <th>Projects</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for project in projects %}
+        <tr>
+            <td class="project-name">
+                {% if not project.verified_date %}
+                <div><i class="zmdi zmdi-alert-circle-o zmdi-fw"></i> Awaiting verification&hellip;</div>
+                {% endif %}
+                <a href="{{ project.get_absolute_url }}" title="{{ project.name }}">{{ project.name }}</a>
+            </td>
+            <td>
+                {% if project.homepage %}
+                <div><a href="{{ project.homepage }}" title="{{ project.homepage|netloc }}">{{ project.homepage|netloc }}</a></div>
+                {% endif %}
+                {% if project.code_of_conduct %}
+                <div><a href="{{ project.code_of_conduct }}" title="Code of Conduct">Code of Conduct</a></div>
+                {% endif %}
+                <ul class="tags">
+                {% for tag in project.tags.all %}
+                    <li><a href="{% url "projects:list-by-tag" tag.slug %}?format=table" title="Projects tagged {{ tag.name }}">{% icon "zmdi zmdi-label-heart zmd-fw" %}{{ tag.name }}</a></li>
+                {% endfor %}
+                <div class="clear"></div>
+                </ul>
+            </td>
+            <td class="actions">
+                <a href="{{ project.get_vouch_url|safe }}" title="Vouch for {{ project.name }}"><i class="zmdi zmdi-favorite-outline zmdi-fw"></i> {{ project.vouches.count }}</a>
+                <a href="{{ project.get_report_url|safe }}" title="Report {{ project.name }}"><i class="zmdi zmdi-flag zmdi-fw"></i> {{ project.reports.count }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -15,6 +15,11 @@ class ProjectIndex(vanilla.ListView):
     model = Project
     context_object_name = 'projects'
 
+    def get_context_data(self, **kwargs):
+        context = super(ProjectIndex, self).get_context_data(**kwargs)
+        context['show_as_table'] = self.request.GET.get('format', '') == 'table'
+        return context
+
     def get_queryset(self):
         return Project.index_qs_for_user(self.request.user)
 

@@ -1,0 +1,32 @@
+table#project-list-table {
+    td {
+        vertical-align: top;
+
+        &.project-name {
+            max-width: 30em;
+            overflow-wrap: break-word;
+        }
+
+        &.actions {
+            a {
+                text-decoration: none;
+                color: #000;
+                margin-right: 0.5em;
+            }
+        }
+    }
+
+    ul.tags {
+        list-style-type: none;
+        padding: 0;
+        li {
+            float: left;
+            margin-right: 0.5em;
+            font-size: 0.9em;
+            a {
+                text-decoration: none;
+                color: #000;
+            }
+        }
+    }
+}

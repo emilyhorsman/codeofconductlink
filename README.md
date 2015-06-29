@@ -36,7 +36,7 @@ cd codeofconductlink
 cp .env.dev.sample .env.dev
 pip install -r requirements.txt
 python manage.py migrate
-python manage.py loaddata functional_tests/sample_data.yaml
+python manage.py loaddata functional_tests/sample_data.json
 python manage.py runserver --norecaptcha
 ```
 

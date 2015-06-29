@@ -37,7 +37,7 @@ class TestProfileDetailCanChange(TestCase):
         })
         request.user = self.user
         response = ProfileDetail.as_view()(request)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Location'], reverse('profiles:detail'))
         self.assertEqual(self.user.profile_slug, 'foobar')
 
 class TestProfileMenu(TestCase):

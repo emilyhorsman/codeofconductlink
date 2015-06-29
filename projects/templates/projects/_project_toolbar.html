@@ -13,10 +13,10 @@
     </li>
     {% endif %}
     {% if project.homepage %}
-    <li><a class="pure-button pure-button-primary project-main-link" href="{{ project.homepage }}" title="{{ project.homepage|netloc }}">{% icon "zmdi zmdi-home zmd-fw" %} {{ project.homepage|netloc|truncatewith:"20,Homepage" }}</a></li>
+    <li><a class="pure-button pure-button-primary project-main-link" href="{{ project.homepage }}" title="{{ project.homepage|netloc }}">{% icon "zmdi zmdi-home zmd-fw" %} {{ project.homepage|netloc|truncatewith:"20,Homepage" }} {% icon "zmdi zmdi-link zmd-fw" %}</a></li>
     {% endif %}
     {% if project.code_of_conduct %}
-    <li><a class="pure-button pure-button-primary project-main-link" href="{{ project.code_of_conduct }}" title="Code of Conduct">{% icon "zmdi zmdi-face zmd-fw" %} Code of Conduct</a></li>
+    <li><a class="pure-button pure-button-primary project-main-link" href="{{ project.code_of_conduct }}" title="Code of Conduct">{% icon "zmdi zmdi-face zmd-fw" %} Code of Conduct  {% icon "zmdi zmdi-link zmd-fw" %}</a></li>
     {% endif %}
 
     <li><a class="pure-button pure-button-primary" href="{{ project.get_report_url|safe }}" title="Report Project">{% icon "zmdi zmdi-flag zmd-fw" %} ({{ project.reports.count }}) Report Entry</a></li>

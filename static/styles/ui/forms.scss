@@ -1,4 +1,10 @@
 form {
+    input[type="text"], input[type="email"], input[type="password"], input[type="url"] {
+        width: 80%;
+    }
+}
+
+form {
     .formHint {
         max-width: 30em;
         margin-left: 1em;
@@ -19,3 +25,31 @@ form {
         margin-bottom: 1em;
     }
 }
+
+.field-wrapper,
+.ctrlHolder {
+    p {
+        margin-bottom: 0;
+    }
+
+    .errorlist {
+        list-style: none;
+        padding: .2em .5em;
+        background: $alizarin;
+        width: 77%;
+        margin: -7px 0 0;
+        color: white;
+    }
+
+    [for=id_remember] {
+        margin-bottom: 1em;
+        display: inline-block;
+    }
+}
+
+.ctrlHolder {
+    .errorlist {
+        width: 76%;
+    }
+}
+

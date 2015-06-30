@@ -92,6 +92,7 @@ TEMPLATES = [
 ]
 
 CRISPY_TEMPLATE_PACK = 'uni_form'
+CRISPY_ALLOWED_TEMPLATE_PACKS = ('uni_form')
 
 WSGI_APPLICATION = 'codeofconductlink.wsgi.application'
 

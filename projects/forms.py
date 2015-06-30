@@ -26,7 +26,9 @@ class UpdateProjectForm(create_crispy_model_form(
         model = Project
         fields = ('name', 'homepage', 'code_of_conduct', 'tags',)
 
+
 class CreateSubmissionForm(models.ModelForm):
+
     class Meta:
         model = Submission
         fields = ('url', 'tags', 'is_contributor', 'public_message', 'private_message',)

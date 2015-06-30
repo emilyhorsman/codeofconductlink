@@ -23,6 +23,7 @@ $black: #333;
 
 $bg: $midnight-blue;
 $accent: $concrete;
+$error: $alizarin;
 
 $font-stack: 'Open Sans', sans-serif;
 
@@ -66,22 +67,13 @@ p {
     clear: both;
 }
 
-// This is a bit too specific and can probably be refactored:
-.content-wrapper {
-    .pure-g {
-        padding: 0.5em 2em;
 
-        form {
-            input[type="text"], input[type="email"], input[type="password"], input[type="url"] {
-                width: 80%;
-            }
+.pure-g {
+    padding: 0.5em 2em;
+}
 
-            input[type="submit"] {
-            }
-        }
-
-        .box {
-            margin: 0 1em;
-        }
-    }
+// This class name is a bit too generic and meaningless and can
+// probably be refactored
+.box {
+    margin: 0 1em;
 }

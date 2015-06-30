@@ -57,6 +57,7 @@ body {
 
 .center {
     margin: 0 auto;
+    display: block;
 }
 
 p {
@@ -66,7 +67,6 @@ p {
 .clear {
     clear: both;
 }
-
 
 .content-wrapper .pure-g {
     padding: 0.5em 2em;

@@ -32,7 +32,7 @@
         <div class="tags">
             <ul>
                 {% for tag in project.tags.all %}
-                <li><a href="{% url "projects:list-by-tag" tag.slug %}" title="Projects tagged {{ tag.name }}">{% icon "zmdi zmdi-label-heart zmd-fw" %}{{ tag.name }}</a></li>
+                <li><a href="{% url "projects:list-by-tag" tag.slug %}" title="Projects tagged {{ tag.name }}">{% icon "zmdi zmdi-label-heart zmdi-hc-fw" %}{{ tag.name }}</a></li>
                 {% empty %}
                 <li>no tags added yet</li>
                 {% endfor %}

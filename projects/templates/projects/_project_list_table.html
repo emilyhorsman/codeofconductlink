@@ -26,7 +26,7 @@
                 {% endif %}
                 <ul class="tags">
                 {% for tag in project.tags.all %}
-                    <li><a href="{% url "projects:list-by-tag" tag.slug %}?format=table" title="Projects tagged {{ tag.name }}">{% icon "zmdi zmdi-label-heart zmd-fw" %}{{ tag.name }}</a></li>
+                    <li><a href="{% url "projects:list-by-tag" tag.slug %}?format=table" title="Projects tagged {{ tag.name }}">{% icon "zmdi zmdi-label-heart zmdi-hc-fw" %}{{ tag.name }}</a></li>
                 {% endfor %}
                 <div class="clear"></div>
                 </ul>

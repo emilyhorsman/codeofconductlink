@@ -72,6 +72,10 @@ p {
     padding: 0.5em 2em;
 }
 
+.zmdi-link {
+    transform: rotate(-45deg);
+}
+
 // This class name is a bit too generic and meaningless and can
 // probably be refactored
 .box {

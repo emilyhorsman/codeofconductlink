@@ -5,33 +5,33 @@
     <li>
         <form method="POST" action="{{ project.get_verify_url|safe }}">{% csrf_token %}
         {% if project.verified_date %}
-            <button type="submit" class="pure-button pure-button-primary project-main-link">{% icon "zmdi zmdi-close zmdi-fw" %} Unverify</button>
+            <button type="submit" class="pure-button pure-button-primary project-main-link">{% icon "zmdi zmdi-close zmdi-hc-fw" %} Unverify</button>
         {% else %}
-            <button type="submit" class="pure-button pure-button-primary project-main-link">{% icon "zmdi zmdi-check zmdi-fw" %} Verify</button>
+            <button type="submit" class="pure-button pure-button-primary project-main-link">{% icon "zmdi zmdi-check zmdi-hc-fw" %} Verify</button>
         {% endif %}
         </form>
     </li>
     {% endif %}
     {% if project.homepage %}
-    <li><a class="pure-button pure-button-primary project-main-link" href="{{ project.homepage }}" title="{{ project.homepage|netloc }}">{% icon "zmdi zmdi-home zmd-fw" %} {{ project.homepage|netloc|truncatewith:"20,Homepage" }} {% icon "zmdi zmdi-link zmd-fw" %}</a></li>
+    <li><a class="pure-button pure-button-primary project-main-link" rel="external" href="{{ project.homepage }}" title="{{ project.homepage|netloc }}">{% icon "zmdi zmdi-home zmdi-hc-fw;zmdi zmdi-link zmdi-hc-fw" %} {{ project.homepage|netloc|truncatewith:"20,Homepage" }}</a></li>
     {% endif %}
     {% if project.code_of_conduct %}
-    <li><a class="pure-button pure-button-primary project-main-link" href="{{ project.code_of_conduct }}" title="Code of Conduct">{% icon "zmdi zmdi-face zmd-fw" %} Code of Conduct  {% icon "zmdi zmdi-link zmd-fw" %}</a></li>
+    <li><a class="pure-button pure-button-primary project-main-link" rel="external" href="{{ project.code_of_conduct }}" title="Code of Conduct">{% icon "zmdi zmdi-face zmdi-hc-fw;zmdi zmdi-link zmdi-hc-fw" %} Code of Conduct</a></li>
     {% endif %}
 
-    <li><a class="pure-button pure-button-primary" href="{{ project.get_report_url|safe }}" title="Report Project">{% icon "zmdi zmdi-flag zmd-fw" %} ({{ project.reports.count }}) Report Entry</a></li>
+    <li><a class="pure-button pure-button-primary" href="{{ project.get_report_url|safe }}" title="Report Project">{% icon "zmdi zmdi-flag zmdi-hc-fw" %} ({{ project.reports.count }}) Report Entry</a></li>
     <li>
         <form method="POST" action="{{ project.get_vouch_url|safe }}">{% csrf_token %}
             {% if has_vouched %}
-            <button type="submit" class="pure-button pure-button-primary project-main-link">{% icon "zmdi zmdi-favorite zmd-fw" %} ({{ project.vouches.count }}) Remove Your Vouch</button>
+            <button type="submit" class="pure-button pure-button-primary project-main-link">{% icon "zmdi zmdi-favorite zmdi-hc-fw" %} ({{ project.vouches.count }}) Remove Your Vouch</button>
             {% else %}
-            <button type="submit" class="pure-button pure-button-primary project-main-link">{% icon "zmdi zmdi-favorite-outline zmd-fw" %} ({{ project.vouches.count }}) Vouch For Community</button>
+            <button type="submit" class="pure-button pure-button-primary project-main-link">{% icon "zmdi zmdi-favorite-outline zmdi-hc-fw" %} ({{ project.vouches.count }}) Vouch For Community</button>
             {% endif %}
         </form>
     </li>
     {% if can_edit %}
-    <li><a class="pure-button pure-button-primary" href="{% url "projects:update" project.pk %}" title="Edit Project">{% icon "zmdi zmdi-edit zmd-fw" %} Edit</a></li>
-    <li><a class="pure-button delete" href="{% url "projects:delete" project.pk %}" title="Delete Project (must confirm)">{% icon "zmdi zmdi-delete zmd-fw" %} Delete</a></li>
+    <li><a class="pure-button pure-button-primary" href="{% url "projects:update" project.pk %}" title="Edit Project">{% icon "zmdi zmdi-edit zmdi-hc-fw" %} Edit</a></li>
+    <li><a class="pure-button delete" href="{% url "projects:delete" project.pk %}" title="Delete Project (must confirm)">{% icon "zmdi zmdi-delete zmdi-hc-fw" %} Delete</a></li>
     {% endif %}
 </ul>
 <div style="clear: both;"></div>

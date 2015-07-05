@@ -8,15 +8,15 @@ $(function () {
     });
 
     var hover_icon = function() {
-        if (!$(this).data('hover'))
-            return;
-
         var old_class = $(this).attr('class');
         $(this).attr('class', $(this).data('hover'));
         $(this).data('hover', old_class);
     };
 
     $('a[rel="external"]').hover(function() {
-        hover_icon.call($(this).find('[data-hover]'));
+        var hover_elements = $(this).find('[data-hover]');
+        if (hover_elements.length > 0) {
+            hover_icon.call(hover_elements);
+        }
     });
 });

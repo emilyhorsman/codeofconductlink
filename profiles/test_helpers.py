@@ -1,3 +1,5 @@
+from django.test import TestCase
+from django.core.urlresolvers import reverse
 from allauth.account.models import EmailAddress
 import factory
 from . import models
@@ -22,3 +24,16 @@ def verified_user(**kwargs):
     e = EmailAddress(user=p, email=p.email, verified=True)
     e.save()
     return p
+
+def test_login_redirect(test, protected_path):
+    response = test.client.get(protected_path, follow=True)
+    expected = '{}?next={}'.format(reverse('account_login'), protected_path)
+    test.assertRedirects(response, expected)
+
+def test_verified_email_requirement(test, **protected):
+    p = unverified_user()
+    login_user(test.client, p)
+    response = test.client.get(protected['path'])
+    test.assertTemplateUsed(response, 'account/verified_email_required.html')
+    if 'template' in protected:
+        test.assertTemplateNotUsed(response, protected['template'])

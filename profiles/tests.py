@@ -2,6 +2,7 @@ from django.test import TestCase, RequestFactory
 from django.core.urlresolvers import reverse
 from .test_helpers import ProfileFactory, login_user, unverified_user, verified_user
 from .views import ProfileDetail
+from . import test_helpers
 
 class TestProfilePublicName(TestCase):
     def test_anonymous_name(self):
@@ -14,17 +15,12 @@ class TestProfilePublicName(TestCase):
 
 class TestProfileDetailPermissions(TestCase):
     def test_redirect_if_not_logged_in(self):
-        path = reverse('profiles:detail')
-        response = self.client.get(path, follow=True)
-        expected = '{}?next={}'.format(reverse('account_login'), path)
-        self.assertRedirects(response, expected)
+        test_helpers.test_login_redirect(self, reverse('profiles:detail'))
 
     def test_verified_email_requirement(self):
-        p = unverified_user()
-        login_user(self.client, p)
-        response = self.client.get(reverse('profiles:detail'))
-        self.assertTemplateUsed(response, 'account/verified_email_required.html')
-        self.assertTemplateNotUsed(response, 'profiles/profile_form.html')
+        test_helpers.test_verified_email_requirement(self,
+            path     = reverse('profiles:detail'),
+            template = 'profiles/profile_form.html')
 
 class TestProfileDetailCanChange(TestCase):
     def setUp(self):

@@ -1,21 +1,17 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from profiles.test_helpers import login_user, unverified_user, verified_user
+from profiles import test_helpers
 from .test_helpers import ProjectFactory
 
 class TestCreateProjectPermissions(TestCase):
     def test_login_requirement(self):
-        path = reverse('projects:create')
-        response = self.client.get(path, follow=True)
-        expected = '{}?next={}'.format(reverse('account_login'), path)
-        self.assertRedirects(response, expected)
+        test_helpers.test_login_redirect(self, reverse('projects:create'))
 
     def test_verified_email_requirement(self):
-        p = unverified_user()
-        login_user(self.client, p)
-        response = self.client.get(reverse('projects:create'))
-        self.assertTemplateUsed(response, 'account/verified_email_required.html')
-        self.assertTemplateNotUsed(response, 'projects/project_form.html')
+        test_helpers.test_verified_email_requirement(self,
+            path     = reverse('projects:create'),
+            template = 'projects/project_form.html')
 
     def test_verified_user_shows_form(self):
         p = verified_user()

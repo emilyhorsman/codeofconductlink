@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import AnonymousUser
 from profiles.test_helpers import login_user, verified_user
+from profiles import test_helpers
 from .test_helpers import ProjectFactory, SubmissionFactory
 
 class TestViewSubmissionsInProject(TestCase):
@@ -65,7 +66,17 @@ class TestViewSubmissionsInProject(TestCase):
 
 class TestCreateProjectSubmission(TestCase):
     def setUp(self):
-        self.admin = verified_user(is_staff=True)
-        self.alice = verified_user()
+        self.admin   = verified_user(is_staff=True)
+        self.alice   = verified_user()
+        self.ada     = verified_user()
         self.project = ProjectFactory(user=self.alice)
         self.project.toggle_verify(self.admin)
+        self.submission_create_url = reverse('projects:create-submission', args=(self.project.pk,))
+
+    def test_login_requirement(self):
+        test_helpers.test_login_redirect(self, self.submission_create_url)
+
+    def test_verified_email_requirement(self):
+        test_helpers.test_verified_email_requirement(self,
+            path     = self.submission_create_url,
+            template = 'projects/submission_form.html')

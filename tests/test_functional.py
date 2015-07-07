@@ -1,9 +1,10 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
+from django.conf import settings
 import os
 
 class TestRegistration(StaticLiveServerTestCase):
-    fixtures = [os.path.join(os.path.dirname(__file__), 'sample_data.json')]
+    fixtures = [os.path.join(settings.BASE_DIR, 'tests', 'sample_data.json')]
 
     def setUp(self):
         self.browser = webdriver.Firefox()

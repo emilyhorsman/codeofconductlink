@@ -2,13 +2,13 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import AnonymousUser
 from profiles.test_helpers import login_user, verified_user
-from profiles import test_helpers as profile_test_helpers
 from .test_helpers import ProjectFactory, SubmissionFactory
 from . import test_helpers
+import profiles.test_helpers
 
 class TestViewSubmissionsInProject(TestCase):
     def setUp(self):
-        profile_test_helpers.setup_alice_and_ada_test(self)
+        profiles.test_helpers.setup_alice_and_ada_test(self)
         self.project = test_helpers.make_project(self.alice, self.admin)
         self.submissions = [
             test_helpers.make_submission_on_project(self, self.alice, self.admin),
@@ -65,14 +65,14 @@ class TestViewSubmissionsInProject(TestCase):
 
 class TestCreateProjectSubmission(TestCase):
     def setUp(self):
-        profile_test_helpers.setup_alice_and_ada_test(self)
+        profiles.test_helpers.setup_alice_and_ada_test(self)
         self.project = test_helpers.make_project(self.alice, self.admin)
         self.submission_create_url = reverse('projects:create-submission', args=(self.project.pk,))
 
     def test_login_requirement(self):
-        profile_test_helpers.test_login_redirect(self, self.submission_create_url)
+        profiles.test_helpers.test_login_redirect(self, self.submission_create_url)
 
     def test_verified_email_requirement(self):
-        profile_test_helpers.test_verified_email_requirement(self,
+        profiles.test_helpers.test_verified_email_requirement(self,
             path     = self.submission_create_url,
             template = 'projects/submission_form.html')

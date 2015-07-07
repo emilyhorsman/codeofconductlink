@@ -1,15 +1,16 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from profiles.test_helpers import login_user, unverified_user, verified_user
-from profiles import test_helpers
 from .test_helpers import ProjectFactory
+from . import test_helpers
+import profiles.test_helpers
 
 class TestCreateProjectPermissions(TestCase):
     def test_login_requirement(self):
-        test_helpers.test_login_redirect(self, reverse('projects:create'))
+        profiles.test_helpers.test_login_redirect(self, reverse('projects:create'))
 
     def test_verified_email_requirement(self):
-        test_helpers.test_verified_email_requirement(self,
+        profiles.test_helpers.test_verified_email_requirement(self,
             path     = reverse('projects:create'),
             template = 'projects/project_form.html')
 
@@ -21,19 +22,16 @@ class TestCreateProjectPermissions(TestCase):
 
 class TestProjectDisplayBasedOnPermissions(TestCase):
     def setUp(self):
-        self.admin   = verified_user(is_staff=True)
-        self.alice   = verified_user()
-        self.ada     = verified_user()
+        profiles.test_helpers.setup_alice_and_ada_test(self)
 
         # Alice and Ada each have a project that has been verified by an admin
         # and one that has not.
-        self.unverified_ada_project   = ProjectFactory(user=self.ada, name='Unverified Ada Project')
-        self.verified_ada_project     = ProjectFactory(user=self.ada, name='Verified Ada Project')
-        self.verified_ada_project.toggle_verify(self.admin)
-
-        self.unverified_alice_project = ProjectFactory(user=self.alice, name='Unverified Alice Project')
-        self.verified_alice_project   = ProjectFactory(user=self.alice, name='Verified Alice Project')
-        self.verified_alice_project.toggle_verify(self.admin)
+        self.projects = [
+            test_helpers.make_project(self, self.ada),
+            test_helpers.make_project(self, self.ada, self.admin),
+            test_helpers.make_project(self, self.alice),
+            test_helpers.make_project(self, self.alice, self.admin),
+        ]
 
     def test_show_format_options(self):
         response = self.client.get(reverse('projects:index'))
@@ -49,37 +47,32 @@ class TestProjectDisplayBasedOnPermissions(TestCase):
         self.assertTemplateUsed(response, 'projects/_project_list_cards.html')
         self.assertTemplateNotUsed(response, 'projects/_project_list_table.html')
 
+    def assert_contains_project_name(self, response, func=None):
+        for p in self.projects:
+            if not func or func(p):
+                self.assertContains(response, p.name)
+            else:
+                self.assertNotContains(response, p.name)
 
     def test_admin_sees_all_projects(self):
         login_user(self.client, self.admin)
         response = self.client.get(reverse('projects:index'))
-        self.assertContains(response, self.verified_ada_project.name)
-        self.assertContains(response, self.verified_alice_project.name)
-        self.assertContains(response, self.unverified_ada_project.name)
-        self.assertContains(response, self.unverified_alice_project.name)
+        self.assert_contains_project_name(response)
 
     def test_alice_sees_correct_projects(self):
+        # Alice should only see verified projects or her own unverified ones.
         login_user(self.client, self.alice)
         response = self.client.get(reverse('projects:index'))
-        self.assertContains(response, self.verified_ada_project.name)
-        self.assertContains(response, self.verified_alice_project.name)
-        self.assertContains(response, self.unverified_alice_project.name, msg_prefix='Alice should see her own unverified project.')
-        self.assertNotContains(response, self.unverified_ada_project.name, msg_prefix="Alice should not see Ada's unverified project.")
+        self.assert_contains_project_name(response, lambda p: p.is_verified() or p.user == self.alice)
 
     def test_public_sees_only_verified_projects(self):
         response = self.client.get(reverse('projects:index'))
-        self.assertContains(response, self.verified_ada_project.name)
-        self.assertContains(response, self.verified_alice_project.name)
-        self.assertNotContains(response, self.unverified_ada_project.name)
-        self.assertNotContains(response, self.unverified_alice_project.name)
+        self.assert_contains_project_name(response, lambda p: p.is_verified())
 
 class TestProjectEditing(TestCase):
     def setUp(self):
-        self.admin = verified_user(is_staff=True)
-        self.alice = verified_user()
-        self.ada   = verified_user()
-        self.project = ProjectFactory(user=self.alice, name='Verified Alice Project')
-        self.project.toggle_verify(self.admin)
+        profiles.test_helpers.setup_alice_and_ada_test(self)
+        self.project = test_helpers.make_project(self, self.alice, self.admin)
         self.project_update_url = reverse('projects:update', args=(self.project.pk,))
 
     def check_edit_button(self, check_contains):

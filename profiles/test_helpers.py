@@ -25,6 +25,11 @@ def verified_user(**kwargs):
     e.save()
     return p
 
+def setup_alice_and_ada_test(test):
+    test.admin = verified_user(is_staff=True)
+    test.alice = verified_user()
+    test.ada   = verified_user()
+
 def test_login_redirect(test, protected_path):
     response = test.client.get(protected_path, follow=True)
     expected = '{}?next={}'.format(reverse('account_login'), protected_path)

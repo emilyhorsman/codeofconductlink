@@ -17,3 +17,15 @@ class SubmissionFactory(factory.django.DjangoModelFactory):
     is_contributor = True
     public_message = factory.Sequence(lambda n: 'They are contributor #{} to this project.'.format(n))
     private_message = factory.Sequence(lambda n: 'You can contact contributor #{n} at contributor{n}@test.com'.format(n=n))
+
+def make_project(test, project_user, verify_user=None):
+    p = ProjectFactory(user=project_user)
+    if verify_user:
+        p.toggle_verify(verify_user)
+    return p
+
+def make_submission_on_project(test, user, verify_user=None):
+    s = SubmissionFactory(user=user, project=test.project)
+    if verify_user:
+        s.toggle_verify(verify_user)
+    return s

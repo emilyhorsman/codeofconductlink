@@ -51,8 +51,11 @@ class VerifiedModel(models.Model):
                                                      model=self.__class__.__name__,
                                                      pk=self.pk)
 
+    def is_verified(self):
+        return bool(self.verified_date)
+
     def toggle_verify(self, verifying_user, save=True):
-        if self.verified_date:
+        if self.is_verified():
             self.verified_date = None
             self.verified_by   = None
         else:
